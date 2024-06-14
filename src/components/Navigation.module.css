@@ -1,0 +1,109 @@
+.signLanguageTranscription {
+  position: relative;
+  line-height: 150%;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.signLanguageTranscriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-2xs) 0 0;
+}
+.page {
+  position: relative;
+  line-height: 150%;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 49px;
+}
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-2xs) 0 0;
+}
+.page1 {
+  position: relative;
+  line-height: 150%;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 49px;
+}
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-2xs) 0 0;
+}
+.page2 {
+  position: relative;
+  line-height: 150%;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 49px;
+}
+.pageFrame {
+  font-size: medium;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0;
+}
+.button {
+  box-shadow: var(--button-shadow);
+}
+.frameParent,
+.navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  /* max-width: 100%; */
+}
+.frameParent {
+  padding-right: 10px;
+  justify-content: flex-start;
+  gap: var(--gap-29xl);
+  top: 0;
+  z-index: 99;
+  position: sticky;
+}
+.navigation {
+  align-self: stretch;
+  background-color: var(--color-gray-200);
+  /* justify-content: space-between; */
+  padding: 20px;
+  box-sizing: border-box;
+  gap: var(--gap-xl);
+  text-align: left;
+  font-size: var(--body-text-size);
+  color: var(--color-white);
+  font-family: var(--small-text);
+}
+@media screen and (max-width: 1150px) {
+  .navigation {
+    flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 800px) {
+  .navigation {
+    padding-left: var(--padding-21xl);
+    padding-right: var(--padding-21xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .frameParent {
+    gap: var(--gap-5xl);
+  }
+}
+
+.wrapper {
+  justify-content: end;
+  width: 100vw;
+  
+}

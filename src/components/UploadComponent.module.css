@@ -1,0 +1,64 @@
+.headline {
+    color: white;
+}
+
+.border {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px dashed white;
+    border-radius: 30px;
+    padding: 50px;
+    margin: 10px;
+}
+
+.image {
+    height: 150px;
+    padding-bottom: 10px;
+}
+
+.options {
+    font-size: large;
+    color: white;
+}
+
+.input {
+    color: white;
+}
+
+.extentions {
+    color: gray;
+    font-size: medium;
+}
+
+
+.border {
+    border: 2px dashed white;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.dragging {
+    background-color: #10467a;
+}
+
+.dropzone {
+    padding: 20px;
+    cursor: pointer;
+}
+/* 
+.input {
+    display: none;
+} */
+
+.options, .extentions {
+    margin: 0;
+}
+
+.image {
+    margin-top: 10px;
+}

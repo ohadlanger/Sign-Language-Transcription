@@ -1,0 +1,148 @@
+.icon {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.bodyTextFor,
+.subheading {
+  align-self: stretch;
+  position: relative;
+  line-height: 150%;
+}
+
+.subheading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 400;
+  font-family: inherit;
+}
+
+.bodyTextFor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: var(--body-text-size);
+  font-weight: 500;
+  color: var(--color-gray-100);
+}
+
+.frameParent,
+.frameWrapper,
+.paragraphWithIcon {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+
+.paragraphWithIcon {
+  /* width: 431px;
+  height: 370px; */
+  width: 600px;
+  height: 400px;
+  backdrop-filter: blur(4px);
+  border-radius: var(--br-11xl);
+  background-color: var(--color-gray-200);
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--padding-52xl) var(--padding-xl);
+  /* box-sizing: border-box; */
+  gap: var(--gap-mid);
+  color: var(--color-gainsboro-100);
+}
+
+.frameParent,
+.frameWrapper {
+  flex-direction: row;
+}
+
+.frameParent {
+  flex: 1;
+  align-items: flex-end;
+  gap: var(--gap-56xl);
+}
+
+.frameWrapper {
+  align-self: stretch;
+  align-items: flex-start;
+  padding: 0 0 0 var(--padding-2xs);
+  box-sizing: border-box;
+  text-align: left;
+  font-size: var(--subheading-size);
+  color: var(--color-white);
+  font-family: var(--small-text);
+}
+
+@media screen and (max-width: 1350px) {
+  .frameParent {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .frameParent {
+    gap: var(--gap-18xl);
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .subheading {
+    font-size: var(--font-size-lgi);
+    line-height: 29px;
+  }
+
+  .bodyTextFor {
+    font-size: var(--small-text-size);
+    line-height: 24px;
+  }
+
+  .paragraphWithIcon {
+    padding-top: var(--padding-27xl);
+    padding-bottom: var(--padding-27xl);
+    box-sizing: border-box;
+  }
+
+  .frameParent {
+    gap: var(--gap-lgi);
+  }
+}
+
+.fsw {
+  width: 200px;
+  height: 200px;
+}
+
+
+.circular {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: rgba(13, 110, 253, 0.25);
+  border: none;
+  color: black;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+.circular:hover {
+  background-color: rgba(13, 110, 253, 0.25);
+}
+
+.circular:focus {
+  outline: none;
+}
+
+.play {
+  border-style: solid;
+  border-width: 30px 0 30px 50px;
+  border-color: transparent transparent transparent white;
+  margin-left: 6px;
+}
