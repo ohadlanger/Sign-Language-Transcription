@@ -80,13 +80,13 @@
 .frameContainer,
 .frameGroup {
   display: flex;
+  justify-content: flex-end;
   flex-direction: row;
   align-items: flex-start;
   max-width: 100%;
 }
 .frameContainer {
   width: 624px;
-  justify-content: flex-start;
   gap: var(--gap-12xl-5);
   min-width: 624px;
   font-size: var(--small-text-size);
@@ -227,4 +227,8 @@
     flex-wrap: wrap;
     gap: var(--gap-base);
   }
+}
+
+.name {
+  color: white;
 }

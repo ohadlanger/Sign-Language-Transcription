@@ -13,14 +13,11 @@ const NavigationFooter = ({ className = "" }) => {
             </div>
           </div>
           <div className={styles.frameContainer}>
-            <div className={styles.topicParent}>
-              <div className={styles.topic}>Topic</div>
-            </div>
-            <div className={styles.topicGroup}>
-              <div className={styles.topic1}>Topic</div>
-            </div>
-            <div className={styles.topicContainer}>
-              <div className={styles.topic2}>Topic</div>
+            <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className={styles.pageFrame}>
+                <div className={styles.name}>Ohad Langer</div>
+                <div className={styles.name}>Rotem Zilberman</div>
+              </div>
             </div>
           </div>
         </div>

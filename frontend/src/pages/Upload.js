@@ -2,7 +2,7 @@ import React from 'react';
 import Navigation from "../components/Navigation";
 import Upload from '../components/UploadComponent'
 import NavigationFooter from "../components/NavigationFooter";
-import styles from "./About.module.css";
+import styles from "./Upload.module.css";
 
 
 const UploadVideo = ({ className = "", video, setVideo }) => {

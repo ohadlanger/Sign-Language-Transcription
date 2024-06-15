@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from "../components/Navigation";
+import { useNavigate } from "react-router-dom";
 import FrameComponent2 from "../components/FrameComponent2";
 import FrameComponent from "../components/FrameComponent";
 import NavigationFooter from "../components/NavigationFooter";
 import styles from "./About.module.css";
 
 const About = ({ video, setVideo }) => {
+  const navigate = useNavigate();
+  if (!video) {
+    navigate('/');
+  }
+  
   const reader = new FileReader();
   reader.onload = function(event) {
     const binaryData = event.target.result;
@@ -41,7 +47,12 @@ const About = ({ video, setVideo }) => {
   const [result, setResult] = useState(null);
 
   useEffect(() => {
-    reader.readAsDataURL(video);
+    if (video) {
+      reader.readAsDataURL(video);
+    }
+    else {
+      navigate('/');
+    }
   }, [video]);
 
 
