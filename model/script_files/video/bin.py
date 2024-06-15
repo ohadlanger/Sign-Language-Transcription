@@ -44,6 +44,8 @@ def main():
 
     if video_file is not None:
         video_file.write_videofile(str(output_path / 'final_video.mp4'), codec='libx264', audio_codec='aac')
+    
+    print('Done Successfully...')
 
 
 if __name__ == '__main__':

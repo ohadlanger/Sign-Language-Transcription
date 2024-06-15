@@ -59,7 +59,6 @@ def model_redict(image, x, y, w, h, model):
     im2Arr = np.asarray(cr_pim)
     x_test_nor = im2Arr.astype('float32') / 255.0
     x_test_nor = x_test_nor[np.newaxis, :]
-
     # predict
     prediction = model.predict(x_test_nor)
     return 1 if prediction[0][0] > 0.5 else 0
@@ -70,7 +69,7 @@ def classify_gender(image_path, model):
     scaleFactor = 1.05
     minNeighbor = 3
     minSize = (20, 20)  # Minimum size of the face in pixels
-    CascadeClassifier_path = "./../translation/model_file/haarcascade_frontalface_alt.xml"
+    CascadeClassifier_path = "./translation/model_file/haarcascade_frontalface_alt.xml"
 
     if not os.path.exists(image_path):
         raise Exception(f"File {image_path} not found")
@@ -112,9 +111,9 @@ def video_to_gender(video_path):
 
     # Load model and predict labels
     label_dict = {0: 'female', 1: 'male'}
-    model = load_model(
-        './model_file/gender_classify_middle_hiar_man.h5')
-
+    print("Loading model...")
+    model = load_model('./translation/model_file/gender_classify_middle_hiar_man.h5')
+    print("Model loaded successfully")
     for i, frame in enumerate(frames):
         if i == 3:
             break

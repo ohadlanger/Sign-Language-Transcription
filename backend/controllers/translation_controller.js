@@ -7,21 +7,36 @@ const { spawn } = require('child_process');
 const pythonScriptFolder = path.join(__dirname, '../../model/script_files');
 
 const activatePythonScript = (scriptName, args) => {
+    var output = '';
+
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', [scriptName, ...args]);
+        const pythonProcess = spawn('python', ['-m', scriptName, ...args], {
+            cwd: pythonScriptFolder,
+            env: { ...process.env, PYTHONPATH: pythonScriptFolder }
+        } );
+
         pythonProcess.stdout.on('data', (data) => {
-            if (data.toString().trim() === 'Done Successfully...') {
-                resolve('Successful');
-            } else {
-                reject('Failed');
-            }
+            const currnt_output = data.toString().trim();
+            console.log(currnt_output);
+            output += currnt_output;
         });
+
+
         pythonProcess.stderr.on('data', (data) => {
-            reject(data.toString());
+            const currentError = data.toString().trim();
+            console.error(currentError);
         });
+
         pythonProcess.on('close', (code) => {
+            console.log(`Process exited with code ${code}`);
             if (code !== 0) {
-                reject(`Process exited with code ${code}`);
+                reject(stderrOutput)
+            }
+            if (output.includes('Done Successfully...')) {
+                resolve('Successful');
+            }
+            else {
+                reject('Failed');
             }
         });
     });
@@ -44,7 +59,7 @@ const cleanUpTempFolder = async (tempFolderPath) => {
 };
 
 const processTranslation = async (req, res, options) => {
-    const { pythonScript, outputFile, responseKey } = options;
+    const { pythonScript, outputFiles } = options;
 
     const tempFolderPath = await createTempFolder();
 
@@ -62,22 +77,26 @@ const processTranslation = async (req, res, options) => {
         await fs.promises.writeFile(videoFilePath, videoBuffer);
 
         const args = [
-            videoFilePath,
             `--video_path=${videoFilePath}`,
             `--output_path=${tempFolderPath}`,
             ...options.additionalArgs
         ];
-
         const result = await activatePythonScript(pythonScript, args);
-
-        if (result === 'Successful') {
-            const data = await fs.promises.readFile(path.join(tempFolderPath, outputFile));
-            res.send({ [responseKey]: data.toString() });
-        } else {
-            res.status(500).send(`Failed to process ${responseKey}`);
+        console.log('Result:', result);
+        if (result == 'Successful') {
+            var output = {};
+            console.log(outputFiles);
+            for (const [responseKey, outputFile] of Object.entries(outputFiles)) {
+                let data = await fs.promises.readFile(path.join(tempFolderPath, outputFile));
+                output[responseKey] = data.toString();
+            }
+            res.send(output);
+        }
+        else {
+            res.status(500).send(`Failed to process`);
         }
     } catch (error) {
-        res.status(500).send(`Failed to process ${responseKey}: ${error.message}`);
+        res.status(500).send(`Failed to process: ${error.message}`);
     } finally {
         await cleanUpTempFolder(tempFolderPath);
     }
@@ -85,36 +104,36 @@ const processTranslation = async (req, res, options) => {
 
 const translate_text = (req, res) =>  {
     processTranslation(req, res, {
-        pythonScript: path.join(pythonScriptFolder, 'translation/bin.py'),
-        outputFile: 'text_translation.txt',
-        responseKey: 'text_translation',
+        pythonScript: 'translation.bin',
+        outputFiles: {text_translation: 'text_translation.txt'},
         additionalArgs: ['--text_translation=true']
     });
 };
 
 const translate_signwriting = (req, res) => {
     processTranslation(req, res, {
-        pythonScript: path.join(pythonScriptFolder, 'translation/bin.py'),
-        outputFile: 'signWriting_translation.txt',
-        responseKey: 'signWriting_translation',
+        pythonScript: 'translation.bin',
+        outputFiles: {signWriting_translation: 'signWriting_translation.txt'},
         additionalArgs: ['--signWriting_translation=true']
     });
 };
 
 const translate_sound = (req, res) => {
     processTranslation(req, res, {
-        pythonScript: path.join(pythonScriptFolder, 'translation/bin.py'),
-        outputFile: 'voice_translation.txt',
-        responseKey: 'voice_translation',
+        pythonScript: 'translation.bin',
+        outputFiles: {voice_translation: 'voice_translation.mp3'},
         additionalArgs: ['--voice_translation=true']
     });
 };
 
 const translate_all = (req, res) => {
     processTranslation(req, res, {
-        pythonScript: path.join(pythonScriptFolder, 'translation/bin.py'),
-        outputFile: 'signWriting_translation.txt',
-        responseKey: 'signWriting_translation',
+        pythonScript: 'translation.bin',
+        outputFiles: {
+            text_translation: 'text_translation.txt',
+            signWriting_translation: 'signWriting_translation.txt',
+            voice_translation: 'voice_translation.mp3'
+        },
         additionalArgs: ['--signWriting_translation=true', '--voice_translation=true', '--text_translation=true']
     });
 };
