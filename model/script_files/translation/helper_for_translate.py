@@ -111,9 +111,7 @@ def video_to_gender(video_path):
 
     # Load model and predict labels
     label_dict = {0: 'female', 1: 'male'}
-    print("Loading model...")
     model = load_model('./translation/model_file/gender_classify_middle_hiar_man.h5')
-    print("Model loaded successfully")
     for i, frame in enumerate(frames):
         if i == 3:
             break

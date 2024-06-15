@@ -50,10 +50,8 @@ def main():
             for trans in sign_annotations:
                 trans_list.append(trans[2])
             with open(output_path / 'signWriting_translation.txt', 'w') as file:
-                print(output_path / 'signWriting_translation.txt')
                 for trans in trans_list:
                     file.write(f'{trans}\n')
-                    print(trans)
         print('Done Successfully...')
 
 
