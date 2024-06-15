@@ -22,8 +22,7 @@ def video_to_pose(video_path: Path, output_path: Path):
         '-i', str(video_path.absolute()),
         '-o', str(output_path.absolute())
     ]
-    with subprocess.Popen(cmd,
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
         sub.wait()
 
 
@@ -35,8 +34,7 @@ def pose_to_segments(pose_path: Path, eaf_path: Path):
     cmd = ['pose_to_segments',
            f'--pose={pose_path}',
            f'--elan={eaf_path}']
-    with subprocess.Popen(cmd,
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
         sub.wait()
 
 
@@ -62,6 +60,7 @@ def video_to_segment(video_path: Path, optional_eaf_path: str = None):
         # process the pose file to segments
         eaf_path = Path(temp_dir) / 'temp.eaf'
         pose_to_segments(pose, eaf_path)
+        # check if the file is empty
         eaf = pympi.Elan.Eaf(file_path=eaf_path)
 
         # Accessing annotations from the "SIGN" tier
