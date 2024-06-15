@@ -29,7 +29,7 @@ const FrameComponent2 = ({ className = "", video, result }) => {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: 'video/mp4' });
-      saveAs(blob, video.name+'.mp4');
+      saveAs(blob, video.name);
     }
     else {
       console.log("Not finished...");

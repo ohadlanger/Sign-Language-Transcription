@@ -12,13 +12,14 @@ const About = ({ video, setVideo }) => {
     navigate('/');
   }
   
+  const [binaryData, setBinaryData] = useState(null);
   const reader = new FileReader();
   reader.onload = function(event) {
-    const binaryData = event.target.result;
+    setBinaryData(event.target.result.split(',')[1]);
     const fetchData = async () => {
       try {
         const params = {
-          videoFile: binaryData.split(',')[1],
+          videoFile: event.target.result.split(',')[1],
         };
         console.log("HIIIIIIIIIIIIII: ", params);
         const response = await fetch(`http://localhost:5000/api/translate/all_translations`, {
@@ -29,6 +30,7 @@ const About = ({ video, setVideo }) => {
           body: JSON.stringify(params),
         });
         const res = await response.json();
+        console.log(res);
         setEnglish(res.text_translation)
         setFsw(res.signWriting_translation)
         setVocal(res.voice_translation);
@@ -59,11 +61,11 @@ const About = ({ video, setVideo }) => {
   useEffect(() => {
     const fetchResult = async () => {
       try {
-        if (english && fsw && vocal) {
+        if (english && vocal && binaryData) {
           console.log("fetching result...");
           const params = {
             text_translation: english,
-            video: fsw,
+            video: binaryData,
             sound_translation: vocal
           };
           // const response = await fetch(`http://localhost:5000/api/translate/video?${params.toString()}`)
@@ -83,7 +85,7 @@ const About = ({ video, setVideo }) => {
       }
     };
     fetchResult();
-  }, [english, fsw, vocal]);
+  }, [english, vocal, binaryData]);
 
 
   return (
