@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 from moviepy.editor import AudioFileClip, VideoFileClip
 
-from helper_for_audio import cut_audio, video_to_segment, adding_subtitles
+from video.helper_for_audio import cut_audio, video_to_segment, adding_subtitles
 
 
 def get_args():

@@ -17,7 +17,6 @@ const activatePythonScript = (scriptName, args) => {
 
         pythonProcess.stdout.on('data', (data) => {
             const currnt_output = data.toString().trim();
-            console.log(currnt_output);
             output += currnt_output;
         });
 
@@ -28,7 +27,6 @@ const activatePythonScript = (scriptName, args) => {
         });
 
         pythonProcess.on('close', (code) => {
-            console.log(`Process exited with code ${code}`);
             if (code !== 0) {
                 reject(stderrOutput)
             }
@@ -82,13 +80,17 @@ const processTranslation = async (req, res, options) => {
             ...options.additionalArgs
         ];
         const result = await activatePythonScript(pythonScript, args);
-        console.log('Result:', result);
         if (result == 'Successful') {
             var output = {};
-            console.log(outputFiles);
             for (const [responseKey, outputFile] of Object.entries(outputFiles)) {
                 let data = await fs.promises.readFile(path.join(tempFolderPath, outputFile));
-                output[responseKey] = data.toString();
+                if (responseKey == 'voice_translation') {
+                    data = data.toString('base64');
+                }
+                else {
+                    data = data.toString();
+                }
+                output[responseKey] = data;
             }
             res.send(output);
         }

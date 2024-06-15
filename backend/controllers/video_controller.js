@@ -8,7 +8,6 @@ const pythonScriptFolder = path.join(__dirname, '../../model/script_files');
 
 const activatePythonScript = (scriptName, args) => {
     var output = '';
-
     return new Promise((resolve, reject) => {
         const pythonProcess = spawn('python', ['-m', scriptName, ...args], {
             cwd: pythonScriptFolder,
@@ -17,7 +16,6 @@ const activatePythonScript = (scriptName, args) => {
 
         pythonProcess.stdout.on('data', (data) => {
             const currnt_output = data.toString().trim();
-            console.log(currnt_output);
             output += currnt_output;
         });
 
@@ -28,7 +26,6 @@ const activatePythonScript = (scriptName, args) => {
         });
 
         pythonProcess.on('close', (code) => {
-            console.log(`Process exited with code ${code}`);
             if (code !== 0) {
                 reject(stderrOutput)
             }
@@ -50,30 +47,27 @@ const combine_video = async (req, res) => {
     if (!req_data.text_translation || !req_data.video || !req_data.sound_translation) {
         return res.status(400).send('Missing required fields');
     }
-
     try {
         const tempDir = os.tmpdir();
         const uniqueFolderName = `temp-folder-${crypto.randomBytes(16).toString('hex')}`;
-        const tempFolderPath = path.join(tempDir, uniqueFolderName);
-        
+        var tempFolderPath = path.join(tempDir, uniqueFolderName);
         await fs.promises.mkdir(tempFolderPath);
-
         await fs.promises.writeFile(path.join(tempFolderPath, 'text_translation.txt'), req_data.text_translation);
         await fs.promises.writeFile(path.join(tempFolderPath, 'video.mp4'), req_data.video, 'base64');
         await fs.promises.writeFile(path.join(tempFolderPath, 'sound_translation.mp3'), req_data.sound_translation, 'base64');
 
-        const pythonFile = path.join(pythonScriptFolder, 'video/bin.py');
+        const pythonFile ='video.bin';
         const args = [
             `--video_path=${path.join(tempFolderPath, 'video.mp4')}`, 
             `--audio_path=${path.join(tempFolderPath, 'sound_translation.mp3')}`, 
-            `--subtitle_path=${path.join(tempFolderPath, 'text_translation.txt')}`, 
+            `--subtitles_path=${path.join(tempFolderPath, 'text_translation.txt')}`, 
             `--output_path=${tempFolderPath}`
         ];
 
         try {
             const result = await activatePythonScript(pythonFile, args);
 
-            if (result === 'Successful') {
+            if (result == 'Successful') {
                 const data = await fs.promises.readFile(path.join(tempFolderPath, 'final_video.mp4'));
                 res.send({ video: data.toString('base64') });
             } else {
