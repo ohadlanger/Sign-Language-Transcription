@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 from moviepy.editor import AudioFileClip, VideoFileClip
 
-from helper_for_audio import cut_audio, video_to_segment, adding_subtitles
+from video.helper_for_audio import cut_audio, video_to_segment, adding_subtitles
 
 
 def get_args():
@@ -44,6 +44,8 @@ def main():
 
     if video_file is not None:
         video_file.write_videofile(str(output_path / 'final_video.mp4'), codec='libx264', audio_codec='aac')
+    
+    print('Done Successfully...')
 
 
 if __name__ == '__main__':
