@@ -1,0 +1,20 @@
+.wrapper {
+    color: white;
+    font-size: large;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.button {
+    width: 50%;
+    height: 60px;
+}

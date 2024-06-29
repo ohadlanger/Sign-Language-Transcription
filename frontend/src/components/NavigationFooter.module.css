@@ -86,9 +86,12 @@
   max-width: 100%;
 }
 .frameContainer {
-  width: 624px;
+  /* width: 624px; */
+  margin-right: 0;
+  justify-content: end;
+  width: 100vw;
   gap: var(--gap-12xl-5);
-  min-width: 624px;
+  /* min-width: 624px; */
   font-size: var(--small-text-size);
   color: var(--color-darkslategray-100);
 }
@@ -171,6 +174,7 @@
   gap: var(--gap-5xs);
 }
 .navigationFooter {
+  margin-top: auto;
   min-height: 150px;
   background-color: var(--color-gray-200);
   overflow: hidden;
@@ -231,4 +235,8 @@
 
 .name {
   color: white;
+}
+
+.frameParent {
+  flex-direction: row; 
 }

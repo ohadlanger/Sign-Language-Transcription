@@ -1,18 +1,17 @@
 import React from 'react';
 import Navigation from "../components/Navigation";
-import Upload from '../components/UploadComponent'
 import NavigationFooter from "../components/NavigationFooter";
-import styles from "./Upload.module.css";
-
+import Welcome from '../components/WelcomeComponent';
+import styles from "./Welcome.module.css";
 
 const UploadVideo = ({ className = "", video, setVideo }) => {
 
     return (
         <div className={styles.about}>
-            <Navigation back={"/"}/>
+            <Navigation back={null}/>
             <section className={styles.aboutInner}>
                 <div className={styles.frameParent}>
-                    <Upload video={video} setVideo={setVideo}/>
+                    <Welcome />
                 </div>
             </section>
             <NavigationFooter />

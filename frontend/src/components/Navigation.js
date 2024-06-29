@@ -4,13 +4,18 @@ import PropTypes from "prop-types";
 import styles from "./Navigation.module.css";
 import { useNavigate } from "react-router-dom";
 
-const Navigation = ({ className = "", back = true, setVideo}) => {
+const Navigation = ({ className = "", back = null, setVideo}) => {
   const navigate = useNavigate();
 
   const onClick = (event) => {
     event.preventDefault();
-    setVideo(null);
-    navigate("/");
+    if(setVideo) {
+      setVideo(null);
+    }
+    // navigate("/");
+    if (back) {
+      navigate(back);
+    }
   }
 
   return (
@@ -27,7 +32,7 @@ const Navigation = ({ className = "", back = true, setVideo}) => {
             <div className={styles.name}>Rotem Zilberman</div>
           </div>
         </div>
-        {back === true && (
+        {back != null && (
           <Button className={styles.button} variant="outline-light" onClick={onClick}>Back</Button>
         )}
       </div>

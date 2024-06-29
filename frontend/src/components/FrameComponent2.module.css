@@ -18,9 +18,9 @@
 }
 .videoPlayer {
   width: 445px;
+  max-height: 500px;
   position: relative;
   border-radius: var(--br-5xs);
-  max-height: 100%;
   overflow: hidden;
   flex-shrink: 0;
   object-fit: cover;
@@ -123,9 +123,7 @@
   max-width: 100%;
 }
 .name {
-  flex: 1;
   font-weight: 500;
-  min-width: 34px;
 }
 .div,
 .div1,
@@ -134,23 +132,26 @@
   line-height: 150%;
   display: inline-block;
 }
+.div1 {
+  width: 100%;
+}
 .div {
   min-width: 28px;
 }
-.div1 {
-  width: 30px;
-}
 .nameParent,
 .parent {
+  max-height: 90px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .parent {
-  width: 105px;
+  max-height: 90px;
   justify-content: space-between;
   gap: var(--gap-xl);
-  text-align: right;
+  text-align: left;
 }
 .nameParent {
   align-self: stretch;
@@ -160,7 +161,6 @@
   gap: var(--gap-39xl);
 }
 .size {
-  flex: 1;
   font-weight: 500;
   min-width: 25px;
 }
@@ -187,7 +187,7 @@
   width: 105px;
   justify-content: space-between;
   gap: var(--gap-xl);
-  text-align: right;
+  text-align: left;
 }
 .sizeParent {
   align-self: stretch;
@@ -197,7 +197,6 @@
   gap: var(--gap-39xl);
 }
 .owner {
-  flex: 1;
   font-weight: 500;
   min-width: 40px;
 }
@@ -224,7 +223,7 @@
   width: 105px;
   justify-content: space-between;
   gap: var(--gap-xl);
-  text-align: right;
+  text-align: left;
 }
 .ownerParent {
   align-self: stretch;

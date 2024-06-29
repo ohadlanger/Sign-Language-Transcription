@@ -34,7 +34,14 @@ const Fsw = ({ translation }) => {
     }, [translation]);
 
     if (loading) {
-        return <div className={styles.bodyTextFor}>Loading...</div>;
+        return (
+            <div className={styles.paragraphWithIcon}>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <img className={styles.icon} loading="lazy" alt="" src="/signing.png" />
+                    <h3 className={styles.subheading}>SignWriting (FSW)</h3>
+                </div>
+                <div className={styles.bodyTextFor}>Loading...</div>
+            </div>);
     }
 
     if (error) {
@@ -63,12 +70,12 @@ const Fsw = ({ translation }) => {
     }
 
     return (
-        <div className={styles.paragraphWithIcon} 
+        <div className={styles.paragraphWithIcon}
             onMouseDown={preventPropagation}
             onMouseMove={preventPropagation}
             onMouseUp={preventPropagation}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <img className={styles.icon} loading="lazy" alt="" src="/00-1.svg" />
+                <img className={styles.icon} loading="lazy" alt="" src="/signing.png" />
                 <h3 className={styles.subheading}>SignWriting (FSW)</h3>
             </div>
             <div id="html_signtext" style={{ "width": "500px", "height": "500px" }}
