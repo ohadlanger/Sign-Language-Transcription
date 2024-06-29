@@ -6,23 +6,12 @@ const NavigationFooter = ({ className = "" }) => {
     <footer className={[styles.navigationFooter, className].join(" ")}>
       <div className={styles.divider} />
       <div className={styles.frameParent}>
-        <div className={styles.frameGroup}>
+        <div className={styles.frameGroup} >
           <div className={styles.signLanguageTranscriptionWrapper}>
             <div className={styles.signLanguageTranscription}>
               Sign Language Transcription
             </div>
-          </div>
-          <div className={styles.frameContainer}>
-            <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>
-              <div className={styles.pageFrame}>
-                <div className={styles.name}>Ohad Langer</div>
-                <div className={styles.name}>Rotem Zilberman</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles.frameDiv}>
-          <div className={styles.buttonsIconParent}>
+            <div className={styles.buttonsIconParent}>
             <img
               className={styles.buttonsIcon}
               loading="lazy"
@@ -47,11 +36,15 @@ const NavigationFooter = ({ className = "" }) => {
               src="/buttons--icon-3@2x.png"
             />
           </div>
-          {/* <div className={styles.pageParent}>
-            <div className={styles.page6}>Page</div>
-            <div className={styles.page7}>Page</div>
           </div>
-          <div className={styles.page8}>Page</div> */}
+          <div className={styles.frameContainer}>
+            <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className={styles.pageFrame}>
+                <div className={styles.name}>Ohad Langer</div>
+                <div className={styles.name}>Rotem Zilberman</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

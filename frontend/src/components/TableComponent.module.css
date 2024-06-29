@@ -1,0 +1,16 @@
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.videoPlayer {
+    margin: 20px;
+    width: 600px;
+    max-height: 600px;
+    border-radius: var(--br-5xs);
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    max-width: 100%;
+}

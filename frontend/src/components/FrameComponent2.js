@@ -86,7 +86,7 @@ const FrameComponent2 = ({ className = "", video, result }) => {
                 </div>
                 <div className={styles.list}>
                   <div className={styles.nameParent}>
-                    <div className={styles.name}>Name</div>
+                    <div className={styles.name}>Name:</div>
                     <div className={styles.parent}>
                       {video ? (
                         <div className={styles.div1}>{video.name}</div>
@@ -97,7 +97,7 @@ const FrameComponent2 = ({ className = "", video, result }) => {
                     </div>
                   </div>
                   <div className={styles.sizeParent}>
-                    <div className={styles.size}>Size</div>
+                    <div className={styles.size}>Size:</div>
                     <div className={styles.group}>
                       {video ? (
                         <div className={styles.div1}>{video.size}</div>
@@ -108,7 +108,7 @@ const FrameComponent2 = ({ className = "", video, result }) => {
                     </div>
                   </div>
                   <div className={styles.ownerParent}>
-                    <div className={styles.owner}>Type</div>
+                    <div className={styles.owner}>Type:</div>
                     <div className={styles.container}>
                       {video ? (
                         <div className={styles.div1}>{video.type}</div>
@@ -125,8 +125,6 @@ const FrameComponent2 = ({ className = "", video, result }) => {
                   <div className={styles.dropdownMenu} onMouseLeave={closeMenu}>
                     <ul>
                       <li><button className={styles.download} onClick={onDownload}>Download result</button></li>
-                      <li>Option 2</li>
-                      <li>Option 3</li>
                     </ul>
                   </div>
                 )}

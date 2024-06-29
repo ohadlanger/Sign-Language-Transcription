@@ -8,13 +8,13 @@
 
 .bodyTextFor,
 .subheading {
+  margin-left: 5px;
   align-self: stretch;
   position: relative;
   line-height: 150%;
 }
 
 .subheading {
-  margin: 0;
   font-size: inherit;
   font-weight: 400;
   font-family: inherit;
