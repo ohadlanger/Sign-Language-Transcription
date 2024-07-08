@@ -9,9 +9,20 @@ const NavigationFooter = ({ className = "" }) => {
         <div className={styles.frameGroup} >
           <div className={styles.signLanguageTranscriptionWrapper}>
             <div className={styles.signLanguageTranscription}>
-              Sign Language Transcription
+              <span>
+                Sign Language Transcription
+              </span>
             </div>
-            <div className={styles.buttonsIconParent}>
+            <div className={styles.frameContainer}>
+              <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className={styles.pageFrame}>
+                  <div className={styles.name}>Ohad Langer</div>
+                  <div className={styles.name}>Rotem Zilberman</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.buttonsIconParent}>
             <img
               className={styles.buttonsIcon}
               loading="lazy"
@@ -35,15 +46,6 @@ const NavigationFooter = ({ className = "" }) => {
               alt=""
               src="/buttons--icon-3@2x.png"
             />
-          </div>
-          </div>
-          <div className={styles.frameContainer}>
-            <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>
-              <div className={styles.pageFrame}>
-                <div className={styles.name}>Ohad Langer</div>
-                <div className={styles.name}>Rotem Zilberman</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

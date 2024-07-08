@@ -21,9 +21,9 @@ const Navigation = ({ className = "", back = null, setVideo}) => {
   return (
     <header className={[styles.navigation, className].join(" ")}>
       <div className={styles.signLanguageTranscriptionWrapper}>
-        <div className={styles.signLanguageTranscription}>
+        <span className={styles.signLanguageTranscription}>
           Sign Language Transcription
-        </div>
+        </span>
       </div>
       <div className={styles.wrapper} style={{ display: 'flex', flexDirection: 'row'}}>
         <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>

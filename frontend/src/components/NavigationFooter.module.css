@@ -7,19 +7,23 @@
 } */
 .signLanguageTranscription {
   position: relative;
-  line-height: 150%;
+  line-height: 200%;
   font-weight: 500;
 }
+
 .signLanguageTranscriptionWrapper {
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
-  justify-content: flex-start;
-  padding: var(--padding-6xs) 0 0;
+  justify-content: space-between;
+  /* padding: var(--padding-6xs) 0 0; */
 }
+
 .topic {
   color: var(--color-gainsboro-100);
 }
+
 .page,
 .page1,
 .topic {
@@ -28,6 +32,7 @@
   line-height: 150%;
   font-weight: 500;
 }
+
 .topicParent {
   flex: 1;
   display: flex;
@@ -37,9 +42,11 @@
   gap: var(--gap-5xl);
   min-width: 140px;
 }
+
 .topic1 {
   color: var(--color-gainsboro-100);
 }
+
 .page2,
 .page3,
 .topic1 {
@@ -48,6 +55,7 @@
   line-height: 150%;
   font-weight: 500;
 }
+
 .topicGroup {
   flex: 1;
   display: flex;
@@ -57,9 +65,11 @@
   gap: var(--gap-5xl);
   min-width: 140px;
 }
+
 .topic2 {
   color: var(--color-gainsboro-100);
 }
+
 .page4,
 .page5,
 .topic2 {
@@ -68,6 +78,7 @@
   line-height: 150%;
   font-weight: 500;
 }
+
 .topicContainer {
   flex: 1;
   display: flex;
@@ -77,29 +88,34 @@
   gap: var(--gap-5xl);
   min-width: 140px;
 }
+
 .frameContainer,
 .frameGroup {
   display: flex;
   justify-content: flex-end;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   max-width: 100%;
 }
+
 .frameContainer {
-  /* width: 624px; */
+  /* padding-top: 5px; */
   margin-right: 0;
   justify-content: end;
-  width: 100vw;
+  /* width: 100vw; */
   gap: var(--gap-12xl-5);
   /* min-width: 624px; */
   font-size: var(--small-text-size);
   color: var(--color-darkslategray-100);
 }
+
 .frameGroup {
+  width: 100%;
   align-self: stretch;
   justify-content: space-between;
-  gap: var(--gap-xl);
+  /* gap: var(--gap-xl); */
 }
+
 .buttonsIcon,
 .buttonsIcon1,
 .buttonsIcon2,
@@ -111,18 +127,20 @@
   object-fit: cover;
   min-height: 40px;
 }
+
 .buttonsIconParent {
   flex: 1;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 0 var(--padding-422xl) 0 0;
+  /* padding: 0 var(--padding-422xl) 0 0; */
   box-sizing: border-box;
   gap: var(--gap-5xs);
-  min-width: 612px;
+  /* min-width: 612px; */
   max-width: 100%;
 }
+
 .page6,
 .page7 {
   flex: 1;
@@ -132,6 +150,7 @@
   display: inline-block;
   min-width: 122px;
 }
+
 .pageParent {
   width: 406px;
   display: flex;
@@ -141,6 +160,7 @@
   gap: var(--gap-13xl);
   max-width: 100%;
 }
+
 .page8 {
   width: 187px;
   position: relative;
@@ -150,6 +170,7 @@
   align-items: center;
   flex-shrink: 0;
 }
+
 .frameDiv,
 .frameParent,
 .navigationFooter {
@@ -157,8 +178,9 @@
   display: flex;
   justify-content: flex-start;
   max-width: 100%;
-  
+
 }
+
 .frameDiv {
   flex-direction: row;
   flex-wrap: wrap;
@@ -167,50 +189,59 @@
   font-size: var(--small-text-size);
   color: var(--color-darkslategray-100);
 }
+
 .frameParent,
 .navigationFooter {
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: var(--gap-5xs);
 }
+
 .navigationFooter {
   margin-top: auto;
   min-height: 150px;
   background-color: var(--color-gray-200);
   overflow: hidden;
-  padding: var(--padding-12xs) var(--padding-60xl) var(--padding-29xl)
-    var(--padding-61xl);
+  padding: 20px;
+  /* padding: var(--padding-12xs) var(--padding-60xl) var(--padding-29xl) var(--padding-61xl);
+  gap: var(--gap-27xl); */
   box-sizing: border-box;
-  gap: var(--gap-27xl);
   text-align: left;
   font-size: var(--body-text-size);
   color: var(--color-white);
   font-family: var(--small-text);
 }
+
 @media screen and (max-width: 1150px) {
   .frameContainer {
     flex: 1;
-    min-width: 100%;
+    /* min-width: 100%; */
   }
+
   .frameGroup {
     flex-wrap: wrap;
   }
+
   .frameDiv {
     overflow-x: auto;
   }
 }
+
 @media screen and (max-width: 800px) {
   .frameContainer {
     flex-wrap: wrap;
     gap: var(--gap-base);
   }
+
   .buttonsIconParent {
     padding-right: var(--padding-201xl);
     box-sizing: border-box;
   }
+
   .frameDiv {
     gap: var(--gap-mini);
   }
+
   .navigationFooter {
     gap: var(--gap-4xl);
     padding-left: var(--padding-21xl);
@@ -218,15 +249,18 @@
     box-sizing: border-box;
   }
 }
+
 @media screen and (max-width: 450px) {
   .signLanguageTranscription {
     font-size: var(--small-text-size);
     line-height: 24px;
   }
+
   .buttonsIconParent {
     padding-right: var(--padding-xl);
     box-sizing: border-box;
   }
+
   .pageParent {
     flex-wrap: wrap;
     gap: var(--gap-base);
@@ -238,5 +272,5 @@
 }
 
 .frameParent {
-  flex-direction: row; 
+  flex-direction: row;
 }
