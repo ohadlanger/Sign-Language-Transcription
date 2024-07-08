@@ -54,6 +54,13 @@ const Upload = ({ video, setVideo }) => {
         }
     };
 
+    const handleExample = (event) => {
+        event.preventDefault();
+        setVideo("Example");
+        console.log("File: Example");
+        navigate("/About", { video: video, setVideo: setVideo });
+    };
+
     return (
         <div
             onDragOver={handleDragOver}
@@ -71,6 +78,7 @@ const Upload = ({ video, setVideo }) => {
                     <input className="form-control" variant="outline-light" accept="video/*" type="file" id="formFile" onChange={handleFileChange} style={{margin:'10px', backgroundColor:'transparent'}}/>
                     <Button className={styles.button} variant="outline-light" onClick={handleSubmit}>Upload</Button>
                 </div>
+                <Button className={styles.button} variant="outline-light" onClick={handleExample}>Example Video</Button>
             </div>
         </div>
     );

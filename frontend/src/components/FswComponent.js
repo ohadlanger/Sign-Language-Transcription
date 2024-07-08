@@ -36,7 +36,7 @@ const Fsw = ({ translation }) => {
     if (loading) {
         return (
             <div className={styles.paragraphWithIcon}>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
                     <img className={styles.icon} loading="lazy" alt="" src="/signing.png" />
                     <h3 className={styles.subheading}>SignWriting (FSW)</h3>
                 </div>
@@ -74,8 +74,8 @@ const Fsw = ({ translation }) => {
             onMouseDown={preventPropagation}
             onMouseMove={preventPropagation}
             onMouseUp={preventPropagation}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <img className={styles.icon} loading="lazy" alt="" src="/signing.png" />
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', scale:'1.2'}}>
+                <img className={styles.icon} loading="lazy" alt="" src="/signing1.png" />
                 <h3 className={styles.subheading}>SignWriting (FSW)</h3>
             </div>
             <div id="html_signtext" style={{ "width": "500px", "height": "500px" }}

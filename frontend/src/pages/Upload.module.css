@@ -20,6 +20,8 @@ body {
   }
   
   .aboutInner {
+    min-height: 400px;
+    overflow: scroll;
     height: 100%;
     width: 1414px;
     flex-direction: row;
