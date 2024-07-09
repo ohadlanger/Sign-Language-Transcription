@@ -4,10 +4,11 @@ import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { saveAs } from 'file-saver';
 import styles from "./FrameComponent2.module.css";
+import VideoComponent from './VideoComponent';
 
-const FrameComponent2 = ({ className = "", video, result }) => {
-  if (video != null)
-    console.log(video);
+const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, example=false }) => {
+  // if (video != null)
+  //   console.log("WOOOWWWWW", video);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -19,10 +20,36 @@ const FrameComponent2 = ({ className = "", video, result }) => {
     setShowMenu(false);
   };
 
-  const onDownload = async () => {
-    if (result) {
+
+  const onDownloadResult = async () => {
+    console.log(example)
+    if (example) {
+      
+    }
+    else if (result) {
       console.log("Downloading...");
       const byteCharacters = atob(result);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'video/mp4' });
+      saveAs(blob, video.name);
+    }
+    else {
+      console.log("Not finished...");
+    }
+  }
+
+
+  const onDownloadSkeleton = async () => {
+    if (example) {
+      
+    }
+    else if (skeletonVideo) {
+      console.log("Downloading...");
+      const byteCharacters = atob(skeletonVideo);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -39,33 +66,8 @@ const FrameComponent2 = ({ className = "", video, result }) => {
   return (
     <div className={[styles.frameParent, className].join(" ")}>
       <div className={styles.videoPlayerParent}>
-        <div className={styles.frameGroup}>
-          <div className={styles.videoWrapper}>
-            <h2 className={styles.video}>Video</h2>
-          </div>
-          {video ? (
-            <video
-              className={styles.videoPlayer}
-              loading="lazy"
-              alt=""
-              autoPlay
-              loop
-              muted>
-              <source src={URL.createObjectURL(video)} type={video.type} />
-            </video>
-          ) : (
-            <video
-              className={styles.videoPlayer}
-              loading="lazy"
-              alt=""
-              src="/video.mp4"
-              autoPlay
-              loop
-              muted
-            />
-          )}
 
-        </div>
+        <VideoComponent video={video}/>
         <div className={styles.frameWrapper}>
           <div className={styles.frameGroup}>
             <div className={styles.frameContainer}>
@@ -124,7 +126,8 @@ const FrameComponent2 = ({ className = "", video, result }) => {
                 {showMenu && (
                   <div className={styles.dropdownMenu} onMouseLeave={closeMenu}>
                     <ul>
-                      <li><button className={styles.download} onClick={onDownload}>Download result</button></li>
+                      <li><button className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
+                      <li><button className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>
                     </ul>
                   </div>
                 )}

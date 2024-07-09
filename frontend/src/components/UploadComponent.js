@@ -15,21 +15,18 @@ const Upload = ({ video, setVideo }) => {
             setSelectedFile(file);
             setVideo(file);
         }
-        console.log("changed");
     };
 
     const handleDragOver = (event) => {
         event.preventDefault();
         event.stopPropagation();
         setIsDragging(true);
-        console.log("dragged");
     };
 
     const handleDragLeave = (event) => {
         event.preventDefault();
         event.stopPropagation();
         setIsDragging(false);
-        console.log("undragged");
     };
 
     const handleDrop = (event) => {
@@ -42,7 +39,6 @@ const Upload = ({ video, setVideo }) => {
             setSelectedFile(file);
             setVideo(file);
         }
-        console.log("DROPPED");
     };
 
     const handleSubmit = (event) => {
