@@ -10,20 +10,14 @@ const Vocal = ({ translation }) => {
     const [audioDuration, setAudioDuration] = useState(4.3);
 
     const handleButtonClick = () => {
-
-        // SHOULD ALL BE INSIDE THE IF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        videoRef.current.play();
-
-        setTimeout(() => {
-            console.log("yesss")
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0; // Reset video to start
-        }, audioDuration * 1000);
-        //}, audioRef.current.durationTime * 1000);
-
         try {
             if (audioReady) {
+                videoRef.current.play();
                 audioRef.current.play();
+                setTimeout(() => {
+                    videoRef.current.pause();
+                    videoRef.current.currentTime = 0; // Reset video to start
+                }, audioRef.current.duration * 1000);
             }
         }
         catch (error) {
@@ -42,7 +36,7 @@ const Vocal = ({ translation }) => {
 
     return (
         <div className={styles.paragraphWithIcon}>
-            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', scale:'1.2'}}>
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', scale: '1.2' }}>
                 <img className={styles.icon} loading="lazy" alt="" src="/audio1.png" />
                 <h3 className={styles.subheading}>Vocal</h3>
             </div>

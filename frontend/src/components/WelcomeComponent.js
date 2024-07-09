@@ -30,7 +30,7 @@ const Welcome = () => {
             </p>
 
             <div style={{ margin: "10px" }}>
-                <a href="https://1drv.ms/p/s!AqAi8T-x7q7Yhxt6n0qQLlaZGiOI?e=gILagX" target='_blank' rel='noopener noreferrer'>Watch Project Presentation</a>
+                <a href="https://1drv.ms/p/s!AqAi8T-x7q7Yhxt6n0qQLlaZGiOI?e=gILagX" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Watch Project Presentation</a>
             </div>
 
             <div className={styles.box}><Button className={styles.button} variant="outline-light" onClick={handleSubmit}>Get Started!</Button></div>

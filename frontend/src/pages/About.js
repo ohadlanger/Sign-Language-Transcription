@@ -17,11 +17,13 @@ const About = ({ video, setVideo }) => {
   const [fsw, setFsw] = useState(null);
   const [vocal, setVocal] = useState(null);
   const [result, setResult] = useState(null);
+  const [skeletonVideo, setSkeletonVideo] = useState(null);
+  const [example, setExample] = useState(false);
 
   const [binaryData, setBinaryData] = useState(null);
   const reader = new FileReader();
 
-  if (video !== "Example") {
+  if (video !== "Example" && !example) {
     reader.onload = function (event) {
       setBinaryData(event.target.result.split(',')[1]);
       const fetchData = async () => {
@@ -29,7 +31,7 @@ const About = ({ video, setVideo }) => {
           const params = {
             videoFile: event.target.result.split(',')[1],
           };
-          console.log(params);
+          // console.log(params);
           const response = await fetch(`http://localhost:5000/api/translate/all_translations`, {
             method: 'POST',
             headers: {
@@ -53,17 +55,20 @@ const About = ({ video, setVideo }) => {
 
 
   useEffect(() => {
-    if (video && video !== "Example") {
+    if (video && video !== "Example" && !example) {
       reader.readAsDataURL(video);
     }
-    else {
+    else if (video === "Example") {
+      setExample(true);
+    }
+    else if (video !== "Example" && !example){
       navigate('/Upload');
     }
   }, [video]);
 
 
   useEffect(() => {
-    if (video !== "Example") {
+    if (video !== "Example" && !example) {
       const fetchResult = async () => {
         try {
           if (english && vocal && binaryData) {
@@ -83,6 +88,7 @@ const About = ({ video, setVideo }) => {
             });
             const res = await response.json();
             setResult(res.video);
+            setSkeletonVideo(res.skeletonVideo);
             console.log("Fetch result success!");
           }
         } catch (error) {
@@ -94,14 +100,29 @@ const About = ({ video, setVideo }) => {
   }, [english, vocal, binaryData]);
 
   if (video === "Example") {
+    const filePathToFileObject = async (path) => {
+      const response = await fetch(path);
+      const data = await response.blob();
+      const fileName = path.split('/').pop();
+      const file = new File([data], fileName, { type: data.type });
+      // console.log(file);
+      return file;
+    };
+
+    const Update = async () => {setVideo(await filePathToFileObject("/example.mp4"));}
+
+    Update();
+  }
+
+  if (video === "Example" || example) {
     return (
       <div className={styles.about}>
         <Navigation setVideo={setVideo} back={"/Upload"} />
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} />
+            <FrameComponent2 video={video} result={result} example={example}/>
             <div className={styles.divider}></div>
-            <FrameComponent video={video} english={english} fsw={fsw} vocal={vocal} />
+            <FrameComponent english={english} fsw={fsw} vocal={vocal} />
           </div>
         </section >
         <NavigationFooter />
@@ -112,17 +133,17 @@ const About = ({ video, setVideo }) => {
   return (
     <div className={styles.about}>
       <Navigation setVideo={setVideo} back={"/Upload"} />
-      {!result ? (
+      {!(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} />
+            <FrameComponent2 video={video} result={result} skeletonVideo={skeletonVideo} />
             <div className={styles.divider}></div>
             <FrameComponent video={video} english={english} fsw={fsw} vocal={vocal} />
           </div>
         </section >
       ) : (
-        <section className={styles.aboutInner} style={{ height:'100%', minHeight: '300px', overflow:'scroll', display:'flex', alignItems:'center'}}>
-          <div className={styles.frameParent} style={{ justifyContent: 'space-evenly', flexDirection: "row", flexWrap: 'wrap'}}>
+        <section className={styles.aboutInner} style={{ height: '100%', minHeight: '300px', overflow: 'scroll', display: 'flex', alignItems: 'center' }}>
+          <div className={styles.frameParent} style={{ justifyContent: 'space-evenly', flexDirection: "row", flexWrap: 'wrap' }}>
             <div className={styles.videoWrapper}>
               <h2 className={styles.video}>Video</h2>
               {video ? (
