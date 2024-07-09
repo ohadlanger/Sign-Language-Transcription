@@ -1,8 +1,10 @@
 import argparse
+import tempfile
 from pathlib import Path
+import shutil
 from moviepy.editor import AudioFileClip, VideoFileClip
 
-from video.helper_for_audio import cut_audio, video_to_segment, adding_subtitles
+from video.helper_for_audio import cut_audio, video_to_segment, adding_subtitles, pose_to_video
 
 
 def get_args():
@@ -33,7 +35,14 @@ def main():
     audio_path = Path(args.audio_path)
     output_path = Path(args.output_path)
 
-    segments = video_to_segment(video_path, args.subtitles_path)
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_pose_path = Path(temp_dir) / 'temp.pose'
+        temp_pose_video_path = Path(temp_dir) / 'temp_video.mp4'
+        segments = video_to_segment(video_path, args.subtitles_path, temp_pose_path)
+        pose_to_video(temp_pose_path, temp_pose_video_path)
+
+        # save it in the output path
+        shutil.copy2(temp_pose_video_path, output_path / 'pose_video.mp4')
 
     if args.audio_path is not None:
         video_file = combine_video_audio(video_path, audio_path, segments)
