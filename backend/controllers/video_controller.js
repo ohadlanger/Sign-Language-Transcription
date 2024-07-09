@@ -69,7 +69,9 @@ const combine_video = async (req, res) => {
 
             if (result == 'Successful') {
                 const data = await fs.promises.readFile(path.join(tempFolderPath, 'final_video.mp4'));
-                res.send({ video: data.toString('base64') });
+                const pose_data = await fs.promises.readFile(path.join(tempFolderPath, 'pose_video.mp4'));
+                res.send({ video: data.toString('base64'),
+                        skeletonVideo: pose_data.toString('base64')});
             } else {
                 res.status(500).send('Failed to translate text');
             }  

@@ -3,13 +3,27 @@ import os
 import subprocess
 from pathlib import Path
 import tempfile
-
+import shutil
 import pympi
+
 from moviepy.audio.AudioClip import AudioClip, concatenate_audioclips
 from moviepy.editor import AudioFileClip, VideoFileClip, TextClip
 from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
 from moviepy.video.fx.speedx import speedx
 from moviepy.video.tools.subtitles import SubtitlesClip
+
+
+def pose_to_video(pose_path: Path, output_path: Path):
+    """
+    This function takes a pose file and returns a video file.
+    """
+    cmd = ['visualize_pose',
+           '-i'
+           f'{pose_path}',
+           '-o',
+           f'{output_path}']
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+        sub.wait()
 
 
 def video_to_pose(video_path: Path, output_path: Path):
@@ -38,7 +52,7 @@ def pose_to_segments(pose_path: Path, eaf_path: Path):
         sub.wait()
 
 
-def video_to_segment(video_path: Path, optional_eaf_path: str = None):
+def video_to_segment(video_path: Path, optional_eaf_path: str = None, pose_path=None):
     """
     This function takes a video file and returns a list of segments where each segment is a tuple of start and end
     time in milliseconds.
@@ -56,6 +70,10 @@ def video_to_segment(video_path: Path, optional_eaf_path: str = None):
         temp_path = Path(temp_dir) / 'temp.pose'
         video_to_pose(video_path, temp_path)
         pose = temp_path
+
+        # copy the file of temp_path to the pose_path if it is not None
+        if pose_path:
+            shutil.copy2(temp_path, pose_path)
 
         # process the pose file to segments
         eaf_path = Path(temp_dir) / 'temp.eaf'
