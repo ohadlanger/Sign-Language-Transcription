@@ -17,7 +17,7 @@ const Welcome = () => {
             <Table />
             <p>
                 In this project, we teamed with the research team of Amit Moryossef, our instructor, with the goal of developing an Artificial Intelligance
-                that is capable of translating Sign-Language videos to spoken Language.
+                that is capable of translating Sign-Language videos to spoken language.
             </p>
             <p>
                 The Idea for this project came about when we searched for a field that was not sufficiently explored using artificial intelligence, where we can create real change and help people in need. The field we came up with is deafness and sign-language speakers.

@@ -9,7 +9,9 @@ const Vocal = ({ translation }) => {
     const [audioReady, setAudioReady] = useState(false);
     const [audioDuration, setAudioDuration] = useState(4.3);
 
-    const handleButtonClick = () => {
+    const handleButtonClick = (event) => {
+        event.stopPropagation();
+        
         try {
             if (audioReady) {
                 videoRef.current.play();

@@ -3,13 +3,15 @@ import English from "./EnglishComponent";
 import Fsw from "./FswComponent";
 import Vocal from "./VocalComponent.js";
 import PropTypes from "prop-types";
-import styles from "./FrameComponent.module.css";
 
-import 'swiper/css';
+// import 'swiper/css';
+import './swiper.css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './index.css';
+import './FrameComponent.module.css';
+import styles from "./FrameComponent.module.css";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Navigation } from 'swiper/modules';
