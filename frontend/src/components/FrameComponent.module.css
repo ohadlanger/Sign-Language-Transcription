@@ -158,3 +158,12 @@
   object-fit: cover;
   transition: transform 0.3s ease;
 }
+
+
+.swiper-wrapper {
+  pointer-events: none !important;
+}
+
+.swiper-slide {
+  pointer-events: all !important;
+}

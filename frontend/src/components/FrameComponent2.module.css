@@ -8,7 +8,7 @@
   font-family: inherit;
 }
 .videoWrapper {
-  width: 219px;
+  width: 300px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -17,8 +17,9 @@
   box-sizing: border-box;
 }
 .videoPlayer {
-  width: 445px;
-  max-height: 500px;
+  /* width: 445px; */
+  /* max-height: 500px; */
+  height: 400px;
   position: relative;
   border-radius: var(--br-5xs);
   overflow: hidden;
