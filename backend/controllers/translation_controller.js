@@ -4,62 +4,11 @@ const crypto = require('crypto');
 const fs = require('fs');
 const { spawn } = require('child_process');
 
-const pythonScriptFolder = path.join(__dirname, '../../model/script_files');
+const tempFolderPath = path.join(__dirname, '');
 
-const activatePythonScript = (scriptName, args) => {
-    var output = '';
-
-    return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', ['-m', scriptName, ...args], {
-            cwd: pythonScriptFolder,
-            env: { ...process.env, PYTHONPATH: pythonScriptFolder }
-        } );
-
-        pythonProcess.stdout.on('data', (data) => {
-            const currnt_output = data.toString().trim();
-            output += currnt_output;
-        });
-
-
-        pythonProcess.stderr.on('data', (data) => {
-            const currentError = data.toString().trim();
-            console.error(currentError);
-        });
-
-        pythonProcess.on('close', (code) => {
-            if (code !== 0) {
-                reject(stderrOutput)
-            }
-            if (output.includes('Done Successfully...')) {
-                resolve('Successful');
-            }
-            else {
-                reject('Failed');
-            }
-        });
-    });
-};
-
-const createTempFolder = async () => {
-    const tempDir = os.tmpdir();
-    const uniqueFolderName = `temp-folder-${crypto.randomBytes(16).toString('hex')}`;
-    const tempFolderPath = path.join(tempDir, uniqueFolderName);
-    await fs.promises.mkdir(tempFolderPath);
-    return tempFolderPath;
-};
-
-const cleanUpTempFolder = async (tempFolderPath) => {
-    try {
-        await fs.promises.rm(tempFolderPath, { recursive: true, force: true });
-    } catch (cleanupError) {
-        console.error('Failed to clean up temporary folder:', cleanupError);
-    }
-};
 
 const processTranslation = async (req, res, options) => {
     const { pythonScript, outputFiles } = options;
-
-    const tempFolderPath = await createTempFolder();
 
     try {
         const videoFileData = req.body.videoFile;
@@ -69,17 +18,7 @@ const processTranslation = async (req, res, options) => {
             return res.status(400).send('No video file data provided.');
         }
 
-        const videoBuffer = Buffer.from(videoFileData, 'base64');
-        const videoFilePath = path.join(tempFolderPath, videoFileName);
-
-        await fs.promises.writeFile(videoFilePath, videoBuffer);
-
-        const args = [
-            `--video_path=${videoFilePath}`,
-            `--output_path=${tempFolderPath}`,
-            ...options.additionalArgs
-        ];
-        const result = await activatePythonScript(pythonScript, args);
+        const result = 'Successful'
         if (result == 'Successful') {
             var output = {};
             for (const [responseKey, outputFile] of Object.entries(outputFiles)) {
@@ -99,8 +38,6 @@ const processTranslation = async (req, res, options) => {
         }
     } catch (error) {
         res.status(500).send(`Failed to process: ${error.message}`);
-    } finally {
-        await cleanUpTempFolder(tempFolderPath);
     }
 };
 
@@ -129,6 +66,7 @@ const translate_sound = (req, res) => {
 };
 
 const translate_all = (req, res) => {
+    console.log("Translating all");
     processTranslation(req, res, {
         pythonScript: 'translation.bin',
         outputFiles: {

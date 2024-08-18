@@ -31,6 +31,9 @@ const VideoComponent = ({ video, skeletonUrl, example=false }) => {
     }, [mode, currentTime]);
 
 
+    console.log("video: ", video)
+    console.log("skeletonUrl: ", skeletonUrl)
+
     return (
         <div style={{ display: 'flex', flexDirection: 'row' }}>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent:'end', minHeight:"400px"}}>
@@ -63,7 +66,7 @@ const VideoComponent = ({ video, skeletonUrl, example=false }) => {
                         loop
                         muted>
                         {/* <source src={mode? URL.createObjectURL(video) : URL.createObjectURL(skeletonVideo)} type={video.type} /> */}
-                        <source src={(video !== "Example" && !example) ? (mode ? URL.createObjectURL(video) : URL.createObjectURL(skeletonUrl)) :
+                        <source src={(video !== "Example" && !example) ? (mode ? URL.createObjectURL(video) : skeletonUrl) :
                             (mode ? "/example.mp4" : "/skeleton.mp4")} type={video.type} />
                     </video>
                 ) : (

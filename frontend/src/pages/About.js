@@ -133,7 +133,7 @@ const About = ({ video, setVideo }) => {
   return (
     <div className={styles.about}>
       <Navigation setVideo={setVideo} back={"/Upload"} />
-      {!(result && skeletonVideo) ? (
+      {(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
             <FrameComponent2 video={video} result={result} skeletonVideo={skeletonVideo} />
