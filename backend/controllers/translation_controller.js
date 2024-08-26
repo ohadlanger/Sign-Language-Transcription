@@ -1,18 +1,13 @@
 const path = require('path');
-const os = require('os');
-const crypto = require('crypto');
 const fs = require('fs');
-const { spawn } = require('child_process');
-
 const tempFolderPath = path.join(__dirname, '');
-
 
 const processTranslation = async (req, res, options) => {
     const { pythonScript, outputFiles } = options;
 
     try {
         const videoFileData = req.body.videoFile;
-        const videoFileName = req.body.fileName || 'video.mp4';
+        // const videoFileName = req.body.fileName || 'video.mp4';
 
         if (!videoFileData) {
             return res.status(400).send('No video file data provided.');
