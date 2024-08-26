@@ -50,7 +50,7 @@ def modify_phrase(predictions_list):
     # Set the prompt
     static_text = ("Create a grammatically correct sentence by selecting exactly one word from each set, ensuring that "
                    "no two words from the same set belong to the same category, don't add new word. Use all sets:")
-    prompt = " ".join([f'set {inx + 1}:{p}' for inx, p in enumerate(predictions_list)])
+    prompt = " ".join([f'set {inx + 1}:{"/".join(p.split("/")[:2])}' for inx, p in enumerate(predictions_list)])
     full_prompt = f"{static_text} {prompt} (return just the sentence)"
 
     # Model parameters
@@ -103,17 +103,20 @@ def signWriting_to_text(signWriting_path, working_dir):
 
     # process the output
     input_file = f'{working_dir}/input_file.txt'
-    output_file = f'{working_dir}/output_bpe.txt'
+    output_bpe_file = f'{working_dir}/output_bpe.txt'
+    output_file = f'{working_dir}/output.txt'
     try:
-        sockeye_translate_activate_communication(input_file, output_file)
+        sockeye_translate_activate_communication(input_file, output_bpe_file)
     except Exception as e:
         return "this is sing language translation service"
 
-    cmd = ['sed', '-re', 's/(@@ |@@$)//g', '<', f'{working_dir}/output_bpe.txt', '>', f'{working_dir}/output.txt']
-    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
-        sub.wait()
+    cmd = ['sed', '-re', 's/(@@ |@@$)//g']
 
-    with open(f'{working_dir}/output.txt', 'r') as file:
+    with open(output_bpe_file, 'r') as infile, open(output_file, 'w') as outfile:
+        with subprocess.Popen(cmd, stdin=infile, stdout=outfile, stderr=subprocess.PIPE) as sub:
+            sub.wait()
+
+    with open(output_file, 'r') as file:
         for line in file:
             if len(line.strip()) > 0:
                 predictions.append("/".join(json.loads(line)["translations"]))
