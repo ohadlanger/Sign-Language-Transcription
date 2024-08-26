@@ -6,11 +6,120 @@ from keras.models import load_model
 import numpy as np
 from PIL import Image
 from moviepy.editor import VideoFileClip
+from joeynmt.constants import BOS_TOKEN, EOS_TOKEN, PAD_TOKEN, UNK_TOKEN
+from signwriting.tokenizer.signwriting_tokenizer import SignWritingTokenizer
 import subprocess
+import pympi
+import json
+import openai
+import socket
 
 
-def signWriting_to_text(signWriting_path):
-    return ['like', 'hot', 'chocolate', 'later']
+def sockeye_translate_activate_communication(input_file, output_file):
+    connection = None
+    ip = '192.168.1.102'
+    port = 12345
+    with open(input_file, 'rb') as file:
+        all_data = file.read()
+    if all_data != b"":  # If data was read from file
+        try:
+            connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            connection.connect((ip, port))
+            connection.sendall(all_data)
+            connection.shutdown(socket.SHUT_WR)
+            print("Data sent to bridge")
+
+            response = b""
+            while True:
+                data = connection.recv(1024)
+                if not data:
+                    break
+                response += data
+            if response != b"":
+                with open(output_file, 'wb') as file:
+                    file.write(response)
+                print("Response received and saved to file")
+            else:
+                print("No data received from bridge.")
+        finally:
+            if connection is not None:
+                connection.close()
+
+
+def modify_phrase(predictions_list):
+    # Set the prompt
+    static_text = ("Create a grammatically correct sentence by selecting exactly one word from each set, ensuring that "
+                   "no two words from the same set belong to the same category, don't add new word. Use all sets:")
+    prompt = " ".join([f'set {inx + 1}:{p}' for inx, p in enumerate(predictions_list)])
+    full_prompt = f"{static_text} {prompt} (return just the sentence)"
+
+    # Model parameters
+    openai.api_key = ('sk-proj-7PV5QEfZyj5FojEBdtYnHwzaHZhq4DgB2Tzn1fsVVXUurTyLBlS4JrLLTXT3BlbkFJJbQ3OPAeER0pM3CBdqrXE'
+                      '6f8ubs_hUeHtIOGkqH9dPzm5W2zJtWAfdTMsA')  # Set your OpenAI API key
+    model = "GPT-4o-mini"  # Model name
+    temperature = 0.7  # Randomness in the response. 0.7 is a good balance.
+    max_tokens = 20  # Maximum number of tokens to generate in the response.
+
+    try:
+        # Create a chat completion
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=[{"role": "user", "content": full_prompt}],
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+        return response['choices'][0]['message']['content'].strip()
+    except Exception as _:
+        return "this is sing language translation service"
+
+
+def signWriting_to_text(signWriting_path, working_dir):
+    predictions = []
+    kwargs = {'init_token': BOS_TOKEN,
+              'eos_token': EOS_TOKEN,
+              'pad_token': PAD_TOKEN,
+              'unk_token': UNK_TOKEN}
+
+    tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
+    with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
+        for line in file:
+            ase = [tokenizer.i2s[s] for s in tokenizer.tokenize(line)]
+            aes = f'$en $eas {" ".join(ase)}'
+            file2.write(f'{aes}\n')
+
+    # Translate the signWriting to text
+    # cmd = ['python', '-m', 'sockeye.translate', '-m', './translation/model_file/sockeye-signwriting-to-text', '--input',
+    #        f'{working_dir}/input_file.txt', '--output', f'{working_dir}/output_bpe.txt', '--nbest-size=3']
+    # with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+    #     stdout, stderr = sub.communicate()  # Capture the output and error
+    # ask using the api, fetch 197.0.0.1:5000 (it used tcp) with the text that contain {working_dir}/input_file.txt
+    # and the output will be {working_dir}/output_bpe.txt
+    # ip = '197.0.0.1'
+    # port = 5000
+    # cmd = ['curl', '-X', 'POST', f'http://{ip}:{port}', '--data-binary', f'@{working_dir}/input_file.txt',
+    #        '--output', f'{working_dir}/output_bpe.txt']
+    # with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+    #     sub.wait()
+
+    # process the output
+    input_file = f'{working_dir}/input_file.txt'
+    output_file = f'{working_dir}/output_bpe.txt'
+    try:
+        sockeye_translate_activate_communication(input_file, output_file)
+    except Exception as e:
+        return "this is sing language translation service"
+
+    cmd = ['sed', '-re', 's/(@@ |@@$)//g', '<', f'{working_dir}/output_bpe.txt', '>', f'{working_dir}/output.txt']
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+        sub.wait()
+
+    with open(f'{working_dir}/output.txt', 'r') as file:
+        for line in file:
+            if len(line.strip()) > 0:
+                predictions.append("/".join(json.loads(line)["translations"]))
+
+    phrase = modify_phrase(predictions)
+    return phrase
 
 
 def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='wide'):
@@ -21,7 +130,18 @@ def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='wi
     cmd = ['pose_to_signwriting', f'--pose={pose_path}', f'--elan={elan_path}', f'--strategy={strategy}',
            f'--model={model}']
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
-        sub.wait()
+        stdout, stderr = sub.communicate()  # Capture the output and error
+
+
+def extract_elan_translations(elan_path, output_path):
+    trans_list = []
+    eaf = pympi.Elan.Eaf(file_path=elan_path)
+    sign_annotations = eaf.get_annotation_data_for_tier("SIGN")
+    for trans in sign_annotations:
+        trans_list.append(trans[2])
+    with open(output_path / 'signWriting_translation.txt', 'w') as file:
+        for trans in trans_list:
+            file.write(f'{trans}\n')
 
 
 def text_to_speech(text, output_file, gender='male'):
