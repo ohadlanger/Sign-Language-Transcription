@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import styles from "./FrameComponent2.module.css";
 
-const VideoComponent = ({ video, skeletonUrl, example=false }) => {
+const VideoComponent = ({ video, skeletonVideo, example=false }) => {
 
     const videoRef = useRef(null);
     const [mode, setMode] = useState(true);
@@ -13,7 +13,8 @@ const VideoComponent = ({ video, skeletonUrl, example=false }) => {
 
 
     // const height = video
-    console.log(video)
+    // console.log("video:", video)
+    // console.log("skeleton:", skeletonVideo)
 
     const onChangeMode = async () => {
         if (video) {
@@ -53,7 +54,7 @@ const VideoComponent = ({ video, skeletonUrl, example=false }) => {
                     <h2 className={styles.video}>Video</h2>
                 </div>
                 {video ? (
-                    <video
+                    <video // Meaningful case- example video / actual video
                         key={mode ? "original" : "skeleton"}
                         className={styles.videoPlayer}
                         ref={videoRef}
@@ -63,11 +64,11 @@ const VideoComponent = ({ video, skeletonUrl, example=false }) => {
                         loop
                         muted>
                         {/* <source src={mode? URL.createObjectURL(video) : URL.createObjectURL(skeletonVideo)} type={video.type} /> */}
-                        <source src={(video !== "Example" && !example) ? (mode ? URL.createObjectURL(video) : URL.createObjectURL(skeletonUrl)) :
+                        <source src={(video !== "Example" && !example) ? (mode ? URL.createObjectURL(video) : URL.createObjectURL(skeletonVideo)) :
                             (mode ? "/example.mp4" : "/skeleton.mp4")} type={video.type} />
                     </video>
                 ) : (
-                    <video
+                    <video // Empty case- should not appear technically
                         className={styles.videoPlayer}
                         loading="lazy"
                         alt=""

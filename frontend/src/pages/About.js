@@ -61,11 +61,32 @@ const About = ({ video, setVideo }) => {
     else if (video === "Example") {
       setExample(true);
     }
-    else if (video !== "Example" && !example){
+    else if (video !== "Example" && !example) {
       navigate('/Upload');
     }
   }, [video]);
 
+  function handleSkeleton(base64) {
+    function base64ToBlob(base64, type = "application/octet-stream") {
+      const binary = atob(base64);
+      const array = [];
+      for (let i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+      }
+      return new Blob([new Uint8Array(array)], { type: type });
+    }
+  
+    // Convert the base64 string (assuming it's for an MP4 video)
+    const blob = base64ToBlob(base64, "video/mp4");
+  
+    // Create a File object from the Blob
+    const file = new File([blob], "skeleton.mp4", {
+      type: "video/mp4",
+      lastModified: Date.now(),
+    });
+
+    return file;
+  }
 
   useEffect(() => {
     if (video !== "Example" && !example) {
@@ -88,8 +109,10 @@ const About = ({ video, setVideo }) => {
             });
             const res = await response.json();
             setResult(res.video);
-            setSkeletonVideo(res.skeletonVideo);
+            setSkeletonVideo(handleSkeleton(res.skeletonVideo));
             console.log("Fetch result success!");
+            console.log("video: ", res.video);
+            console.log("skeleton: ", handleSkeleton(res.skeletonVideo));
           }
         } catch (error) {
           console.error('Error fetching result:', error);
@@ -109,7 +132,7 @@ const About = ({ video, setVideo }) => {
       return file;
     };
 
-    const Update = async () => {setVideo(await filePathToFileObject("/example.mp4"));}
+    const Update = async () => { setVideo(await filePathToFileObject("/example.mp4")); }
 
     Update();
   }
@@ -120,7 +143,7 @@ const About = ({ video, setVideo }) => {
         <Navigation setVideo={setVideo} back={"/Upload"} />
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} example={example}/>
+            <FrameComponent2 video={video} result={result} example={example} />
             <div className={styles.divider}></div>
             <FrameComponent english={english} fsw={fsw} vocal={vocal} />
           </div>
@@ -133,7 +156,7 @@ const About = ({ video, setVideo }) => {
   return (
     <div className={styles.about}>
       <Navigation setVideo={setVideo} back={"/Upload"} />
-      {!(result && skeletonVideo) ? (
+      {(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
             <FrameComponent2 video={video} result={result} skeletonVideo={skeletonVideo} />

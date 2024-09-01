@@ -52,12 +52,12 @@ const Fsw = ({ translation }) => {
         e.stopPropagation();
     };
 
-    console.log(translation);
-    console.log(lib.fsw.signSvg(translation));
-    console.log(lib.fsw.columnsSvg(translation, {
-        "height": 250,
-        "width": 150,
-    }));
+    // console.log(translation);
+    // console.log(lib.fsw.signSvg(translation));
+    // console.log(lib.fsw.columnsSvg(translation, {
+    //     "height": 250,
+    //     "width": 150,
+    // }));
 
 
 

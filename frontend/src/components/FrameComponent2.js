@@ -11,14 +11,14 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
   //   console.log("WOOOWWWWW", video);
 
   const [showMenu, setShowMenu] = useState(false);
-  const [skeletonUrl, setSkeletonUrl] = useState(video);
+  // const [skeletonUrl, setSkeletonUrl] = useState(video);
 
-  useEffect(() => {
-    const blob = new Blob([skeletonVideo], { type: 'video/mp4' }); // Adjust type according to your video format
-    const url = URL.createObjectURL(blob);
-    setSkeletonUrl(url);
-    console.log("url:", url);
-  }, [skeletonVideo])
+  // useEffect(() => {
+  //   const blob = new Blob([skeletonVideo], { type: 'video/mp4' }); // Adjust type according to your video format
+  //   const url = URL.createObjectURL(blob);
+  //   setSkeletonUrl(url);
+  //   console.log("url:", url);
+  // }, [skeletonVideo])
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -83,7 +83,8 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
     <div className={[styles.frameParent, className].join(" ")}>
       <div className={styles.videoPlayerParent}>
 
-        <VideoComponent video={video} skeletonUrl={skeletonUrl} example={example}/>
+        {/* <VideoComponent video={video} skeletonUrl={skeletonUrl} example={example}/> */}
+        <VideoComponent video={video} skeletonVideo={skeletonVideo} example={example}/>
         <div className={styles.frameWrapper}>
           <div className={styles.frameGroup}>
             <div className={styles.frameContainer}>
