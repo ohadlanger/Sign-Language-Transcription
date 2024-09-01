@@ -7,9 +7,10 @@ const processTranslation = async (req, res, options) => {
 
     try {
         const videoFileData = req.body.videoFile;
+        const videoSignLanguage = req.body.signLanguage;
         // const videoFileName = req.body.fileName || 'video.mp4';
 
-        if (!videoFileData) {
+        if (!videoFileData || !videoSignLanguage){
             return res.status(400).send('No video file data provided.');
         }
 
