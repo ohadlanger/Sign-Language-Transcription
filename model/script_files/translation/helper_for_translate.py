@@ -14,6 +14,8 @@ import json
 import openai
 import socket
 
+from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
+
 
 def sockeye_translate_activate_communication(input_file, output_file):
     connection = None
@@ -73,18 +75,35 @@ def modify_phrase(predictions_list):
         return "this is sing language translation service"
 
 
-def signWriting_to_text(signWriting_path, working_dir):
+def signWriting_to_text(signWriting_path, working_dir, Video_language):
     predictions = []
     kwargs = {'init_token': BOS_TOKEN,
               'eos_token': EOS_TOKEN,
               'pad_token': PAD_TOKEN,
               'unk_token': UNK_TOKEN}
-
+    sign_language_mapping = {
+        'en': 'ase',  # English -> American Sign Language (ASL)
+        'fr': 'fcs',  # French -> French Sign Language (LSF or FCS)
+        'it': 'ise',  # Italian -> Italian Sign Language (LIS)
+        'sv': 'swl',  # Swedish -> Swedish Sign Language (SSL)
+        'ca': 'csc',  # Catalan -> Catalan Sign Language (LSC or CSC)
+        'es': 'mfs',  # Spanish -> Spanish Sign Language (LSE or MFS)
+        'ms': 'xml',  # Malay -> Malaysian Sign Language (XML)
+        'th': 'tsq',  # Thai -> Thai Sign Language (TSQ)
+        'gr': 'gss',  # Greek -> Greek Sign Language (GSS)
+        'de': 'gsg',  # German -> German Sign Language (GSG or DGS)
+        'fr-CH': 'ssr',  # Swiss-French -> Swiss-French Sign Language (SSR)
+        'de-CH': 'sgg',  # Swiss-German -> Swiss-German Sign Language (DSGS or SGG)
+        'en-NG': 'nsi',  # Nigerian -> Nigerian Sign Language (NSI)
+        'fr-BE': 'sfb'  # French-Belgian -> Belgian-French Sign Language (SFB)
+    }
+    return f"this is sing language translation service the selected language is not{Video_language}"
+    sign_writing_language = sign_language_mapping[Video_language] if Video_language in sign_language_mapping else 'ase'
     tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
     with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
         for line in file:
             ase = [tokenizer.i2s[s] for s in tokenizer.tokenize(line)]
-            aes = f'$en $eas {" ".join(ase)}'
+            aes = f'$en ${sign_writing_language} {" ".join(ase)}'
             file2.write(f'{aes}\n')
 
     # Translate the signWriting to text
@@ -137,6 +156,21 @@ def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='wi
 
 
 def extract_elan_translations(elan_path, output_path):
+    def remove_duplicates(hyp: str):
+        lst = hyp.split('S')
+        lst = [f'S{x}' if x[0] != 'M' else x for x in lst]
+        final_lst = []
+        similarity_metric = SignWritingSimilarityMetric()
+        for i in range(len(lst)):
+            unique = True
+            for j in range(len(final_lst)):
+                if similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.95:
+                    unique = False
+                    break
+            if unique:
+                final_lst.append(lst[i])
+        return ''.join(final_lst)
+
     trans_list = []
     eaf = pympi.Elan.Eaf(file_path=elan_path)
     sign_annotations = eaf.get_annotation_data_for_tier("SIGN")
@@ -144,7 +178,7 @@ def extract_elan_translations(elan_path, output_path):
         trans_list.append(trans[2])
     with open(output_path / 'signWriting_translation.txt', 'w') as file:
         for trans in trans_list:
-            file.write(f'{trans}\n')
+            file.write(f'{remove_duplicates(trans)}\n')
 
 
 def text_to_speech(text, output_file, gender='male'):

@@ -63,9 +63,10 @@ const processTranslation = async (req, res, options) => {
 
     try {
         const videoFileData = req.body.videoFile;
+        const videoSignLanguage = req.body.signLanguage;
         const videoFileName = req.body.fileName || 'video.mp4';
 
-        if (!videoFileData) {
+        if (!videoFileData || !videoSignLanguage){
             return res.status(400).send('No video file data provided.');
         }
 
@@ -77,6 +78,7 @@ const processTranslation = async (req, res, options) => {
         const args = [
             `--video_path=${videoFilePath}`,
             `--output_path=${tempFolderPath}`,
+            `--sign-writing-language=${videoSignLanguage}`,
             ...options.additionalArgs
         ];
         const result = await activatePythonScript(pythonScript, args);
