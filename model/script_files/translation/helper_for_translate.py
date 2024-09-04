@@ -204,8 +204,8 @@ def text_to_speech(text, output_folder, name, gender='male'):
                 break
         engine.save_to_file(text, str(output_wav))
         engine.runAndWait()
-        audio = AudioSegment.from_wav(str(output_wav))
-        audio.export(str(output_file), format="mp3")
+        command = ['ffmpeg', '-i', str(output_wav), '-codec:a', 'libmp3lame', '-qscale:a', '2', str(output_file)]
+        subprocess.run(command)
         os.remove(output_wav)
 
 
