@@ -15,6 +15,7 @@ function App() {
   const location = useLocation();
   const pathname = location.pathname;
   const [video, setVideo] = useState(null);
+  const [language, setLanguage] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,9 +62,9 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Welcome video={video} setVideo={setVideo}/>} />
-      <Route path="/Upload" element={<Upload video={video} setVideo={setVideo}/>} />
-      <Route path="/About" element={<About video={video} setVideo={setVideo}/>} />
+      <Route path="/" element={<Welcome video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
+      <Route path="/Upload" element={<Upload video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
+      <Route path="/About" element={<About video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
       {/* <Route path="/" element={<About />} /> */}
     </Routes>
   );

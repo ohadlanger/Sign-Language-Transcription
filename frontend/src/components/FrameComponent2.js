@@ -6,20 +6,9 @@ import { saveAs } from 'file-saver';
 import styles from "./FrameComponent2.module.css";
 import VideoComponent from './VideoComponent';
 
-const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, example = false }) => {
-  // if (video != null)
-  //   console.log("WOOOWWWWW", video);
+const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, example = false, language = 'English' }) => {
 
   const [showMenu, setShowMenu] = useState(false);
-  // const [skeletonUrl, setSkeletonUrl] = useState(video);
-
-  // useEffect(() => {
-  //   const blob = new Blob([skeletonVideo], { type: 'video/mp4' }); // Adjust type according to your video format
-  //   const url = URL.createObjectURL(blob);
-  //   setSkeletonUrl(url);
-  //   console.log("url:", url);
-  // }, [skeletonVideo])
-
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -84,7 +73,7 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
       <div className={styles.videoPlayerParent}>
 
         {/* <VideoComponent video={video} skeletonUrl={skeletonUrl} example={example}/> */}
-        <VideoComponent video={video} skeletonVideo={skeletonVideo} example={example}/>
+        <VideoComponent video={video} skeletonVideo={skeletonVideo} example={example} />
         <div className={styles.frameWrapper}>
           <div className={styles.frameGroup}>
             <div className={styles.frameContainer}>
@@ -131,6 +120,17 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
                     <div className={styles.container}>
                       {video ? (
                         <div className={styles.div1}>{video.type}</div>
+                      ) : (
+                        <div className={styles.div1}>Empty</div>
+                      )
+                      }
+                    </div>
+                  </div>
+                  <div className={styles.nameParent}>
+                    <div className={styles.name}>Sign Language:</div>
+                    <div className={styles.parent}>
+                      {video ? (
+                        <div className={styles.div1}>{language}</div>
                       ) : (
                         <div className={styles.div1}>Empty</div>
                       )

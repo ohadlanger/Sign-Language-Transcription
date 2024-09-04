@@ -7,7 +7,7 @@ import './SuttonSignWriting.css'
 
 const SvgComponent = ({ svgContent }) => {
     return (
-        <div className="sign" style={{ "margin-right": "2px", "margin-left": "2px" }}>
+        <div className="sign" style={{ marginRight: "2px", marginLeft: "2px" }}>
             <div
                 dangerouslySetInnerHTML={{ __html: svgContent }}
             />

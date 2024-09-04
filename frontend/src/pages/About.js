@@ -7,7 +7,12 @@ import NavigationFooter from "../components/NavigationFooter";
 import Arrow from '../components/ArrowComponent';
 import styles from "./About.module.css";
 
-const About = ({ video, setVideo }) => {
+const About = ({ video, setVideo, language }) => {
+
+  // console.log("About: " , language);
+  // console.log("About: " , video);
+  // console.log("About: " , setVideo);
+
   const navigate = useNavigate();
   if (!video) {
     navigate('/Upload');
@@ -30,6 +35,7 @@ const About = ({ video, setVideo }) => {
         try {
           const params = {
             videoFile: event.target.result.split(',')[1],
+            signLanguage: language.value,
           };
           // console.log(params);
           const response = await fetch(`http://localhost:5000/api/translate/all_translations`, {
@@ -40,7 +46,7 @@ const About = ({ video, setVideo }) => {
             body: JSON.stringify(params),
           });
           const res = await response.json();
-          console.log(res);
+          // console.log(res);
           setEnglish(res.text_translation)
           setFsw(res.signWriting_translation)
           setVocal(res.voice_translation);
@@ -111,8 +117,8 @@ const About = ({ video, setVideo }) => {
             setResult(res.video);
             setSkeletonVideo(handleSkeleton(res.skeletonVideo));
             console.log("Fetch result success!");
-            console.log("video: ", res.video);
-            console.log("skeleton: ", handleSkeleton(res.skeletonVideo));
+            // console.log("video: ", res.video);
+            // console.log("skeleton: ", handleSkeleton(res.skeletonVideo));
           }
         } catch (error) {
           console.error('Error fetching result:', error);
@@ -159,7 +165,7 @@ const About = ({ video, setVideo }) => {
       {(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} skeletonVideo={skeletonVideo} />
+            <FrameComponent2 video={video} result={result} skeletonVideo={skeletonVideo} language={language.label}/>
             <div className={styles.divider}></div>
             <FrameComponent video={video} english={english} fsw={fsw} vocal={vocal} />
           </div>
