@@ -13,7 +13,7 @@ import pympi
 import json
 import openai
 import socket
-
+from pydub import AudioSegment
 from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
 
 
@@ -181,10 +181,12 @@ def extract_elan_translations(elan_path, output_path):
             file.write(f'{remove_duplicates(trans)}\n')
 
 
-def text_to_speech(text, output_file, gender='male'):
+def text_to_speech(text, output_folder, name, gender='male'):
     """
     Convert text to speech with the specified gender.
     """
+    output_file = output_folder / name
+    output_wav = output_folder / 'output.wav'
     if gender not in ['male', 'female']:
         raise ValueError("Gender must be 'male' or 'female'")
 
@@ -200,8 +202,11 @@ def text_to_speech(text, output_file, gender='male'):
             if 'male' in voice.name.lower():
                 engine.setProperty('voice', voice.id)
                 break
-        engine.say(text)
-        engine.save_to_file(text, output_file)
+        engine.save_to_file(text, str(output_wav))
+        engine.runAndWait()
+        audio = AudioSegment.from_wav(str(output_wav))
+        audio.export(str(output_file), format="mp3")
+        os.remove(output_wav)
 
 
 def model_redict(image, x, y, w, h, model):

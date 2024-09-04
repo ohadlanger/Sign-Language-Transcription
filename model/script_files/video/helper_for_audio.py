@@ -108,7 +108,7 @@ def video_to_segment(video_path: Path, optional_eaf_path: str = None, pose_path=
         eaf_path = Path(temp_dir) / 'temp.eaf'
         pose_to_segments(pose, eaf_path)
         # check if the file is empty
-        eaf = pympi.Elan.Eaf(file_path=eaf_path)
+        eaf = pympi.Elan.Eaf(file_path=str(eaf_path))
 
         # Accessing annotations from the "SIGN" tier
         sign_annotations = eaf.get_annotation_data_for_tier("SIGN")
@@ -117,7 +117,9 @@ def video_to_segment(video_path: Path, optional_eaf_path: str = None, pose_path=
         if len(sign_annotations) != 0:
             segment = (sign_annotations[0][0], sign_annotations[len(sign_annotations) - 1][1])
         else:
-            segment = (0, None)
+            with VideoFileClip(str(video_path.absolute())) as video:
+                duration_in_sec = video.duration
+            segment = (0, duration_in_sec * 1000)
 
     return segment
 

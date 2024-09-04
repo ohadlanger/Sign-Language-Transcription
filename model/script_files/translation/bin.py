@@ -56,7 +56,7 @@ def main():
             if text_translation is None:
                 text_translation = signWriting_to_text(temp_elan_path, Path(temp_dir), args.sign_writing_language)
             gender = video_to_gender(Path(args.video_path))
-            text_to_speech(text_translation, output_path / 'voice_translation.mp3', gender)
+            text_to_speech(text_translation, output_path, 'voice_translation.mp3', gender)
         print('Done Successfully...')
 
 
