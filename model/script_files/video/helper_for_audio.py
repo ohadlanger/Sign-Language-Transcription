@@ -26,7 +26,7 @@ def pose_to_video(pose_path: Path, output_path: Path):
         sub.wait()
 
 
-def video_to_pose(video_path: Path, output_path: Path):
+def video_to_pose(video_path: Path, output_path: Path, dim_info=False):
     """
     This function takes a video file and returns a pose file.
     """
@@ -38,9 +38,13 @@ def video_to_pose(video_path: Path, output_path: Path):
     ]
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
         sub.wait()
+    if dim_info:
+        with VideoFileClip(str(video_path.absolute())) as video:
+            duration_in_sec = video.duration
+            return 0, duration_in_sec * 1000
 
 
-def pose_to_segments(pose_path: Path, eaf_path: Path):
+def pose_to_segments(pose_path: Path, eaf_path: Path, dim_info=None):
     """
     This function takes a pose file and segments it.
     """
@@ -50,6 +54,31 @@ def pose_to_segments(pose_path: Path, eaf_path: Path):
            f'--elan={eaf_path}']
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
         sub.wait()
+
+    # ensure translation availability (not dependent on the pose_to_segments script)
+    if dim_info:
+        # load the EAF file
+        start, end = tuple(int(x) for x in dim_info)
+        eaf = pympi.Elan.Eaf(file_path=str(eaf_path.absolute()))
+        sign_annotations = eaf.get_annotation_data_for_tier("SIGN")
+
+        if len(sign_annotations) != 0:
+            # Update the first annotation's start time
+            first_annotation = sign_annotations[0]
+            first_annotation_id, _, first_annotation_end, first_annotation_value = first_annotation
+            eaf.remove_annotation('SIGN', first_annotation_id)
+            eaf.add_annotation('SIGN', start, first_annotation_end, first_annotation_value)
+
+            # Update the last annotation's end time
+            last_annotation = sign_annotations[-1]
+            last_annotation_id, last_annotation_start, _, last_annotation_value = last_annotation
+            eaf.remove_annotation('SIGN', last_annotation_id)
+            eaf.add_annotation('SIGN', last_annotation_start, end, last_annotation_value)
+        else:
+            # Add a new annotation if the "SIGN" tier is empty
+            eaf.add_annotation('SIGN', start, end, '')
+        # Save the modified EAF file
+        eaf.to_file(str(eaf_path.absolute()))
 
 
 def video_to_segment(video_path: Path, optional_eaf_path: str = None, pose_path=None):
