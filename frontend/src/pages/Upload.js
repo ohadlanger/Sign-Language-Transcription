@@ -5,14 +5,14 @@ import NavigationFooter from "../components/NavigationFooter";
 import styles from "./Upload.module.css";
 
 
-const UploadVideo = ({ className = "", video, setVideo }) => {
+const UploadVideo = ({ className = "", video, setVideo, language, setLanguage }) => {
 
     return (
         <div className={styles.about}>
             <Navigation back={"/"}/>
             <section className={styles.aboutInner}>
                 <div className={styles.frameParent}>
-                    <Upload video={video} setVideo={setVideo}/>
+                    <Upload video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>
                 </div>
             </section>
             <NavigationFooter />
