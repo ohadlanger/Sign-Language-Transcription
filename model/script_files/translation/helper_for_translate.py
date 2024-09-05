@@ -1,3 +1,5 @@
+import random
+
 from gtts import gTTS
 import os
 import pyttsx3
@@ -97,6 +99,7 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
         'en-NG': 'nsi',  # Nigerian -> Nigerian Sign Language (NSI)
         'fr-BE': 'sfb'  # French-Belgian -> Belgian-French Sign Language (SFB)
     }
+    return "this is sing language translation service"
     sign_writing_language = sign_language_mapping[Video_language] if Video_language in sign_language_mapping else 'ase'
     tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
     with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
@@ -163,7 +166,7 @@ def extract_elan_translations(elan_path, output_path):
         for i in range(len(lst)):
             unique = True
             for j in range(len(final_lst)):
-                if similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.95:
+                if similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.93:
                     unique = False
                     break
             if unique:
@@ -268,14 +271,13 @@ def video_to_gender(video_path):
     result = [0, 0]
     # Load video and extract frames
     video = VideoFileClip(video_path)
-    frames = video.iter_frames(fps=1, dtype='uint8')
+    frames = list(video.iter_frames(fps=24, dtype='uint8'))
+    sampled_frames = random.sample(frames, min(10, len(frames)))
 
     # Load model and predict labels
     label_dict = {0: 'female', 1: 'male'}
     model = load_model('./translation/model_file/gender_classify_middle_hiar_man.h5')
-    for i, frame in enumerate(frames):
-        if i == 3:
-            break
+    for i, frame in enumerate(sampled_frames):
         cv2.imwrite(f'frame_{i}.jpg', cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
         try:
             res = classify_gender(f'frame_{i}.jpg', model)
@@ -283,5 +285,7 @@ def video_to_gender(video_path):
         except Exception:
             pass
         os.remove(f'frame_{i}.jpg')
+        if abs(result[0] - result[1]) > 3:
+            break
 
     return label_dict[result.index(max(result))]
