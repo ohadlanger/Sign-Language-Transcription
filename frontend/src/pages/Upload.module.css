@@ -7,7 +7,7 @@ body {
   .frameParent {
     flex: 1;
     flex-direction: column;
-    gap: 35px;
+    /* gap: 35px; */
     max-width: 100%;
   }
   

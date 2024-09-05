@@ -9,7 +9,7 @@ const UploadVideo = ({ className = "", video, setVideo, language, setLanguage })
 
     return (
         <div className={styles.about}>
-            <Navigation back={"/"}/>
+            <Navigation back={"/"} setVideo={setVideo} setLanguage={setLanguage}/>
             <section className={styles.aboutInner}>
                 <div className={styles.frameParent}>
                     <Upload video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>

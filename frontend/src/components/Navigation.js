@@ -4,13 +4,16 @@ import PropTypes from "prop-types";
 import styles from "./Navigation.module.css";
 import { useNavigate } from "react-router-dom";
 
-const Navigation = ({ className = "", back = null, setVideo}) => {
+const Navigation = ({ className = "", back = null, setVideo, setLanguage}) => {
   const navigate = useNavigate();
 
   const onClick = (event) => {
     event.preventDefault();
     if(setVideo) {
       setVideo(null);
+    }
+    if(setLanguage) {
+      setLanguage(null);
     }
     // navigate("/");
     if (back) {
