@@ -28,7 +28,7 @@
   height: 100%;
   font-size: var(--body-text-size);
   font-weight: 500;
-  color: var(--color-gray-100);
+  color: white;
 }
 
 .frameParent,
