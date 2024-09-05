@@ -7,7 +7,7 @@ import NavigationFooter from "../components/NavigationFooter";
 import Arrow from '../components/ArrowComponent';
 import styles from "./About.module.css";
 
-const About = ({ video, setVideo, language }) => {
+const About = ({ video, setVideo, language, setLanguage }) => {
 
   // console.log("About: " , language);
   // console.log("About: " , video);
@@ -146,7 +146,7 @@ const About = ({ video, setVideo, language }) => {
   if (video === "Example" || example) {
     return (
       <div className={styles.about}>
-        <Navigation setVideo={setVideo} back={"/Upload"} />
+        <Navigation setVideo={setVideo} back={"/Upload"} setLanguage={setLanguage}/>
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
             <FrameComponent2 video={video} result={result} example={example} />
@@ -161,7 +161,7 @@ const About = ({ video, setVideo, language }) => {
 
   return (
     <div className={styles.about}>
-      <Navigation setVideo={setVideo} back={"/Upload"} />
+      <Navigation setVideo={setVideo} back={"/Upload"} setLanguage={setLanguage}/>
       {(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
@@ -171,7 +171,7 @@ const About = ({ video, setVideo, language }) => {
           </div>
         </section >
       ) : (
-        <section className={styles.aboutInner} style={{ height: '100%', minHeight: '300px', overflow: 'scroll', display: 'flex', alignItems: 'center' }}>
+        <section className={styles.aboutInner} style={{ height: '100%', minHeight: '300px', display: 'flex', alignItems: 'center' }}>
           <div className={styles.frameParent} style={{ justifyContent: 'space-evenly', flexDirection: "row", flexWrap: 'wrap' }}>
             <div className={styles.videoWrapper}>
               <h2 className={styles.video}>Video</h2>

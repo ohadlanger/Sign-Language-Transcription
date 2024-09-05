@@ -13,7 +13,7 @@ const NavigationFooter = ({ className = "" }) => {
   };
 
   let onGithub = () => {
-    const githubUrl = "https://github.com/sign-language-processing/signwriting-transcription.git";
+    const githubUrl = "https://github.com/ohadlanger/Sign-Language-Transcription.git";
     window.open(githubUrl, '_blank');
   };
 

@@ -21,7 +21,8 @@
 
 .options {
     font-size: large;
-    color: white;
+    /* color: white; */
+    color: gray;
 }
 
 .input {
@@ -67,4 +68,20 @@
 .language {
     margin-top: 20px;
     width: 250px;
+}
+
+
+.coloredBorder {
+    /* border-color: cadetblue !important; */
+     /* #2d4561 */
+    background-color: #3b5d88;
+}
+
+.coloredUpload {
+    background-color: white !important;
+    color: black;
+}
+
+.error {
+    visibility: visible !important;
 }
