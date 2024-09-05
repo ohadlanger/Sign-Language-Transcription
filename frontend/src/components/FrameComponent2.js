@@ -54,14 +54,14 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
     }
     else if (skeletonVideo) {
       console.log("Downloading...");
-      const byteCharacters = atob(skeletonVideo);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: 'video/mp4' });
-      saveAs(blob, video.name);
+      const fileURL = URL.createObjectURL(skeletonVideo);
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.download = skeletonVideo.name;
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(fileURL);
+      document.body.removeChild(link);
     }
     else {
       console.log("Not finished...");
