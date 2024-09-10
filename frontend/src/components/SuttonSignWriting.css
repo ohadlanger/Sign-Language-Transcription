@@ -41,16 +41,20 @@ text.sym-fill {
   fill: transparent !important;
 }
 
+text.sym-line {
+  fill: white !important;
+}
+
 div.signtext {
   -webkit-writing-mode: vertical-lr;
   writing-mode: vertical-lr;
   font-size: 0%;
-  border-left: 1px solid blue;
+  /* border-left: 1px solid blue; */
   height: 57%;
 }
 
 div.signtext span.outside {
-  border-left: 1px solid blue;
+  /* border-left: 1px solid blue; */
   vertical-align: top;
 }
 
@@ -58,9 +62,9 @@ div.signtext span.middle {
   vertical-align: bottom;
 }
 
-div.signtext span.inside {
+/* div.signtext span.inside {
   border-left: 1px dashed red;
-}
+} */
 
 div.signtext div.sign {
   writing-mode: horizontal-tb;
@@ -78,13 +82,13 @@ div.signtext {
   -webkit-writing-mode: vertical-lr; 
   writing-mode: vertical-lr; 
   font-size: 0%; 
-  border-left: 1px solid blue; 
+  /* border-left: 1px solid blue;  */
   height: 100%; 
 } 
 
-span.outside { border-left: 1px solid blue; vertical-align: top; } 
+/* span.outside { border-left: 1px solid blue; vertical-align: top; }  */
 span.middle { vertical-align: bottom; } 
-span.inside { border-left: 1px dashed red; } 
+/* span.inside { border-left: 1px dashed red; }  */
 
 div.sign { 
   writing-mode: horizontal-tb; 

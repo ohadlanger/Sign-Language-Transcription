@@ -108,7 +108,7 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
                     <div className={styles.size}>Size:</div>
                     <div className={styles.group}>
                       {video ? (
-                        <div className={styles.div1}>{video.size}</div>
+                        <div className={styles.div1}>{(video.size / 1000).toFixed(1) + ' KB'}</div>
                       ) : (
                         <div className={styles.div1}>Empty</div>
                       )
@@ -139,7 +139,7 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
                   </div>
                 </div>
               </div>
-              <div className={styles.dropdownContainer}>
+              <div className={styles.dropdownContainer} onMouseLeave={closeMenu}>
                 {showMenu && (
                   <div className={styles.dropdownMenu} onMouseLeave={closeMenu}>
                     <ul>
@@ -148,7 +148,7 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
                     </ul>
                   </div>
                 )}
-                <Button className={styles.secondaryButton} variant="outline-light" onClick={toggleMenu}>
+                <Button className={styles.secondaryButton} variant="outline-light" onClick={toggleMenu} >
                   Options
                 </Button>
               </div>
