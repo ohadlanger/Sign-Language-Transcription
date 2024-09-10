@@ -15,7 +15,6 @@ import pympi
 import json
 import openai
 import socket
-from pydub import AudioSegment
 from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
 
 
@@ -158,19 +157,41 @@ def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='wi
 
 
 def extract_elan_translations(elan_path, output_path):
-    def remove_duplicates(hyp: str):
+    def fix_and_remove_duplicates(hyp: str):
         lst = hyp.split('S')
         lst = [f'S{x}' if x[0] != 'M' else x for x in lst]
         final_lst = []
         similarity_metric = SignWritingSimilarityMetric()
+        body_part_classes = {'hands_shapes': range(0x100, 0x205),
+                             'facial_expressions': range(0x30A, 0x36A),
+                             'head_movement': range(0x2FF, 0x30A)}
+        all_body_part_classes = set().union(*body_part_classes.values())
+
         for i in range(len(lst)):
             unique = True
+            body_symbol_class = int(lst[i][1:4], 16)
+            x, y = 0, 0
+            if body_symbol_class not in all_body_part_classes and lst[i][0] != 'M':
+                unique = False
+                x, y = tuple(int(pos) for pos in lst[i][6:].split('x'))
+
             for j in range(len(final_lst)):
-                if similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.93:
+                if unique and similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.93:
                     unique = False
                     break
+                if not unique:
+                    sample_symbol_class = int(final_lst[j][1:4], 16)
+                    if sample_symbol_class in all_body_part_classes or final_lst[j][0] == 'M':
+                        continue
+                    x2, y2 = tuple(int(pos) for pos in final_lst[j][6:].split('x'))
+                    buffer = 10
+                    if abs(x - x2) < buffer and abs(y - y2) < buffer:
+                        x = x2 + 10
             if unique:
                 final_lst.append(lst[i])
+            if body_symbol_class not in all_body_part_classes and lst[i][0] != 'M':
+                final_lst.append(f'S{body_symbol_class:03x}{lst[i][4:6]}{x}x{y}')
+
         return ''.join(final_lst)
 
     trans_list = []
@@ -180,7 +201,7 @@ def extract_elan_translations(elan_path, output_path):
         trans_list.append(trans[2])
     with open(output_path / 'signWriting_translation.txt', 'w') as file:
         for trans in trans_list:
-            file.write(f'{remove_duplicates(trans)}\n')
+            file.write(f'{fix_and_remove_duplicates(trans)}\n')
 
 
 def text_to_speech(text, output_folder, name, gender='male'):
