@@ -2,7 +2,6 @@ import argparse
 import tempfile
 from pathlib import Path
 
-import pympi
 from translation.helper_for_translate import (pose_to_signWriting, signWriting_to_text, text_to_speech,
                                               video_to_gender, extract_elan_translations)
 from video.helper_for_audio import video_to_pose, pose_to_segments
