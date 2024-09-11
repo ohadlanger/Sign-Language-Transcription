@@ -20,7 +20,7 @@ from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetri
 
 def sockeye_translate_activate_communication(input_file, output_file):
     connection = None
-    ip = '192.168.1.102'
+    ip = '192.168.1.103'
     port = 12345
     with open(input_file, 'rb') as file:
         all_data = file.read()
@@ -50,6 +50,7 @@ def sockeye_translate_activate_communication(input_file, output_file):
 
 
 def modify_phrase(predictions_list):
+    return predictions_list[0].split()[0]
     # Set the prompt
     static_text = ("Create a grammatically correct sentence by selecting exactly one word from each set, ensuring that "
                    "no two words from the same set belong to the same category, don't add new word. Use all sets:")
@@ -98,7 +99,6 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
         'en-NG': 'nsi',  # Nigerian -> Nigerian Sign Language (NSI)
         'fr-BE': 'sfb'  # French-Belgian -> Belgian-French Sign Language (SFB)
     }
-    return "this is sing language translation service"
     sign_writing_language = sign_language_mapping[Video_language] if Video_language in sign_language_mapping else 'ase'
     tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
     with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
@@ -176,7 +176,7 @@ def extract_elan_translations(elan_path, output_path):
                 x, y = tuple(int(pos) for pos in lst[i][6:].split('x'))
 
             for j in range(len(final_lst)):
-                if unique and similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.93:
+                if unique and similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.90:
                     unique = False
                     break
                 if not unique:
