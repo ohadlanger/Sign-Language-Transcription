@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# Sign Language Transcription Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In this project, we, Ohad Langer and Rotem Zilberman, joined the international research team, led by Amit Moriyossef at the university of Zurich. 
+To see full information about the research and other models, visit the [main github account](https://github.com/sign-language-processing)
 
-## Available Scripts
+The goal was to create a machine-learning-based translation system from Sign Language to spoken, verbal languages, in order to bridge the communication gap for Deaf individuals.
 
-In the project directory, you can run:
+ 
+Our Main contributions:
+1) [Sign Writing Transcription Model](https://github.com/sign-language-processing/signwriting-transcription): a machine-learning based translation system which translataes sequnces of sign language into their Formal SignWriting representation, also known as FSW.
 
-### `npm start`
+2) [Sign Similarity Metric](https://github.com/sign-language-processing/signwriting-evaluation/blob/main/signwriting_evaluation/metrics/similarity.md): a new metric designed to evaluate the similarity between two phrases written in Formal SignWriting (FSW). In contrast to general string comparison methods such as BLEU and CHRF, our approach is customized to the distinctive features and rules of SignWriting, providing a task-specific assessment.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3) [Synthetic SignWriting](https://github.com/sign-language-processing/synthetic-signwriting): a tool to animate unseen poses of SignWriting and by that generate new data. Can be used for pretraining of the model, database expention and more.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Project Architecture
 
-### `npm run build`
+## Research Pipeline
+The following image presents the full pipeline for the research.\
+This whole process has the ability to take video input of sign language speakers and transcribe it into the verbal meaning depicted in it.\
+![alt text](image.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Our Model
+As stated above, Our model is the Sign Writing Transcription model in the pipeline (as you can see in the image above).
+This machine-learning process is represented here:
+![alt text](image-1.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Web Interface
+Using the model we have developed and the overall pipeline, we built a MVC architecture in order to present the project and allow users to interact with it through the web.
+![alt text](image-2.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+# Instruction for Utilizing the Project
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+To clone this repository, run the followind command:
+```bash
+git clone https://github.com/ohadlanger/Sign-Language-Transcription.git
+```
+Open the cloned project, and execute the following instructions.\
+This repository consists of all the entities required to fully utilize our project:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1) **Web Interface (Front):** implemented in React, this interface allows to use our development using a simple and clean web tool.\
+to run this client, run the following commands:
+```bash
+cd frontend
+npm start
+```
+2) **Server (Back):** implemented in JavaScript, this server accepts requests sent by the web client and executes the needed scripts to return appropriate responses .\
+to run this server, run the following commands in a spearate terminal:
+```bash
+cd backend
+node app.js
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3) **Model:** implemented in Python, this Model is used by the server to preform the translation process using the machine-learned checkpoint (weights file for the model).\
+It is being executed by the server, therefore no need to run it yourselves.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+\
+Overall, after activating the different sides of the architecture, using your browser you can browse to the following address: http://localhost:3000.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
