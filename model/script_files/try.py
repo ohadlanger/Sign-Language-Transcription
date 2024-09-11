@@ -83,10 +83,12 @@ from signwriting_transcription.pose_to_signwriting.data.preprocessing import pre
 from signwriting_transcription.pose_to_signwriting.joeynmt_pose.prediction import translate
 from pose_format import Pose
 from video.helper_for_audio import video_to_pose
-
-PADDING_PACTOR = 0.25  # padding factor for tight strategy, 25% padding from both sides of the segment
+import subprocess
+PADDING_PACTOR = 0  # padding factor for tight strategy, 25% padding from both sides of the segment
 import numpy as np
 import csv
+import pympi
+import math
 
 
 def get_args():
@@ -97,14 +99,70 @@ def get_args():
     parser.add_argument('--strategy', type=str, default='tight',
                         choices=['tight', 'wide'], help='segmentation strategy to use')
     return parser.parse_args()
+def pose_to_segments(pose_path: Path, eaf_path: Path, dim_info=None):
+    """
+    This function takes a pose file and segments it.
+    """
 
+    cmd = ['pose_to_segments',
+           f'--pose={pose_path}',
+           f'--elan={eaf_path}']
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+        sub.wait()
 
-def preprocessing_sign(preprocessed_pose: Pose, startPoint, endPoint, strategy: str, temp_dir: str, name):
+    # ensure translation availability (not dependent on the pose_to_segments script)
+    if dim_info:
+        # load the EAF file
+        start, end = tuple(int(x) for x in dim_info)
+        eaf = pympi.Elan.Eaf(file_path=str(eaf_path.absolute()))
+        sign_annotations = eaf.get_annotation_data_for_tier("SIGN")
+
+        if len(sign_annotations) != 0:
+            # Update the first annotation's start time
+            first_annotation = sign_annotations[0]
+            first_annotation_start, first_annotation_end, first_annotation_value = first_annotation
+            eaf.remove_annotation('SIGN', first_annotation_start)
+            eaf.add_annotation('SIGN', start, first_annotation_end, first_annotation_value)
+            sign_annotations[0] = (start, first_annotation_end, first_annotation_value)
+
+            # Update the last annotation's end time
+            last_annotation = sign_annotations[-1]
+            last_annotation_start, last_annotation_end, last_annotation_value = last_annotation
+            eaf.remove_annotation('SIGN', last_annotation_start)
+            eaf.add_annotation('SIGN', last_annotation_start, end, last_annotation_value)
+            sign_annotations[-1] = (last_annotation_start, end, last_annotation_value)
+
+            # iterative over the rest of the annotations and adding buffer of size 5% to the diff between the Sign
+            if len(sign_annotations) >= 2:
+                buffer = 0.05
+                for i in range(len(sign_annotations)):
+                    annotation = sign_annotations[i]
+                    annotation_start, annotation_end, annotation_value = annotation
+                    new_start, new_end = annotation_start, annotation_end
+                    # update the start time of the annotation
+                    if i != 0:
+                        new_start = math.ceil(annotation_start / 100) * 100
+                    # update the end time of the previous annotation
+                    if i != len(sign_annotations) - 1:
+                        next_annotation = sign_annotations[i + 1]
+                        next_annotation_start, _, _ = next_annotation
+                        difference_padding = round((next_annotation_start - annotation_end) * buffer / 10) * 10
+                        tight_end = math.floor(next_annotation_start / 100) * 100
+                        new_end = tight_end - difference_padding
+                    eaf.remove_annotation('SIGN', annotation_start)
+                    eaf.add_annotation('SIGN', new_start, new_end, annotation_value)
+        else:
+            # Add a new annotation if the "SIGN" tier is empty
+            eaf.add_annotation('SIGN', start, end, '')
+        # Save the modified EAF file
+        eaf.to_file(str(eaf_path.absolute()))
+
+def preprocessing_signs(preprocessed_pose: Pose, sign_annotations: list, strategy: str, temp_dir: str):
+    temp_files = []  # list of temporary files
+    start_point = 0
     temp_path = Path(temp_dir)
     # get pose length in ms
     pose_length = frame2ms(len(preprocessed_pose.body.data), preprocessed_pose.body.fps)
-    sign_annotations = [(startPoint, endPoint, 0)]
-    start_point = 0
     for index, (sign_start, sign_end, _) in enumerate(sign_annotations):
         if index + 1 < len(sign_annotations):
             end_point = sign_annotations[index + 1][0]
@@ -122,34 +180,38 @@ def preprocessing_sign(preprocessed_pose: Pose, startPoint, endPoint, strategy: 
                                               frame_rate, sign_end + (end_point - sign_end) * PADDING_PACTOR)
                        .filled(fill_value=0))
             start_point = sign_end
-        pose_path = temp_path / f'{name}.npy'
+        pose_path = temp_path / f'{index}.npy'
         np.save(pose_path, np_pose)
-        return pose_path
+        temp_files.append(pose_path)
+    return temp_files
 
 
-# file_names = ['s2mb4e446dddbe65b97ed33ab65859b2f5a', 'ss0a2862a050af2226b35d4cad23fbd5f9',
-#               'ss32df161c3e4fe14e5d74879f7f6e98b5'
-#     ,'ss444a47a5dda89a4e8e156dc92d14a5a2', 'ss12060c2746e4faab80578b781cc4d055']
-# file_names_with_pose = [f'{name}.pose' for name in file_names]
+file_names = ['s2mb4e446dddbe65b97ed33ab65859b2f5a', 'ss0a2862a050af2226b35d4cad23fbd5f9',
+              'ss32df161c3e4fe14e5d74879f7f6e98b5'
+    ,'ss444a47a5dda89a4e8e156dc92d14a5a2', 'ss12060c2746e4faab80578b781cc4d055']
+file_names_with_pose = [f'{name}.pose' for name in file_names]
 # args = get_args()
-# from moviepy.editor import VideoFileClip
-# temp_dir = "/Users/rotemzilberman/Documents/Bsc/final_Project/Sign-Language-Transcription/model/script_files/cutted_video"
-# # temp_dir = "/content/temp"
-# file_name = 'ssf0a01dbd499767fb81bfc17242b5cb62'
-# pose_path = Path(
-#     f"/Users/rotemzilberman/Documents/Bsc/final_Project/Sign-Language-Transcription/model/script_files/cutted_video/{file_name}copy.pose")
-# video_path = f'/Users/rotemzilberman/Documents/Bsc/final_Project/Sign-Language-Transcription/model/script_files/video_examples/{file_name}.mp4'
-# video_to_pose(Path(video_path), pose_path)
-# with VideoFileClip(video_path) as video:
-#     duration_in_sec = video.duration
-# startPoint = 0
-# endPoint = int(duration_in_sec * 1000)
-# preprocessed_pose = preprocess_single_file(pose_path, normalization=False)
-# name = file_name
-# temp_file = preprocessing_sign(preprocessed_pose, startPoint, endPoint, 'tight', temp_dir, name)
-# output_data = [temp_file]
-# hyp_list = translate('experiment/config.yaml', output_data)
-# print(hyp_list)
+from moviepy.editor import VideoFileClip
+temp_dir = "/Users/rotemzilberman/Documents/Bsc/final_Project/Sign-Language-Transcription/model/script_files/cutted_video"
+# temp_dir = "/content/temp"
+file_name = 'ssf0a01dbd499767fb81bfc17242b5cb62'
+pose_path = Path(
+    f"/Users/rotemzilberman/Documents/Bsc/final_Project/Sign-Language-Transcription/model/script_files/cutted_video/{file_name}copy.pose")
+video_path = f'/Users/rotemzilberman/Documents/Bsc/final_Project/Sign-Language-Transcription/model/script_files/video_examples/ss444a47a5dda89a4e8e156dc92d14a5a2.mp4'
+elan_path = f'/Users/rotemzilberman/Documents/Bsc/final_Project/Sign-Language-Transcription/model/script_files/video_examples/vid.eaf'
+video_to_pose(Path(video_path), pose_path)
+with VideoFileClip(video_path) as video:
+    duration_in_sec = video.duration
+startPoint = 0
+endPoint = int(duration_in_sec * 1000)
+preprocessed_pose = preprocess_single_file(pose_path, normalization=False)
+pose_to_segments(pose_path, Path(elan_path), dim_info=(startPoint, endPoint))
+name = file_name
+eaf = pympi.Elan.Eaf(file_path=elan_path)
+sign_annotations = eaf.get_annotation_data_for_tier('SIGN')
+temp_file = preprocessing_signs(preprocessed_pose, sign_annotations, 'tight', temp_dir)
+hyp_list = translate('experiment/config.yaml', temp_file)
+print(hyp_list)
 # path = '/content/signwriting-transcription/transcription_data_set'
 # output_data = []
 # for file_name in file_names_with_pose:

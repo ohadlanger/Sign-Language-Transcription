@@ -1,4 +1,5 @@
 import datetime
+import math
 import os
 import subprocess
 from pathlib import Path
@@ -65,15 +66,35 @@ def pose_to_segments(pose_path: Path, eaf_path: Path, dim_info=None):
         if len(sign_annotations) != 0:
             # Update the first annotation's start time
             first_annotation = sign_annotations[0]
-            first_annotation_id, _, first_annotation_end, first_annotation_value = first_annotation
-            eaf.remove_annotation('SIGN', first_annotation_id)
+            first_annotation_start, first_annotation_end, first_annotation_value = first_annotation
+            eaf.remove_annotation('SIGN', first_annotation_start)
             eaf.add_annotation('SIGN', start, first_annotation_end, first_annotation_value)
 
             # Update the last annotation's end time
             last_annotation = sign_annotations[-1]
-            last_annotation_id, last_annotation_start, _, last_annotation_value = last_annotation
-            eaf.remove_annotation('SIGN', last_annotation_id)
+            last_annotation_start, last_annotation_end, last_annotation_value = last_annotation
+            eaf.remove_annotation('SIGN', last_annotation_start)
             eaf.add_annotation('SIGN', last_annotation_start, end, last_annotation_value)
+
+            # iterative over the rest of the annotations and adding buffer of size 5% to the diff between the Sign
+            if len(sign_annotations) >= 2:
+                buffer = 0.05
+                for i in range(len(sign_annotations)):
+                    annotation = sign_annotations[i]
+                    annotation_start, annotation_end, annotation_value = annotation
+                    new_start, new_end = annotation_start, annotation_end
+                    # update the start time of the annotation
+                    if i != 0:
+                        new_start = math.ceil(annotation_start / 100) * 100
+                    # update the end time of the previous annotation
+                    if i != len(sign_annotations) - 1:
+                        next_annotation = sign_annotations[i + 1]
+                        next_annotation_start, _, _ = next_annotation
+                        difference_padding = round((next_annotation_start - annotation_end) * buffer / 10) * 10
+                        tight_end = math.floor(next_annotation_start / 100) * 100
+                        new_end = tight_end - difference_padding
+                    eaf.remove_annotation('SIGN', annotation_start)
+                    eaf.add_annotation('SIGN', new_start, new_end, annotation_value)
         else:
             # Add a new annotation if the "SIGN" tier is empty
             eaf.add_annotation('SIGN', start, end, '')
