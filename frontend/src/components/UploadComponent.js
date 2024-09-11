@@ -63,11 +63,17 @@ const Upload = ({ video, setVideo, language, setLanguage }) => {
         event.preventDefault();
         event.stopPropagation();
         setIsDragging(false);
-
+    
         const file = event.dataTransfer.files[0];
         if (file) {
             setSelectedFile(file);
             setVideo(file);
+    
+            // Update the input file element with the dropped file
+            const fileInput = document.getElementById('formFile');
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
         }
     };
 
