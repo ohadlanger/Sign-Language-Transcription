@@ -12,7 +12,7 @@
 }
 
 .signLanguageTranscriptionWrapper {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -94,7 +94,7 @@
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   max-width: 100%;
 }
 
@@ -234,7 +234,7 @@
   }
 
   .buttonsIconParent {
-    padding-right: var(--padding-201xl);
+    /* padding-right: var(--padding-201xl); */
     box-sizing: border-box;
   }
 
@@ -273,4 +273,39 @@
 
 .frameParent {
   flex-direction: row;
+}
+
+
+
+
+
+.iconContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.buttonsIconParent {
+  position: relative;
+  display: flex;
+  gap: 20px; /* Adjust spacing between icons */
+}
+
+.iconContainer::before,
+.iconContainer::after {
+  content: '';
+  position: absolute;
+  background-color: #FFF; /* Adjust color */
+  height: 2px; /* Adjust thickness */
+  width: 350px; /* Adjust height */
+}
+
+.iconContainer::before {
+  left: -400px; /* Adjust position relative to the icon container */
+}
+
+.iconContainer::after {
+  right: -400px; /* Adjust position relative to the icon container */
 }
