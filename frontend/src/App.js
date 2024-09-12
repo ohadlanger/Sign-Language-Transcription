@@ -39,7 +39,7 @@ function App() {
         break;
       case "/About":
         title = "About Page";
-        metaDescription = "Learn more about us.";
+        metaDescription = "Translation result page about a given video";
         break;
       default:
         navigate("/");

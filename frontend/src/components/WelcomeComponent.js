@@ -29,8 +29,11 @@ const Welcome = () => {
                 This technology can be integrated into day-to-day usage, online meatings and conventions, other feilds of research from visual gestures and much more.
             </p>
 
-            <div style={{ margin: "10px" }}>
-                <a href="https://1drv.ms/p/c/d8aeeeb13ff122a0/EV9EVQzTQAlLqdz_ldCirjoBJafncIsxUL86hKXjzLArnQ?e=4AepNy" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Watch Project Presentation</a>
+            <div style={{ margin: "10px", marginLeft: "0px"}}>
+                Introduction:&nbsp;
+                <a href="https://1drv.ms/p/c/d8aeeeb13ff122a0/EV9EVQzTQAlLqdz_ldCirjoBJafncIsxUL86hKXjzLArnQ?e=4AepNy" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Video</a>
+                &nbsp;/&nbsp;
+                <a href="https://1drv.ms/p/c/d8aeeeb13ff122a0/EV9EVQzTQAlLqdz_ldCirjoBJafncIsxUL86hKXjzLArnQ?e=4AepNy" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Presentation</a>
             </div>
 
             <div className={styles.box}><Button className={styles.button} variant="outline-light" onClick={handleSubmit}>Get Started!</Button></div>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from "../components/Navigation";
 import { useNavigate } from "react-router-dom";
-import FrameComponent2 from "../components/FrameComponent2";
-import FrameComponent from "../components/FrameComponent";
+import DetailsComponent from "../components/DetailsComponent";
+import ResultsComponent from "../components/ResultsComponent";
 import NavigationFooter from "../components/NavigationFooter";
 import Arrow from '../components/ArrowComponent';
 import styles from "./About.module.css";
@@ -139,9 +139,9 @@ const About = ({ video, setVideo, language, setLanguage }) => {
         <Navigation setVideo={setVideo} back={"/Upload"} setLanguage={setLanguage}/>
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} example={example} />
+            <DetailsComponent video={video} result={result} example={example} />
             <div className={styles.divider}></div>
-            <FrameComponent english={english} fsw={fsw} vocal={vocal} />
+            <ResultsComponent english={english} fsw={fsw} vocal={vocal} />
           </div>
         </section >
         <NavigationFooter />
@@ -155,9 +155,9 @@ const About = ({ video, setVideo, language, setLanguage }) => {
       {(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} skeletonVideo={skeletonVideo} language={language.label}/>
+            <DetailsComponent video={video} result={result} skeletonVideo={skeletonVideo} language={language.label}/>
             <div className={styles.divider}></div>
-            <FrameComponent video={video} english={english} fsw={fsw} vocal={vocal} />
+            <ResultsComponent video={video} english={english} fsw={fsw} vocal={vocal} />
           </div>
         </section >
       ) : (

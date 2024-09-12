@@ -1,6 +1,6 @@
 import React from 'react';
-import English from "./EnglishComponent";
-import Fsw from "./FswComponent";
+import English from "./EnglishComponent.js";
+import Fsw from "./FswComponent.js";
 import Vocal from "./VocalComponent.js";
 import PropTypes from "prop-types";
 
@@ -9,14 +9,14 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './index.css';
-import './FrameComponent.module.css';
-import styles from "./FrameComponent.module.css";
+import './ResultsComponent.module.css';
+import styles from "./ResultsComponent.module.css";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Navigation } from 'swiper/modules';
 
 
-const FrameComponent = ({ className = "", english, fsw, vocal }) => {
+const ResultsComponent = ({ className = "", english, fsw, vocal }) => {
 
   return (
     <div className={[styles.frameWrapper, className].join(" ")}>
@@ -79,10 +79,10 @@ const FrameComponent = ({ className = "", english, fsw, vocal }) => {
   );
 };
 
-FrameComponent.propTypes = {
+ResultsComponent.propTypes = {
   className: PropTypes.string,
 };
 
-export default FrameComponent;
+export default ResultsComponent;
 
 

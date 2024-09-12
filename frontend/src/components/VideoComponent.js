@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
-import styles from "./FrameComponent2.module.css";
+import styles from "./DetailsComponent.module.css";
 
 const VideoComponent = ({ video, skeletonVideo, example=false }) => {
 

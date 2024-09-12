@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from "./FrameComponent.module.css";
+import styles from "./ResultsComponent.module.css";
 import * as lib from '@sutton-signwriting/font-ttf';
 import './index.css';
 import './SuttonSignWriting.css'

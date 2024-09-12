@@ -3,10 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { saveAs } from 'file-saver';
-import styles from "./FrameComponent2.module.css";
+import styles from "./DetailsComponent.module.css";
 import VideoComponent from './VideoComponent';
 
-const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, example = false, language = 'English' }) => {
+const DetailsComponent = ({ className = "", video, result, skeletonVideo = null, example = false, language = 'English' }) => {
 
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => {
@@ -158,8 +158,8 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
   );
 };
 
-FrameComponent2.propTypes = {
+DetailsComponent.propTypes = {
   className: PropTypes.string,
 };
 
-export default FrameComponent2;
+export default DetailsComponent;
