@@ -17,8 +17,6 @@
   box-sizing: border-box;
 }
 .videoPlayer {
-  /* width: 445px; */
-  /* max-height: 500px; */
   height: 400px;
   position: relative;
   border-radius: var(--br-5xs);
@@ -120,11 +118,11 @@
   justify-content: flex-start;
   gap: var(--gap-22xl);
   flex-shrink: 0;
-  /* debug_commit: bf4bc93; */
   max-width: 100%;
 }
 .name {
   font-weight: 500;
+  min-width: 50px;
 }
 .div,
 .div1,
@@ -132,10 +130,12 @@
   position: relative;
   line-height: 150%;
   display: inline-block;
-  overflow: scroll;
+  white-space: nowrap;     /* Prevent the text from wrapping onto the next line */
+  overflow: hidden;        /* Hide the overflowing part of the text */
+  text-overflow: ellipsis; /* Add the ellipsis (...) at the end */
 }
 .div1 {
-  width: 100%;
+  /* min-width: 10px; */
 }
 .div {
   min-width: 28px;
@@ -412,7 +412,6 @@
 }
 .list {
   align-self: stretch;
-  /* debug_commit: bf4bc93; */
 }
 .table {
   height: 232px;
@@ -469,7 +468,6 @@
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  /* justify-content: space-between; */
   max-width: 100%;
   gap: var(--gap-xl);
   margin-top: -27px;

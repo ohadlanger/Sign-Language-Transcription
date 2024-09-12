@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from "../components/Navigation";
 import { useNavigate } from "react-router-dom";
-import FrameComponent2 from "../components/FrameComponent2";
-import FrameComponent from "../components/FrameComponent";
+import DetailsComponent from "../components/DetailsComponent";
+import ResultsComponent from "../components/ResultsComponent";
 import NavigationFooter from "../components/NavigationFooter";
 import Arrow from '../components/ArrowComponent';
 import styles from "./About.module.css";
 
 const About = ({ video, setVideo, language, setLanguage }) => {
-
-  // console.log("About: " , language);
-  // console.log("About: " , video);
-  // console.log("About: " , setVideo);
 
   const navigate = useNavigate();
   if (!video) {
@@ -37,7 +33,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
             videoFile: event.target.result.split(',')[1],
             signLanguage: language.value,
           };
-          // console.log(params);
           const response = await fetch(`http://localhost:5000/api/translate/all_translations`, {
             method: 'POST',
             headers: {
@@ -46,7 +41,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
             body: JSON.stringify(params),
           });
           const res = await response.json();
-          // console.log(res);
           setEnglish(res.text_translation)
           setFsw(res.signWriting_translation)
           setVocal(res.voice_translation);
@@ -105,7 +99,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
               video: binaryData,
               sound_translation: vocal
             };
-            // const response = await fetch(`http://localhost:5000/api/translate/video?${params.toString()}`)
             const response = await fetch('http://localhost:5000/api/translate/video', {
               method: 'POST',
               headers: {
@@ -117,8 +110,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
             setResult(res.video);
             setSkeletonVideo(handleSkeleton(res.skeletonVideo));
             console.log("Fetch result success!");
-            // console.log("video: ", res.video);
-            // console.log("skeleton: ", handleSkeleton(res.skeletonVideo));
           }
         } catch (error) {
           console.error('Error fetching result:', error);
@@ -134,7 +125,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
       const data = await response.blob();
       const fileName = path.split('/').pop();
       const file = new File([data], fileName, { type: data.type });
-      // console.log(file);
       return file;
     };
 
@@ -149,9 +139,9 @@ const About = ({ video, setVideo, language, setLanguage }) => {
         <Navigation setVideo={setVideo} back={"/Upload"} setLanguage={setLanguage}/>
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} example={example} />
+            <DetailsComponent video={video} result={result} example={example} />
             <div className={styles.divider}></div>
-            <FrameComponent english={english} fsw={fsw} vocal={vocal} />
+            <ResultsComponent english={english} fsw={fsw} vocal={vocal} />
           </div>
         </section >
         <NavigationFooter />
@@ -165,9 +155,9 @@ const About = ({ video, setVideo, language, setLanguage }) => {
       {(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <FrameComponent2 video={video} result={result} skeletonVideo={skeletonVideo} language={language.label}/>
+            <DetailsComponent video={video} result={result} skeletonVideo={skeletonVideo} language={language.label}/>
             <div className={styles.divider}></div>
-            <FrameComponent video={video} english={english} fsw={fsw} vocal={vocal} />
+            <ResultsComponent video={video} english={english} fsw={fsw} vocal={vocal} />
           </div>
         </section >
       ) : (

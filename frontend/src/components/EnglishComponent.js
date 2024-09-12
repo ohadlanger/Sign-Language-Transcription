@@ -1,4 +1,4 @@
-import styles from "./FrameComponent.module.css";
+import styles from "./ResultsComponent.module.css";
 import './index.css';
 
 const English = ({translation}) => {

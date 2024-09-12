@@ -1,24 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
-import styles from "./FrameComponent2.module.css";
+import styles from "./DetailsComponent.module.css";
 
 const VideoComponent = ({ video, skeletonVideo, example=false }) => {
 
     const videoRef = useRef(null);
     const [mode, setMode] = useState(true);
     const [currentTime, setCurrentTime] = useState(0);
-    const [videoUrl, setVideoUrl] = useState();
-
-
-
-    // const height = video
-    // console.log("video:", video)
-    // console.log("skeleton:", skeletonVideo)
 
     const onChangeMode = async () => {
         if (video) {
-            // videoRef.current.pause();
             setMode(!mode);
             setCurrentTime(videoRef.current.currentTime);
         }
@@ -27,7 +19,6 @@ const VideoComponent = ({ video, skeletonVideo, example=false }) => {
     useEffect(() => {
         if (video) {
             videoRef.current.currentTime = currentTime;
-            // videoRef.current.play();
         }
     }, [mode, currentTime]);
 
@@ -63,7 +54,6 @@ const VideoComponent = ({ video, skeletonVideo, example=false }) => {
                         autoPlay
                         loop
                         muted>
-                        {/* <source src={mode? URL.createObjectURL(video) : URL.createObjectURL(skeletonVideo)} type={video.type} /> */}
                         <source src={(video !== "Example" && !example) ? (mode ? URL.createObjectURL(video) : URL.createObjectURL(skeletonVideo)) :
                             (mode ? "/example.mp4" : "/skeleton.mp4")} type={video.type} />
                     </video>
