@@ -2,14 +2,12 @@
   position: relative;
   line-height: 200%;
   font-weight: 500;
-  /* white-space: nowrap; */
 }
 .signLanguageTranscriptionWrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  /* padding: var(--padding-2xs) 0 0; */
 }
 .page {
   position: relative;
@@ -63,7 +61,6 @@
   flex-direction: row;
   align-items: flex-end;
   justify-content: space-between;
-  /* max-width: 100%; */
 }
 .frameParent {
   padding-right: 10px;
@@ -76,7 +73,6 @@
 .navigation {
   align-self: stretch;
   background-color: var(--color-gray-200);
-  /* justify-content: space-between; */
   padding: 20px;
   box-sizing: border-box;
   gap: var(--gap-xl);
@@ -102,9 +98,6 @@
     gap: var(--gap-5xl);
   }
 }
-
 .wrapper {
   justify-content: end;
-  /* width: 100vw; */
-  
 }

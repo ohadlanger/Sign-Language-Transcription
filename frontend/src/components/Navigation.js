@@ -15,7 +15,6 @@ const Navigation = ({ className = "", back = null, setVideo, setLanguage}) => {
     if(setLanguage) {
       setLanguage(null);
     }
-    // navigate("/");
     if (back) {
       navigate(back);
     }

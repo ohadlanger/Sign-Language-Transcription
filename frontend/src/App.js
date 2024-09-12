@@ -1,4 +1,4 @@
-import { useEffect, createContext, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Routes,
   Route,
@@ -34,8 +34,8 @@ function App() {
         metaDescription = "";
         break;
       case "/Upload":
-        title = "About Page";
-        metaDescription = "Learn more about us.";
+        title = "Upload Page";
+        metaDescription = "Upload a video to translate";
         break;
       case "/About":
         title = "About Page";
@@ -65,7 +65,6 @@ function App() {
       <Route path="/" element={<Welcome video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
       <Route path="/Upload" element={<Upload video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
       <Route path="/About" element={<About video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
-      {/* <Route path="/" element={<About />} /> */}
     </Routes>
   );
 }

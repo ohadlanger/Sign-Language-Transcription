@@ -100,14 +100,6 @@ const NavigationFooter = ({ className = "" }) => {
                 Sign Language Transcription
               </span>
             </div>
-            {/* <div className={styles.frameContainer}>
-              <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>
-                <div className={styles.pageFrame}>
-                  <div className={styles.name}>Ohad Langer</div>
-                  <div className={styles.name}>Rotem Zilberman</div>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

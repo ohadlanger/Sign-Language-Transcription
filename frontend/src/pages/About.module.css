@@ -1,7 +1,10 @@
 body {
-  height: 100%; /* Ensure the body takes full height of the viewport */
-  margin: 0; /* Remove default margin */
-  overflow: hidden; /* Prevent default scrolling on the body */
+  height: 100%;
+  /* Ensure the body takes full height of the viewport */
+  margin: 0;
+  /* Remove default margin */
+  overflow: hidden;
+  /* Prevent default scrolling on the body */
 }
 
 .frameParent {
@@ -16,7 +19,6 @@ body {
 .frameParent {
   display: flex;
   align-items: center;
-  /* justify-content: flex-start; */
 }
 
 .aboutInner {
@@ -29,12 +31,14 @@ body {
 
 .about {
   width: 100%;
-  height: 100%; /* Ensure the container takes full height of the viewport */
+  height: 100%;
+  /* Ensure the container takes full height of the viewport */
   position: fixed;
   bottom: 0;
   top: 0;
   background-color: #2d4561;
-  overflow: auto; /* Enable scrolling */
+  overflow: auto;
+  /* Enable scrolling */
   flex-direction: column;
   gap: 25px;
   line-height: normal;
@@ -73,6 +77,7 @@ body {
   font-weight: 900;
   font-family: inherit;
 }
+
 .videoWrapper {
   width: 219px;
   display: flex;
@@ -82,6 +87,7 @@ body {
   padding: 0 var(--padding-2xs);
   box-sizing: border-box;
 }
+
 .videoPlayer {
   width: 445px;
   position: relative;
@@ -92,6 +98,7 @@ body {
   object-fit: cover;
   max-width: 100%;
 }
+
 .details,
 .details1 {
   margin: 0;
@@ -102,23 +109,28 @@ body {
   font-weight: 900;
   font-family: inherit;
 }
+
 .details1 {
   z-index: 1;
   margin: 0 0 0-197px;
 }
+
 .detailsParent,
 .frameContainer {
   display: flex;
   flex-direction: row;
 }
+
 .detailsParent {
   flex: 1;
 }
+
 .frameContainer {
   width: 211.5px;
   padding: 0 var(--padding-6xs);
   box-sizing: border-box;
 }
+
 .frameChild {
   height: 282.5px;
   width: 719px;
@@ -126,6 +138,7 @@ body {
   display: none;
   max-width: 100%;
 }
+
 .col1,
 .title {
   position: relative;
@@ -134,11 +147,13 @@ body {
   display: inline-block;
   min-width: 54px;
 }
+
 .col1 {
   flex: 1;
   color: var(--color-gray-100);
   min-width: 28px;
 }
+
 .titleParent {
   align-self: stretch;
   display: flex;
@@ -147,6 +162,7 @@ body {
   justify-content: flex-start;
   gap: var(--gap-3xl);
 }
+
 .col3 {
   position: relative;
   line-height: 150%;
@@ -156,6 +172,7 @@ body {
   display: inline-block;
   min-width: 41px;
 }
+
 .frameParent1 {
   flex: 1;
   display: flex;
@@ -166,6 +183,7 @@ body {
   min-width: 253px;
   max-width: 100%;
 }
+
 .col2 {
   position: relative;
   line-height: 150%;
@@ -175,6 +193,7 @@ body {
   display: inline-block;
   min-width: 40px;
 }
+
 .frameDiv {
   align-self: stretch;
   display: flex;
@@ -183,14 +202,15 @@ body {
   justify-content: flex-start;
   gap: var(--gap-22xl);
   flex-shrink: 0;
-  debug_commit: bf4bc93;
   max-width: 100%;
 }
+
 .name {
   flex: 1;
   font-weight: 500;
   min-width: 34px;
 }
+
 .div,
 .div1,
 .name {
@@ -198,24 +218,29 @@ body {
   line-height: 150%;
   display: inline-block;
 }
+
 .div {
   min-width: 28px;
 }
+
 .div1 {
   width: 30px;
 }
+
 .nameParent,
 .parent {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
+
 .parent {
   width: 105px;
   justify-content: space-between;
   gap: var(--gap-xl);
   text-align: right;
 }
+
 .nameParent {
   align-self: stretch;
   border-top: 1px solid var(--color-gainsboro-200);
@@ -223,11 +248,13 @@ body {
   padding: var(--padding-3xs) 0 var(--padding-xs);
   gap: var(--gap-39xl);
 }
+
 .size {
   flex: 1;
   font-weight: 500;
   min-width: 25px;
 }
+
 .div2,
 .div3,
 .size {
@@ -235,24 +262,29 @@ body {
   line-height: 150%;
   display: inline-block;
 }
+
 .div2 {
   min-width: 28px;
 }
+
 .div3 {
   width: 30px;
 }
+
 .group,
 .sizeParent {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
+
 .group {
   width: 105px;
   justify-content: space-between;
   gap: var(--gap-xl);
   text-align: right;
 }
+
 .sizeParent {
   align-self: stretch;
   border-top: 1px solid var(--color-gainsboro-200);
@@ -260,11 +292,13 @@ body {
   padding: var(--padding-3xs) 0 var(--padding-xs);
   gap: var(--gap-39xl);
 }
+
 .owner {
   flex: 1;
   font-weight: 500;
   min-width: 40px;
 }
+
 .div4,
 .div5,
 .owner {
@@ -272,24 +306,29 @@ body {
   line-height: 150%;
   display: inline-block;
 }
+
 .div4 {
   min-width: 28px;
 }
+
 .div5 {
   width: 30px;
 }
+
 .container,
 .ownerParent {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
+
 .container {
   width: 105px;
   justify-content: space-between;
   gap: var(--gap-xl);
   text-align: right;
 }
+
 .ownerParent {
   align-self: stretch;
   border-top: 1px solid var(--color-gainsboro-200);
@@ -297,6 +336,7 @@ body {
   padding: var(--padding-3xs) 0 var(--padding-xs);
   gap: var(--gap-39xl);
 }
+
 .div6,
 .div7,
 .row4 {
@@ -304,26 +344,31 @@ body {
   line-height: 150%;
   display: inline-block;
 }
+
 .row4 {
   height: 24px;
   flex: 1;
   font-weight: 500;
   min-width: 203px;
 }
+
 .div6,
 .div7 {
   align-self: stretch;
   width: 28px;
 }
+
 .div7 {
   width: 30px;
 }
+
 .parent1,
 .row4Parent {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
+
 .parent1 {
   height: 24px;
   width: 105px;
@@ -331,6 +376,7 @@ body {
   gap: var(--gap-xl);
   text-align: right;
 }
+
 .row4Parent {
   align-self: stretch;
   border-top: 1px solid var(--color-gainsboro-200);
@@ -338,6 +384,7 @@ body {
   padding: var(--padding-3xs) 0 var(--padding-xs);
   gap: var(--gap-39xl);
 }
+
 .div8,
 .div9,
 .row5 {
@@ -345,26 +392,31 @@ body {
   line-height: 150%;
   display: inline-block;
 }
+
 .row5 {
   height: 24px;
   flex: 1;
   font-weight: 500;
   min-width: 203px;
 }
+
 .div8,
 .div9 {
   align-self: stretch;
   width: 28px;
 }
+
 .div9 {
   width: 30px;
 }
+
 .parent2,
 .row5Parent {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
+
 .parent2 {
   height: 24px;
   width: 105px;
@@ -372,6 +424,7 @@ body {
   gap: var(--gap-xl);
   text-align: right;
 }
+
 .row5Parent {
   align-self: stretch;
   border-top: 1px solid var(--color-gainsboro-200);
@@ -379,6 +432,7 @@ body {
   padding: var(--padding-3xs) 0 var(--padding-xs);
   gap: var(--gap-39xl);
 }
+
 .div10,
 .div11,
 .row6 {
@@ -386,26 +440,31 @@ body {
   line-height: 150%;
   display: inline-block;
 }
+
 .row6 {
   height: 24px;
   flex: 1;
   font-weight: 500;
   min-width: 203px;
 }
+
 .div10,
 .div11 {
   align-self: stretch;
   width: 28px;
 }
+
 .div11 {
   width: 30px;
 }
+
 .parent3,
 .row6Parent {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
+
 .parent3 {
   height: 24px;
   width: 105px;
@@ -413,6 +472,7 @@ body {
   gap: var(--gap-xl);
   text-align: right;
 }
+
 .row6Parent {
   align-self: stretch;
   border-top: 1px solid var(--color-gainsboro-200);
@@ -420,6 +480,7 @@ body {
   padding: var(--padding-3xs) 0 var(--padding-xs);
   gap: var(--gap-39xl);
 }
+
 .div12,
 .div13,
 .row7 {
@@ -427,20 +488,24 @@ body {
   line-height: 150%;
   display: inline-block;
 }
+
 .row7 {
   height: 24px;
   flex: 1;
   font-weight: 500;
   min-width: 203px;
 }
+
 .div12,
 .div13 {
   align-self: stretch;
   width: 28px;
 }
+
 .div13 {
   width: 30px;
 }
+
 .list,
 .parent4,
 .row7Parent,
@@ -448,6 +513,7 @@ body {
   display: flex;
   align-items: flex-start;
 }
+
 .parent4 {
   height: 24px;
   width: 105px;
@@ -456,11 +522,13 @@ body {
   gap: var(--gap-xl);
   text-align: right;
 }
+
 .list,
 .row7Parent,
 .table {
   justify-content: flex-start;
 }
+
 .row7Parent {
   align-self: stretch;
   border-top: 1px solid var(--color-gainsboro-200);
@@ -468,15 +536,17 @@ body {
   padding: var(--padding-3xs) 0 var(--padding-xs);
   gap: var(--gap-39xl);
 }
+
 .list,
 .table {
   flex-shrink: 0;
   flex-direction: column;
 }
+
 .list {
   align-self: stretch;
-  debug_commit: bf4bc93;
 }
+
 .table {
   height: 232px;
   width: 494px;
@@ -489,11 +559,13 @@ body {
   gap: var(--gap-3xs);
   max-width: 100%;
 }
+
 .secondaryButton,
 .table {
   z-index: 1;
   color: white;
 }
+
 .vectorParent {
   align-self: stretch;
   border: 0 solid var(--color-gray-300);
@@ -502,12 +574,12 @@ body {
   flex-direction: row;
   align-items: flex-end;
   justify-content: flex-start;
-  padding: var(--padding-6xl) var(--padding-10xl) var(--padding-6xl-5)
-    var(--padding-13xl);
+  padding: var(--padding-6xl) var(--padding-10xl) var(--padding-6xl-5) var(--padding-13xl);
   gap: var(--gap-14xl);
   max-width: 100%;
   font-size: var(--small-text-size);
 }
+
 .frameGroup,
 .frameWrapper {
   display: flex;
@@ -515,10 +587,12 @@ body {
   align-items: flex-start;
   max-width: 100%;
 }
+
 .frameGroup {
   align-self: stretch;
   justify-content: flex-start;
 }
+
 .frameWrapper {
   width: 719px;
   justify-content: flex-end;
@@ -526,6 +600,7 @@ body {
   box-sizing: border-box;
   min-width: 719px;
 }
+
 .videoPlayerParent {
   padding: 20px;
   align-self: stretch;
@@ -537,44 +612,50 @@ body {
   gap: var(--gap-xl);
   margin-top: -27px;
 }
+
 .frameParent {
   width: 1254.5px;
-  /* height: 100%; */
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start;*/
-  /* justify-content: space-evenly;  */
   max-width: 100%;
   text-align: left;
   font-size: var(--font-size-11xl);
   color: var(--color-white);
   font-family: var(--small-text);
 }
+
 @media screen and (max-width: 1350px) {
+
   .frameWrapper,
   .videoPlayer {
     flex: 1;
   }
+
   .videoPlayerParent {
     flex-wrap: wrap;
   }
 }
+
 @media screen and (max-width: 1150px) {
   .frameWrapper {
     min-width: 100%;
   }
 }
+
 @media screen and (max-width: 800px) {
+
   .details,
   .details1,
   .video {
     font-size: var(--subheading-size);
     line-height: 43px;
   }
+
   .frameDiv {
     flex-wrap: wrap;
     gap: var(--gap-xl);
   }
+
   .nameParent,
   .ownerParent,
   .row4Parent,
@@ -585,24 +666,29 @@ body {
     flex-wrap: wrap;
     gap: var(--gap-10xl);
   }
+
   .table {
     height: auto;
     padding-top: var(--padding-28xl);
     padding-bottom: var(--padding-81xl);
     box-sizing: border-box;
   }
+
   .vectorParent {
     flex-wrap: wrap;
     gap: var(--gap-base);
   }
 }
+
 @media screen and (max-width: 450px) {
+
   .details,
   .details1,
   .video {
     font-size: var(--font-size-lg);
     line-height: 32px;
   }
+
   .titleParent {
     flex-wrap: wrap;
   }
@@ -613,13 +699,10 @@ body {
   display: inline-block;
 }
 
-.secondaryButton {
-  /* Additional button styles can go here */
-}
-
 .dropdownMenu {
   position: absolute;
-  bottom: 100%; /* Position above the button */
+  bottom: 100%;
+  /* Position above the button */
   left: 50%;
   transform: translateX(-50%);
   background-color: rgb(9, 37, 63);
@@ -657,4 +740,3 @@ body {
   margin-top: 10px;
   margin-left: 5px;
 }
-

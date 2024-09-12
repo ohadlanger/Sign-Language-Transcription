@@ -4,7 +4,6 @@ import Fsw from "./FswComponent";
 import Vocal from "./VocalComponent.js";
 import PropTypes from "prop-types";
 
-// import 'swiper/css';
 import './swiper.css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -18,7 +17,7 @@ import { EffectCoverflow, Navigation } from 'swiper/modules';
 
 
 const FrameComponent = ({ className = "", english, fsw, vocal }) => {
-  
+
   return (
     <div className={[styles.frameWrapper, className].join(" ")}>
       <div className={styles.frameParent}>
@@ -55,7 +54,7 @@ const FrameComponent = ({ className = "", english, fsw, vocal }) => {
             <Fsw translation={fsw} />
           </SwiperSlide>
 
-          
+
           <SwiperSlide>
             <English translation={english} />
           </SwiperSlide>
@@ -65,10 +64,6 @@ const FrameComponent = ({ className = "", english, fsw, vocal }) => {
           <SwiperSlide>
             <Fsw translation={fsw} />
           </SwiperSlide>
-          
-
-
-
 
           <div className="slider-controler">
             <div className="swiper-button-prev slider-arrow">

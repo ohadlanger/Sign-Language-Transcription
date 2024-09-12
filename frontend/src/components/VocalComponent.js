@@ -7,7 +7,6 @@ const Vocal = ({ translation }) => {
     const audioRef = useRef(null);
     const videoRef = useRef();
     const [audioReady, setAudioReady] = useState(false);
-    const [audioDuration, setAudioDuration] = useState(4.3);
 
     const handleButtonClick = (event) => {
         event.stopPropagation();
@@ -33,7 +32,6 @@ const Vocal = ({ translation }) => {
 
     const handleCanPlayThrough = () => {
         setAudioReady(true);
-        setAudioDuration(audioRef.current.duration);
     };
 
     return (
@@ -52,7 +50,6 @@ const Vocal = ({ translation }) => {
                         playsInline
                         alt=""
                         src="/audio-waves.mp4"
-                        // autoPlay={true}
                         loop
                         muted
                     />

@@ -35,7 +35,6 @@ FrameComponent1.propTypes = {
   className: PropTypes.string,
   subheading: PropTypes.string,
 
-  /** Style props */
   propWidth: PropTypes.any,
   propPadding: PropTypes.any,
 };

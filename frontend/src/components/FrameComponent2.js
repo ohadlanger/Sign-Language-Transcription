@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -19,7 +19,6 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
 
 
   const onDownloadResult = async () => {
-    console.log(example)
     if (example) {
       const link = document.createElement('a');
       link.href = "/example.mp4";
@@ -72,7 +71,6 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
     <div className={[styles.frameParent, className].join(" ")}>
       <div className={styles.videoPlayerParent}>
 
-        {/* <VideoComponent video={video} skeletonUrl={skeletonUrl} example={example}/> */}
         <VideoComponent video={video} skeletonVideo={skeletonVideo} example={example} />
         <div className={styles.frameWrapper}>
           <div className={styles.frameGroup}>
@@ -141,7 +139,7 @@ const FrameComponent2 = ({ className = "", video, result, skeletonVideo = null, 
               </div>
               <div className={styles.dropdownContainer} onMouseLeave={closeMenu}>
                 {showMenu && (
-                  <div className={styles.dropdownMenu} onMouseLeave={closeMenu}>
+                  <div className={styles.dropdownMenu}>
                     <ul>
                       <li><button className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
                       <li><button className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>

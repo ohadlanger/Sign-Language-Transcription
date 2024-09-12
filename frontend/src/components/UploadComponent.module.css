@@ -21,7 +21,6 @@
 
 .options {
     font-size: large;
-    /* color: white; */
     color: gray;
 }
 
@@ -33,7 +32,6 @@
     color: gray;
     font-size: medium;
 }
-
 
 .border {
     border: 2px dashed white;
@@ -51,10 +49,6 @@
     padding: 20px;
     cursor: pointer;
 }
-/* 
-.input {
-    display: none;
-} */
 
 .options, .extentions {
     margin: 0;
@@ -70,10 +64,7 @@
     width: 250px;
 }
 
-
 .coloredBorder {
-    /* border-color: cadetblue !important; */
-     /* #2d4561 */
     background-color: #3b5d88;
 }
 

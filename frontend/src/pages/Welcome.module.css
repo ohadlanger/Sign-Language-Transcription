@@ -1,10 +1,7 @@
 body {
   height: 100%;
-  /* Ensure the body takes full height of the viewport */
   margin: 0;
-  /* Remove default margin */
   overflow: hidden;
-  /* Prevent default scrolling on the body */
 }
 
 .frameParent {
@@ -19,13 +16,15 @@ body {
 .frameParent {
   display: flex;
   align-items: center;
-  /* justify-content: flex-start; */
 }
 
 .aboutInner {
-  flex-direction: row; /* Assuming it's a flex container */
-  padding: 0 var(--padding-28xl, 20px) 15px; /* Adjusted default padding */
-  box-sizing: border-box; /* Include padding and border in element dimensions */
+  flex-direction: row;
+  /* Assuming it's a flex container */
+  padding: 0 var(--padding-28xl, 20px) 15px;
+  /* Adjusted default padding */
+  box-sizing: border-box;
+  /* Include padding and border in element dimensions */
 }
 
 
@@ -33,13 +32,11 @@ body {
 .about {
   width: 100%;
   height: 100%;
-  /* Ensure the container takes full height of the viewport */
   position: fixed;
   bottom: 0;
   top: 0;
   background-color: #2d4561;
   overflow: auto;
-  /* Enable scrolling */
   flex-direction: column;
   gap: 25px;
   line-height: normal;
@@ -59,7 +56,6 @@ body {
     gap: var(--gap-mid);
   }
 }
-
 
 .divider {
   background-color: white;
