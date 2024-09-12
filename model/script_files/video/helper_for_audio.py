@@ -165,6 +165,9 @@ def cut_audio(audio: AudioFileClip, start: int, end: int):
 
 
 def ms_to_srt_format(milliseconds):
+    """
+    This function takes milliseconds and returns a string in the srt format.
+    """
     seconds = milliseconds / 1000.0
 
     time_delta = datetime.timedelta(seconds=seconds)

@@ -1,24 +1,28 @@
 import random
+import os
+import subprocess
+import json
+import socket
+import openai
 
 from gtts import gTTS
-import os
 import pyttsx3
 import cv2
-from keras.models import load_model
 import numpy as np
 from PIL import Image
+from keras.models import load_model
 from moviepy.editor import VideoFileClip
 from joeynmt.constants import BOS_TOKEN, EOS_TOKEN, PAD_TOKEN, UNK_TOKEN
 from signwriting.tokenizer.signwriting_tokenizer import SignWritingTokenizer
-import subprocess
 import pympi
-import json
-import openai
-import socket
 from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
 
 
 def sockeye_translate_activate_communication(input_file, output_file):
+    """
+    This function interacts with the Sockeye translation service.
+    """
+
     connection = None
     ip = '192.168.1.103'
     port = 12345
@@ -30,7 +34,6 @@ def sockeye_translate_activate_communication(input_file, output_file):
             connection.connect((ip, port))
             connection.sendall(all_data)
             connection.shutdown(socket.SHUT_WR)
-            print("Data sent to bridge")
 
             response = b""
             while True:
@@ -41,16 +44,16 @@ def sockeye_translate_activate_communication(input_file, output_file):
             if response != b"":
                 with open(output_file, 'wb') as file:
                     file.write(response)
-                print("Response received and saved to file")
-            else:
-                print("No data received from bridge.")
         finally:
             if connection is not None:
                 connection.close()
 
 
 def modify_phrase(predictions_list):
-    return predictions_list[0].split()[0]
+    """
+    This function rephrase the predictions list to a sentence.
+    """
+
     # Set the prompt
     static_text = ("Create a grammatically correct sentence by selecting exactly one word from each set, ensuring that "
                    "no two words from the same set belong to the same category, don't add new word. Use all sets:")
@@ -78,6 +81,10 @@ def modify_phrase(predictions_list):
 
 
 def signWriting_to_text(signWriting_path, working_dir, Video_language):
+    """
+    This function translates signWriting to text.
+    """
+
     predictions = []
     kwargs = {'init_token': BOS_TOKEN,
               'eos_token': EOS_TOKEN,
@@ -107,7 +114,7 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
             aes = f'$en ${sign_writing_language} {" ".join(ase)}'
             file2.write(f'{aes}\n')
 
-    # Translate the signWriting to text
+    # Translate the signWriting to text (Can't be executed in the current environment - Intel required)
     # cmd = ['python', '-m', 'sockeye.translate', '-m', './translation/model_file/sockeye-signwriting-to-text', '--input',
     #        f'{working_dir}/input_file.txt', '--output', f'{working_dir}/output_bpe.txt', '--nbest-size=3']
     # with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
@@ -127,7 +134,7 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
     output_file = f'{working_dir}/output.txt'
     try:
         sockeye_translate_activate_communication(input_file, output_bpe_file)
-    except Exception as e:
+    except Exception as _:
         return "this is sing language translation service"
 
     cmd = ['sed', '-re', 's/(@@ |@@$)//g']
@@ -149,14 +156,19 @@ def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='wi
     """
     This function takes a pose file and translates it to signWriting.
     """
+
     pose_path = str(pose_path.absolute())
     cmd = ['pose_to_signwriting', f'--pose={pose_path}', f'--elan={elan_path}', f'--strategy={strategy}',
            f'--model={model}']
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
-        stdout, stderr = sub.communicate()  # Capture the output and error
+        sub.wait()
 
 
 def extract_elan_translations(elan_path, output_path):
+    """
+    This function extracts the translations from the elan file, and saves them in a text file.
+    """
+
     def fix_and_remove_duplicates(hyp: str):
         lst = hyp.split('S')
         lst = [f'S{x}' if x[0] != 'M' else x for x in lst]
@@ -197,10 +209,12 @@ def extract_elan_translations(elan_path, output_path):
     trans_list = []
     eaf = pympi.Elan.Eaf(file_path=elan_path)
     sign_annotations = eaf.get_annotation_data_for_tier("SIGN")
+    # Extract the translations
     for trans in sign_annotations:
         trans_list.append(trans[2])
     with open(output_path / 'signWriting_translation.txt', 'w') as file:
         for trans in trans_list:
+            # Fix and remove duplicates
             file.write(f'{fix_and_remove_duplicates(trans)}\n')
 
 
@@ -208,6 +222,7 @@ def text_to_speech(text, output_folder, name, gender='male'):
     """
     Convert text to speech with the specified gender.
     """
+
     output_file = output_folder / name
     output_wav = output_folder / 'output.wav'
     if gender not in ['male', 'female']:
@@ -233,6 +248,10 @@ def text_to_speech(text, output_folder, name, gender='male'):
 
 
 def model_redict(image, x, y, w, h, model):
+    """
+    This makes a prediction on the specific region of the image.
+    """
+
     # Crop the face from the image
     center_x = x + w / 2
     center_y = y + h / 2
@@ -250,6 +269,10 @@ def model_redict(image, x, y, w, h, model):
 
 
 def classify_gender(image_path, model):
+    """
+    This function classifies the image to gender.
+    """
+
     # hyperparameters
     scaleFactor = 1.05
     minNeighbor = 3
