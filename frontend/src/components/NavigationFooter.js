@@ -13,28 +13,28 @@ const NavigationFooter = ({ className = "" }) => {
   };
 
   let onGithub = () => {
-    const githubUrl = "https://github.com/ohadlanger/Sign-Language-Transcription.git";
-    window.open(githubUrl, '_blank');
+    const url = "https://github.com/ohadlanger/Sign-Language-Transcription.git";
+    window.open(url, '_blank');
   };
 
   let onHuggingFace = () => {
-    const githubUrl = "https://huggingface.co/spaces/ohadlanger/signwriting_transcription/tree/main";
-    window.open(githubUrl, '_blank');
+    const url = "https://huggingface.co/spaces/ohadlanger/signwriting_transcription/tree/main";
+    window.open(url, '_blank');
   };
 
   let onSheets = () => {
-    const githubUrl = "https://docs.google.com/spreadsheets/d/19mluHVMTjIraUWxxJ5FaDFk0nNZOx2fNFsRbo3tc50Q/edit?usp=sharing";
-    window.open(githubUrl, '_blank');
+    const url = "https://docs.google.com/spreadsheets/d/19mluHVMTjIraUWxxJ5FaDFk0nNZOx2fNFsRbo3tc50Q/edit?usp=sharing";
+    window.open(url, '_blank');
   };
 
   let onYoutube = () => {
-    const githubUrl = "https://www.youtube.com/@SignLanguageTranscription";
-    window.open(githubUrl, '_blank');
+    const url = "https://www.youtube.com/@SignLanguageTranscription";
+    window.open(url, '_blank');
   };
 
   let onPowerpoint = () => {
-    const githubUrl = "https://docs.google.com/spreadsheets/d/19mluHVMTjIraUWxxJ5FaDFk0nNZOx2fNFsRbo3tc50Q/edit?usp=sharing";
-    window.open(githubUrl, '_blank');
+    const url = "https://docs.google.com/spreadsheets/d/19mluHVMTjIraUWxxJ5FaDFk0nNZOx2fNFsRbo3tc50Q/edit?usp=sharing";
+    window.open(url, '_blank');
   };
 
   return (

@@ -16,7 +16,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Navigation } from 'swiper/modules';
 
 
-const ResultsComponent = ({ className = "", english, fsw, vocal }) => {
+const ResultsComponent = ({ className = "", english, fsw, vocal, example }) => {
 
   return (
     <div className={[styles.frameWrapper, className].join(" ")}>
@@ -45,24 +45,24 @@ const ResultsComponent = ({ className = "", english, fsw, vocal }) => {
 
 
           <SwiperSlide>
-            <English translation={english} />
+            <English translation={english} example={example}/>
           </SwiperSlide>
           <SwiperSlide>
-            <Vocal translation={vocal} />
+            <Vocal translation={vocal} example={example}/>
           </SwiperSlide>
           <SwiperSlide>
-            <Fsw translation={fsw} />
+            <Fsw translation={fsw} example={example}/>
           </SwiperSlide>
 
 
           <SwiperSlide>
-            <English translation={english} />
+            <English translation={english} example={example}/>
           </SwiperSlide>
           <SwiperSlide>
-            <Vocal translation={vocal} />
+            <Vocal translation={vocal} example={example}/>
           </SwiperSlide>
           <SwiperSlide>
-            <Fsw translation={fsw} />
+            <Fsw translation={fsw} example={example}/>
           </SwiperSlide>
 
           <div className="slider-controler">

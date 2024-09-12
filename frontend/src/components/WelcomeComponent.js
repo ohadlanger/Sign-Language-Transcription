@@ -31,7 +31,7 @@ const Welcome = () => {
 
             <div style={{ margin: "10px", marginLeft: "0px"}}>
                 Introduction:&nbsp;
-                <a href="https://1drv.ms/p/c/d8aeeeb13ff122a0/EV9EVQzTQAlLqdz_ldCirjoBJafncIsxUL86hKXjzLArnQ?e=4AepNy" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Video</a>
+                <a href="https://www.youtube.com/@SignLanguageTranscription" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Video</a>
                 &nbsp;/&nbsp;
                 <a href="https://1drv.ms/p/c/d8aeeeb13ff122a0/EV9EVQzTQAlLqdz_ldCirjoBJafncIsxUL86hKXjzLArnQ?e=4AepNy" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Presentation</a>
             </div>

@@ -21,10 +21,10 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
   const onDownloadResult = async () => {
     if (example) {
       const link = document.createElement('a');
-      link.href = "/example.mp4";
-      link.download = 'video.mp4';
+      link.href = "/result_example.mp4";
+      link.download = 'result.mp4';
       link.click();
-      URL.revokeObjectURL("/example.mp4");
+      URL.revokeObjectURL("/result_example.mp4");
     }
     else if (result) {
       console.log("Downloading...");
@@ -47,7 +47,7 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
     if (example) {
       const link = document.createElement('a');
       link.href = "/skeleton.mp4";
-      link.download = 'video.mp4';
+      link.download = 'skeleton.mp4';
       link.click();
       URL.revokeObjectURL("/skeleton.mp4");
     }

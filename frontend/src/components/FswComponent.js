@@ -17,10 +17,11 @@ const SvgComponent = ({ svgContent }) => {
 
 
 
-const Fsw = ({ translation }) => {
+const Fsw = ({ translation, example }) => {
     const [imageSrc, setImageSrc] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
 
     useEffect(() => {
         if (translation) {
@@ -33,7 +34,9 @@ const Fsw = ({ translation }) => {
         }
     }, [translation]);
 
-    if (loading) {
+
+
+    if (loading && !example) {
         return (
             <div className={styles.paragraphWithIcon}>
                 <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
@@ -52,8 +55,12 @@ const Fsw = ({ translation }) => {
         e.stopPropagation();
     };
 
+
+    if (example) {
+        translation = "M507x523S15a20494x496S26500493x477\nM522x525S11511498x491S11519479x498S20600489x476\nM553x568S27102538x528S30300482x477S14c01508x529S14c07464x528S27116444x528S30c30489x495";
+    }
     let signs = [];
-    const split = translation.split(' ');
+    const split = translation.split('\n');
     for (let i = 0; i < split.length; i++) {
         split[i] = (split[i][0] === 'A' || split[i][0] === 'M') ? split[i] : ('M500x500' + split[i]);
         signs = [...signs, lib.fsw.signSvg(split[i])];
@@ -64,11 +71,11 @@ const Fsw = ({ translation }) => {
             onMouseDown={preventPropagation}
             onMouseMove={preventPropagation}
             onMouseUp={preventPropagation}>
-            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', scale:'1.2'}}>
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center', scale: '1.2' }}>
                 <img className={styles.icon} loading="lazy" alt="" src="/signing1.png" />
                 <h3 className={styles.subheading}>SignWriting (FSW)</h3>
             </div>
-            <div id="html_signtext" style={{ "width": "500px", "height": "500px" }}
+            <div id="html_signtext" style={{ width: "500px", height: "500px" }}
             >
                 <div className="signtext">
                     <span className="outside">

@@ -141,7 +141,7 @@ const About = ({ video, setVideo, language, setLanguage }) => {
           <div className={styles.frameParent}>
             <DetailsComponent video={video} result={result} example={example} />
             <div className={styles.divider}></div>
-            <ResultsComponent english={english} fsw={fsw} vocal={vocal} />
+            <ResultsComponent english={english} fsw={fsw} vocal={vocal} example={example}/>
           </div>
         </section >
         <NavigationFooter />
@@ -155,9 +155,9 @@ const About = ({ video, setVideo, language, setLanguage }) => {
       {(result && skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
-            <DetailsComponent video={video} result={result} skeletonVideo={skeletonVideo} language={language.label}/>
+            <DetailsComponent video={video} result={result} skeletonVideo={skeletonVideo} language={language.label} example={example}/>
             <div className={styles.divider}></div>
-            <ResultsComponent video={video} english={english} fsw={fsw} vocal={vocal} />
+            <ResultsComponent video={video} english={english} fsw={fsw} vocal={vocal} example={example}/>
           </div>
         </section >
       ) : (
