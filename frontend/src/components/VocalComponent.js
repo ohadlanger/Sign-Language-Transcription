@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import styles from "./ResultsComponent.module.css";
 import './index.css';
 
-const Vocal = ({ translation }) => {
+const Vocal = ({ translation, example }) => {
 
     const audioRef = useRef(null);
     const videoRef = useRef();
@@ -12,7 +12,7 @@ const Vocal = ({ translation }) => {
         event.stopPropagation();
         
         try {
-            if (audioReady) {
+            if ((!example && audioReady) || example) {
                 videoRef.current.play();
                 audioRef.current.play();
                 setTimeout(() => {
@@ -41,7 +41,7 @@ const Vocal = ({ translation }) => {
                 <h3 className={styles.subheading}>Vocal</h3>
             </div>
             <div className={styles.bodyTextFor}>
-                <audio ref={audioRef} src={audioUrl} onCanPlayThrough={handleCanPlayThrough} />
+                <audio ref={audioRef} src={example ? "/voice_example.mp3" : audioUrl} onCanPlayThrough={handleCanPlayThrough} />
                 <button className={styles.circular} onClick={handleButtonClick}>
                     <video
                         ref={videoRef}
