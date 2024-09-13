@@ -50,7 +50,8 @@
     cursor: pointer;
 }
 
-.options, .extentions {
+.options,
+.extentions {
     margin: 0;
 }
 
@@ -75,4 +76,8 @@
 
 .error {
     visibility: visible !important;
+}
+
+input[type="file"]::file-selector-button {
+    color: rgb(0, 0, 0);
 }
