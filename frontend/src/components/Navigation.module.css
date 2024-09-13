@@ -73,7 +73,7 @@
 .navigation {
   align-self: stretch;
   background-color: var(--color-gray-200);
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   gap: var(--gap-xl);
   text-align: left;

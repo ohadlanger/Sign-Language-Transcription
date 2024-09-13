@@ -28,12 +28,12 @@ const Navigation = ({ className = "", back = null, setVideo, setLanguage }) => {
             loading="lazy"
             alt=""
             src="/logo.png"
-            style={{ width: "40px", scale: "0.7" }}
+            style={{ width: "60px", scale: "0.7" }}
           />
           Sign Language Transcription
         </span>
       </div>
-      <div className={styles.wrapper} style={{ display: 'flex', flexDirection: 'row' }}>
+      <div className={styles.wrapper} style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
         <div className={styles.frameParent} style={{ display: 'flex', flexDirection: 'column' }}>
           <div className={styles.pageFrame}>
             <div className={styles.name}>Ohad Langer</div>

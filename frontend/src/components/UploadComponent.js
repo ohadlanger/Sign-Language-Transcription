@@ -8,7 +8,8 @@ const options = [
     { value: 'ca', label: 'Catalan' },
     { value: 'de', label: 'German' },
     { value: 'de-CH', label: 'Swiss-German' },
-    { value: 'en', label: 'English' },
+    { value: 'en', label: 'English (American)' },
+    { value: 'en', label: 'English (British)' },
     { value: 'en-NG', label: 'Nigerian' },
     { value: 'es', label: 'Spanish' },
     { value: 'fr', label: 'French' },
@@ -129,7 +130,7 @@ const Upload = ({ video, setVideo, language, setLanguage }) => {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <img src='/upload2.png' className={styles.image} alt="Upload" />
-                        <input className="form-control" variant="outline-light" accept="video/*" type="file" id="formFile" onChange={handleFileChange} style={{ margin: '10px', backgroundColor: 'transparent' }} />
+                        <input className="form-control" variant="outline-light" accept="video/*" type="file" id="formFile" onChange={handleFileChange} style={{ margin: '10px', backgroundColor: 'transparent', color:'white' }} />
                         <Button id="upload" className={styles.button} variant="outline-light" onClick={handleSubmit}>Upload</Button>
                     </div>
                     <Button className={styles.button} variant="outline-light" onClick={handleExample}>Example Video</Button>
