@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 import styles from "./DetailsComponent.module.css";
 import VideoComponent from './VideoComponent';
 
-const DetailsComponent = ({ className = "", video, result, skeletonVideo = null, example = false, language = 'English' }) => {
+const DetailsComponent = ({ className = "", video, result, skeletonVideo = null, example = false, language = 'English (American)' }) => {
 
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => {
