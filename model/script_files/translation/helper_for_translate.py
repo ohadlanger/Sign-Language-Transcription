@@ -106,19 +106,21 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
         'en-NG': 'nsi',  # Nigerian -> Nigerian Sign Language (NSI)
         'fr-BE': 'sfb'  # French-Belgian -> Belgian-French Sign Language (SFB)
     }
+    return "this is sing language translation service"
     sign_writing_language = sign_language_mapping[Video_language] if Video_language in sign_language_mapping else 'ase'
     tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
     with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
         for line in file:
-            ase = [tokenizer.i2s[s] for s in tokenizer.tokenize(line)]
-            aes = f'$en ${sign_writing_language} {" ".join(ase)}'
-            file2.write(f'{aes}\n')
+            tokenized = [tokenizer.i2s[s] for s in tokenizer.tokenize(line)]
+            tokenized = f'$en ${sign_writing_language} {" ".join(tokenized)}'
+            file2.write(f'{tokenized}\n')
 
     # Translate the signWriting to text (Can't be executed in the current environment - Intel required)
     # cmd = ['python', '-m', 'sockeye.translate', '-m', './translation/model_file/sockeye-signwriting-to-text', '--input',
     #        f'{working_dir}/input_file.txt', '--output', f'{working_dir}/output_bpe.txt', '--nbest-size=3']
     # with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
     #     stdout, stderr = sub.communicate()  # Capture the output and error
+    #
     # ask using the api, fetch 197.0.0.1:5000 (it used tcp) with the text that contain {working_dir}/input_file.txt
     # and the output will be {working_dir}/output_bpe.txt
     # ip = '197.0.0.1'
@@ -152,7 +154,7 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
     return phrase
 
 
-def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='wide'):
+def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='tight'):
     """
     This function takes a pose file and translates it to signWriting.
     """
@@ -276,7 +278,6 @@ def classify_gender(image_path, model):
     im = Image.open(image_path)
     main_face = max(faces, key=lambda rec: rec[2] * rec[3])
     (x, y, w, h) = main_face
-    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 4)
     label = model_redict(im, x, y, w, h, model)
     return label
 

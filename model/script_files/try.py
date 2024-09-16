@@ -447,8 +447,8 @@ from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetri
 def fix_and_remove_duplicates(hyp: str):
     lst = [f'S{x}' if x[0] != 'M' else x for x in hyp.split('S')]
 
-    lst = normalize_by_face(lst)
-    lst = normalize_by_neighbours(lst)
+    # lst = normalize_by_face(lst)
+    # lst = normalize_by_neighbours(lst)
 
     return ''.join(lst)
 

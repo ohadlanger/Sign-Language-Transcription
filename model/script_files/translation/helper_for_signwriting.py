@@ -4,7 +4,7 @@ from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetri
 body_part_classes = {'hands_shapes': range(0x100, 0x205), 'facial_expressions': range(0x30A, 0x36A),
                      'head': range(0x2FF, 0x36A), 'arrow_range': range(0x221, 0x2f7)}
 Class, Id, X, Y = slice(1, 4), slice(4, 6), slice(6, 9), slice(10, 13)
-buffer = 7
+buffer, HEX = 7, 16
 
 
 def new_distance(distance, max_distance):
@@ -16,11 +16,11 @@ def new_distance(distance, max_distance):
 
 
 def normalize_by_face(symbols):
-    face = next((symbol for symbol in symbols if int(symbol[Class], 16) in body_part_classes['head']), None)
+    face = next((symbol for symbol in symbols if int(symbol[Class], HEX) in body_part_classes['head']), None)
     if not face:
         return symbols
     expanded = [symbols.pop(0), face]
-    symbols = [symbol for symbol in symbols if int(symbol[Class], 16) not in body_part_classes['head']]
+    symbols = [symbol for symbol in symbols if int(symbol[Class], HEX) not in body_part_classes['head']]
     face_coord = [int(face[X]), int(face[Y])]
 
     distances = [(symbol, [int(symbol[X]) - face_coord[0], int(symbol[Y]) - face_coord[1]]) for symbol in symbols]
@@ -40,7 +40,7 @@ def normalize_by_neighbours(symbols):
     coordinates = [tuple(int(pos) for pos in symbols[i][6:].split('x')) for i in range(len(symbols))]
 
     for i in range(len(symbols)):
-        body_symbol_class = int(symbols[i][Class], 16)
+        body_symbol_class = int(symbols[i][Class], HEX)
         x, y = coordinates[i]
         for j in range(1, len(final_lst)):
             x2, y2 = coordinates[j - 1]
