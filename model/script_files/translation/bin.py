@@ -41,19 +41,23 @@ def main():
         # make translations
         if args.text_translation:
             if args.signWriting_translation:
-                text_path = output_path / 'signWriting_translation.txt'
+                signWriting_path = output_path / 'signWriting_translation.txt'
             else:
                 extract_elan_translations(temp_elan_path, Path(temp_dir))
-                text_path = Path(temp_dir) / 'signWriting_translation.txt'
+                signWriting_path = Path(temp_dir) / 'signWriting_translation.txt'
 
-            text_translation = signWriting_to_text(text_path, temp_dir, args.sign_writing_language)
+            text_translation = signWriting_to_text(signWriting_path, temp_dir, args.sign_writing_language)
             with open(output_path / 'text_translation.txt', 'w') as file:
-                file.write(" ".join(text_translation))
+                file.write(text_translation)
 
         # make voice translation
         if args.voice_translation is not None:
-            if text_translation is None:
+            if text_translation is None and args.signWriting_translation:
                 text_translation = signWriting_to_text(temp_elan_path, Path(temp_dir), args.sign_writing_language)
+            if text_translation is None and not args.signWriting_translation:
+                extract_elan_translations(temp_elan_path, Path(temp_dir))
+                signWriting_path = Path(temp_dir) / 'signWriting_translation.txt'
+                text_translation = signWriting_to_text(signWriting_path, temp_dir, args.sign_writing_language)
             gender = video_to_gender(Path(args.video_path))
             text_to_speech(text_translation, output_path, 'voice_translation.mp3', gender)
         print('Done Successfully...')

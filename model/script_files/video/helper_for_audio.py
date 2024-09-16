@@ -75,26 +75,6 @@ def pose_to_segments(pose_path: Path, eaf_path: Path, dim_info=None):
             last_annotation_start, last_annotation_end, last_annotation_value = last_annotation
             eaf.remove_annotation('SIGN', last_annotation_start)
             eaf.add_annotation('SIGN', last_annotation_start, end, last_annotation_value)
-
-            # iterative over the rest of the annotations and adding buffer of size 5% to the diff between the Sign
-            if len(sign_annotations) >= 2:
-                buffer = 0.05
-                for i in range(len(sign_annotations)):
-                    annotation = sign_annotations[i]
-                    annotation_start, annotation_end, annotation_value = annotation
-                    new_start, new_end = annotation_start, annotation_end
-                    # update the start time of the annotation
-                    if i != 0:
-                        new_start = math.ceil(annotation_start / 100) * 100
-                    # update the end time of the previous annotation
-                    if i != len(sign_annotations) - 1:
-                        next_annotation = sign_annotations[i + 1]
-                        next_annotation_start, _, _ = next_annotation
-                        difference_padding = round((next_annotation_start - annotation_end) * buffer / 10) * 10
-                        tight_end = math.floor(next_annotation_start / 100) * 100
-                        new_end = tight_end - difference_padding
-                    eaf.remove_annotation('SIGN', annotation_start)
-                    eaf.add_annotation('SIGN', new_start, new_end, annotation_value)
         else:
             # Add a new annotation if the "SIGN" tier is empty
             eaf.add_annotation('SIGN', start, end, '')
@@ -152,10 +132,10 @@ def cut_audio(audio: AudioFileClip, start: int, end: int):
     start_s = start / 1000
     end_s = end / 1000
     speed_factor = audio.duration / (end_s - start_s)
-    speed_factor = min(0.85, max(1.15, speed_factor))
+    speed_factor = min(0.9, max(1.15, speed_factor))
     audio = speedx(audio, factor=speed_factor)
     # Create a one-second silence audio clip
-    silence_duration = 1  # in seconds
+    silence_duration = max(1, int(start_s))  # to avoid negative duration
     silence = AudioClip(lambda t: 0, duration=silence_duration)
     audio = concatenate_audioclips([silence, audio])
     audio.write_audiofile('temp.mp3')
