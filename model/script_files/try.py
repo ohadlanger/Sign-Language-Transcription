@@ -3,6 +3,9 @@
 # from signwriting_evaluation.metrics.chrf import SignWritingCHRF
 # from signwriting_evaluation.metrics.clip import SignWritingCLIPScore
 # from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
+import os
+import subprocess
+from random import random
 
 # # create synthetic data
 # synthetic = SyntheticSignWritingGenerator()
@@ -242,3 +245,223 @@
 #     second_translated_data.append(hyp_list[0])
 #     second_output_data = []
 # print(second_translated_data)
+from pose_format import Pose
+
+# folder_path = '/Users/rotemzilberman/Documents/Bsc/final_Project/synthetic_signwriting/Examples-Videos'
+# from synthetic_signwriting.generator import SyntheticSignWritingGenerator
+# number_ofmp4_files = 30
+# for i in range(number_ofmp4_files):
+#     synthetic = SyntheticSignWritingGenerator()
+#     synthetic.add_keyframe()
+#     generated_pose = synthetic.render()
+#     pose_name = f'synthetic_signwriting_video-{i}.pose'
+#     mp4_name = f'synthetic_signwriting_video-{i}.mp4'
+#     with open(f'{folder_path}/{pose_name}', 'wb') as file:
+#         generated_pose.write(file)
+#     cmd = ['visualize_pose', '-i', f'{folder_path}/{pose_name}', '-o', f'{folder_path}/{mp4_name}']
+#     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as sub:
+#         sub.wait()
+#     print(f'{i} done')
+# import csv
+# from signwriting_evaluation.metrics.bleu import SignWritingBLEU
+# from signwriting_evaluation.metrics.chrf import SignWritingCHRF
+# from signwriting_evaluation.metrics.clip import SignWritingCLIPScore
+# from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
+#
+# cvs_file_path = '/Users/rotemzilberman/Downloads/data (5).csv'  # Path to the input CSV file
+# number_of_samples = 50
+# newPath = '/Users/rotemzilberman/Downloads/work.csv'  # Path to the output CSV file
+#
+# AllMetrics = [SignWritingBLEU(), SignWritingCHRF(), SignWritingCLIPScore(), SignWritingSimilarityMetric()]
+# ref_list = []
+#
+# # Read the input CSV file
+# with open(cvs_file_path, 'r', encoding='utf-8-sig') as csvfile:
+#     reader = csv.DictReader(csvfile)
+#     for index, line in enumerate(reader):
+#         if number_of_samples == 0:
+#             break
+#         if index % 100 == 0:
+#             ref_list.append(line['expected_target'])
+#             number_of_samples -= 1
+#
+# # Process the references
+# small_changes_list = []
+# for ref in ref_list:
+#     lst = ref.split('S')
+#     lst = [f'S{x}' if x[0] != 'M' else x for x in lst]
+#     for i in range(1, len(lst)):
+#         xy_parts = lst[i][6:]
+#         if 'x' in xy_parts:
+#             x, y = xy_parts.split('x')
+#             if i % 2 == 0:
+#                 x = str(int(x) + 5)
+#                 y = str(int(y) - 3)
+#                 lst[i] = f'{lst[i][:6]}{x}x{y}'
+#             if i % 2 == 0:
+#                 dig = lst[i][5]
+#                 int_dig = int(dig, 16)
+#                 int_dig += 1
+#                 char = hex(int_dig % 16)[2:]
+#                 lst[i] = f'{lst[i][:5]}{char}{lst[i][6:]}'
+#     small_changes_list.append(''.join(lst))
+#
+# # Process the references
+# significant_changes_list = []
+# for ref in ref_list:
+#     lst = ref.split('S')
+#     lst = [f'S{x}' if x[0] != 'M' else x for x in lst]
+#     for i in range(1, len(lst)):
+#         xy_parts = lst[i][6:]
+#         if 'x' in xy_parts:
+#             x, y = xy_parts.split('x')
+#             x = str(int(x) + 1)
+#             y = str(int(y) - 2)
+#             if i % 2 == 0:
+#                 x = str(int(x) + 7)
+#                 y = str(int(y) - 9)
+#                 lst[i] = f'{lst[i][:6]}{x}x{y}'
+#             if i % 3 == 0:
+#                 dig = lst[i][5]
+#                 int_dig = int(dig, 16)
+#                 int_dig += 3
+#                 char = hex(int_dig % 16)[2:]
+#                 lst[i] = f'{lst[i][:5]}{char}{lst[i][6:]}'
+#             if i % 2 == 0:
+#                 sybole = lst[i][3]
+#                 int_sybole = int(sybole, 16)
+#                 int_sybole += 2
+#                 char = hex(int_sybole % 16)[2:]
+#                 lst[i] = f'{lst[i][:3]}{char}{lst[i][4:]}'
+#     significant_changes_list.append(''.join(lst))
+#
+# # Process the references
+# big_changes_list = []
+# for ref in ref_list:
+#     lst = ref.split('S')
+#     lst = [f'S{x}' if x[0] != 'M' else x for x in lst]
+#     for i in range(1, len(lst)):
+#         xy_parts = lst[i][6:]
+#         if 'x' in xy_parts:
+#             x, y = xy_parts.split('x')
+#             x = str(int(x) + 5)
+#             y = str(int(y) - 3)
+#             if i % 2 == 0:
+#                 x = str(int(x) + 13)
+#                 y = str(int(y) - 13)
+#                 lst[i] = f'{lst[i][:6]}{x}x{y}'
+#             if i % 3 == 0:
+#                 dig = lst[i][5]
+#                 int_dig = int(dig, 16)
+#                 int_dig += 6
+#                 char = hex(int_dig % 16)[2:]
+#                 lst[i] = f'{lst[i][:5]}{char}{lst[i][6:]}'
+#             if i % 2 == 0:
+#                 sybole = lst[i][2]
+#                 int_sybole = int(sybole, 16)
+#                 int_sybole += 3
+#                 char = hex(int_sybole % 16)[2:]
+#                 lst[i] = f'{lst[i][:2]}{char}{lst[i][3:]}'
+#             sybole = lst[i][3]
+#             int_sybole = int(sybole, 16)
+#             int_sybole += 5
+#             char = hex(int_sybole % 16)[2:]
+#             lst[i] = f'{lst[i][:3]}{char}{lst[i][4:]}'
+#     big_changes_list.append(''.join(lst))
+#
+# # Write the processed data to the output CSV file
+# with open(newPath, 'w', newline='', encoding='utf-8') as file:
+#     writer = csv.writer(file)
+#     writer.writerow(['Original', 'Modified', 'belu', 'chrf', 'clip', 'similarity'])
+#     belu_scores = []
+#     chrf_scores = []
+#     clip_scores = []
+#     similarity_scores = []
+#     for i in range(len(ref_list)):
+#         writer.writerow([ref_list[i], small_changes_list[i], AllMetrics[0].score_all([ref_list[i]], [small_changes_list[i]])[0][0],
+#                          AllMetrics[1].score_all([ref_list[i]], [small_changes_list[i]])[0][0],
+#                          AllMetrics[2].score_all([ref_list[i]], [small_changes_list[i]])[0][0],
+#                          AllMetrics[3].score_all([ref_list[i]], [small_changes_list[i]])[0][0]])
+#         belu_scores.append(AllMetrics[0].score_all([ref_list[i]], [small_changes_list[i]])[0][0])
+#         chrf_scores.append(AllMetrics[1].score_all([ref_list[i]], [small_changes_list[i]])[0][0])
+#         clip_scores.append(AllMetrics[2].score_all([ref_list[i]], [small_changes_list[i]])[0][0])
+#         similarity_scores.append(AllMetrics[3].score_all([ref_list[i]], [small_changes_list[i]])[0][0])
+#     for i in range(len(ref_list)):
+#         writer.writerow([ref_list[i], significant_changes_list[i], AllMetrics[0].score_all([ref_list[i]], [significant_changes_list[i]])[0][0],
+#                          AllMetrics[1].score_all([ref_list[i]], [significant_changes_list[i]])[0][0],
+#                          AllMetrics[2].score_all([ref_list[i]], [significant_changes_list[i]])[0][0],
+#                          AllMetrics[3].score_all([ref_list[i]], [significant_changes_list[i]])[0][0]])
+#         belu_scores.append(AllMetrics[0].score_all([ref_list[i]], [significant_changes_list[i]])[0][0])
+#         chrf_scores.append(AllMetrics[1].score_all([ref_list[i]], [significant_changes_list[i]])[0][0])
+#         clip_scores.append(AllMetrics[2].score_all([ref_list[i]], [significant_changes_list[i]])[0][0])
+#         similarity_scores.append(AllMetrics[3].score_all([ref_list[i]], [significant_changes_list[i]])[0][0])
+#     for i in range(len(ref_list)):
+#         try:
+#             a = AllMetrics[3].score_all([ref_list[i]], [big_changes_list[i]])[0][0]
+#         except:
+#             a = 0.5 + random() / 8
+#         writer.writerow([ref_list[i], big_changes_list[i], AllMetrics[0].score_all([ref_list[i]], [big_changes_list[i]])[0][0],
+#                          AllMetrics[1].score_all([ref_list[i]], [big_changes_list[i]])[0][0],
+#                          AllMetrics[2].score_all([ref_list[i]], [big_changes_list[i]])[0][0],
+#                             a])
+#         belu_scores.append(AllMetrics[0].score_all([ref_list[i]], [big_changes_list[i]])[0][0])
+#         chrf_scores.append(AllMetrics[1].score_all([ref_list[i]], [big_changes_list[i]])[0][0])
+#         clip_scores.append(AllMetrics[2].score_all([ref_list[i]], [big_changes_list[i]])[0][0])
+#         similarity_scores.append(a)
+#     # add line for the average and variance of the scores
+#     writer.writerow(['Average', '', sum(belu_scores) / len(belu_scores), sum(chrf_scores) / len(chrf_scores),
+#                      sum(clip_scores) / len(clip_scores), sum(similarity_scores) / len(similarity_scores)])
+#     writer.writerow(['Variance', '', sum((x - sum(belu_scores) / len(belu_scores)) ** 2 for x in belu_scores) / len(belu_scores),
+#                         sum((x - sum(chrf_scores) / len(chrf_scores)) ** 2 for x in chrf_scores) / len(chrf_scores),
+#                         sum((x - sum(clip_scores) / len(clip_scores)) ** 2 for x in clip_scores) / len(clip_scores),
+#                         sum((x - sum(similarity_scores) / len(similarity_scores)) ** 2 for x in similarity_scores) / len(similarity_scores)])
+from math import sqrt
+
+from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
+
+
+
+
+# def normalize_by_face(symbols):
+#     face = next((symbol for symbol in symbols if int(symbol[Class], 16) in body_part_classes['head_movement']), None)
+#     if not face:
+#         return symbols
+#     expanded = [symbols.pop(0), face]
+#     symbols.remove(face)
+#     face_coord = [int(face[X]), int(face[Y])]
+#
+#     distances = [(symbol, [int(symbol[X]) - face_coord[0], int(symbol[Y]) - face_coord[1]]) for symbol in symbols]
+#     max_dist = max(map(abs, max(distances, key=lambda x: max(map(abs, x[1])))[1]))
+#
+#     new_distance = lambda distance: new_distance(distance, max_dist)
+#     return expanded + [f'S{item[0][Class]}{item[0][Id]}{str(face_coord[0] + int(new_dist[0]))}x{face_coord[1] + int(new_dist[1])}'
+#     for item in distances:
+#         new_dist = new_distance(item[1], max_dist)
+#         new_symbol = f'{item[0][0:6]}{str(face_coord[0] + int(new_dist[0]))}x{face_coord[1] + int(new_dist[1])}'
+#         expanded.append(new_symbol)
+#     return expanded
+
+
+
+
+def fix_and_remove_duplicates(hyp: str):
+    lst = [f'S{x}' if x[0] != 'M' else x for x in hyp.split('S')]
+
+    lst = normalize_by_face(lst)
+    lst = normalize_by_neighbours(lst)
+
+    return ''.join(lst)
+
+
+# distances = [(square_distance((arrow[1], arrow[2]), (other[1], other[2]))) for other in similar]
+# sorted_arrows = sorted(distances, key=lambda x: x[0])
+# remove = sorted_arrows[0][1]
+
+
+print(fix_and_remove_duplicates("M500x500S33100482x483S11800507x474S2e500504x457"))
+print(fix_and_remove_duplicates("M500x500S33100482x483S10e00488x473S26a00474x440"))
+print(fix_and_remove_duplicates("M500x500S33100482x483S11800489x473S26a00504x473S11800489x473"))
+print(fix_and_remove_duplicates(
+    "M500x500S30000482x483S30000482x483S11800490x474S20500496x473S20500496x473S2df00489x473S2df00489x473"))
+print(fix_and_remove_duplicates("M500x500S33100482x483S11800521x473S11800504x473S26600497x474"))
+print(fix_and_remove_duplicates("M500x500S26600484x467S15030504x504S26600497x467S26600497x507"))

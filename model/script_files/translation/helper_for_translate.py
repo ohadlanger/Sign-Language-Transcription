@@ -15,7 +15,7 @@ from moviepy.editor import VideoFileClip
 from joeynmt.constants import BOS_TOKEN, EOS_TOKEN, PAD_TOKEN, UNK_TOKEN
 from signwriting.tokenizer.signwriting_tokenizer import SignWritingTokenizer
 import pympi
-from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
+from translation.helper_for_signwriting import normalize_by_face, normalize_by_neighbours
 
 
 def sockeye_translate_activate_communication(input_file, output_file):
@@ -164,47 +164,18 @@ def pose_to_signWriting(pose_path, elan_path, model='bc2de71.ckpt', strategy='wi
         sub.wait()
 
 
-def extract_elan_translations(elan_path, output_path):
+def extract_elan_translations(elan_path, output_path, normalize=True):
     """
     This function extracts the translations from the elan file, and saves them in a text file.
     """
 
     def fix_and_remove_duplicates(hyp: str):
-        lst = hyp.split('S')
-        lst = [f'S{x}' if x[0] != 'M' else x for x in lst]
-        final_lst = []
-        similarity_metric = SignWritingSimilarityMetric()
-        body_part_classes = {'hands_shapes': range(0x100, 0x205),
-                             'facial_expressions': range(0x30A, 0x36A),
-                             'head_movement': range(0x2FF, 0x30A)}
-        all_body_part_classes = set().union(*body_part_classes.values())
+        lst = [f'S{x}' if x[0] != 'M' else x for x in hyp.split('S')]
 
-        for i in range(len(lst)):
-            unique = True
-            body_symbol_class = int(lst[i][1:4], 16)
-            x, y = 0, 0
-            if body_symbol_class not in all_body_part_classes and lst[i][0] != 'M':
-                unique = False
-                x, y = tuple(int(pos) for pos in lst[i][6:].split('x'))
+        lst = normalize_by_face(lst)
+        lst = normalize_by_neighbours(lst)
 
-            for j in range(len(final_lst)):
-                if unique and similarity_metric.score_all([lst[i]], [final_lst[j]])[0][0] > 0.90:
-                    unique = False
-                    break
-                if not unique:
-                    sample_symbol_class = int(final_lst[j][1:4], 16)
-                    if sample_symbol_class in all_body_part_classes or final_lst[j][0] == 'M':
-                        continue
-                    x2, y2 = tuple(int(pos) for pos in final_lst[j][6:].split('x'))
-                    buffer = 10
-                    if abs(x - x2) < buffer and abs(y - y2) < buffer:
-                        x = x2 + 10
-            if unique:
-                final_lst.append(lst[i])
-            if body_symbol_class not in all_body_part_classes and lst[i][0] != 'M':
-                final_lst.append(f'S{body_symbol_class:03x}{lst[i][4:6]}{x}x{y}')
-
-        return ''.join(final_lst)
+        return ''.join(lst)
 
     trans_list = []
     eaf = pympi.Elan.Eaf(file_path=elan_path)
@@ -215,7 +186,10 @@ def extract_elan_translations(elan_path, output_path):
     with open(output_path / 'signWriting_translation.txt', 'w') as file:
         for trans in trans_list:
             # Fix and remove duplicates
-            file.write(f'{fix_and_remove_duplicates(trans)}\n')
+            if normalize:
+                file.write(f'{fix_and_remove_duplicates(trans)}\n')
+            else:
+                file.write(f'{trans}\n')
 
 
 def text_to_speech(text, output_folder, name, gender='male'):
