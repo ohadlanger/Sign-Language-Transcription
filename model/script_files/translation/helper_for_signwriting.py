@@ -2,7 +2,8 @@ from math import sqrt
 from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetric
 
 body_part_classes = {'hands_shapes': range(0x100, 0x205), 'facial_expressions': range(0x30A, 0x36A),
-                     'head': range(0x2FF, 0x36A), 'arrow_range': range(0x221, 0x2f7)}
+                     'head': range(0x2FF, 0x36A)}
+arrow_range = range(0x221, 0x2f7)
 Class, Id, X, Y = slice(1, 4), slice(4, 6), slice(6, 9), slice(10, 13)
 buffer, HEX = 7, 16
 
@@ -38,6 +39,9 @@ def normalize_by_neighbours(symbols):
     all_body_part_classes = set().union(*body_part_classes.values())
     final_lst = [symbols.pop(0)]
     coordinates = [tuple(int(pos) for pos in symbols[i][6:].split('x')) for i in range(len(symbols))]
+    direction_counter = sum(int(symbol[Class], HEX) in arrow_range for symbol in symbols)
+    hands_counter = sum(int(symbol[Class], HEX) in body_part_classes['hands_shapes'] for symbol in symbols)
+    hands_remover = False if hands_counter >= direction_counter else True
 
     for i in range(len(symbols)):
         body_symbol_class = int(symbols[i][Class], HEX)
@@ -49,7 +53,8 @@ def normalize_by_neighbours(symbols):
                 coordinates[i] = (x, y)
 
         new_symbol = f'S{symbols[i][Class]}{symbols[i][Id]}{x}x{y}'
-        if body_symbol_class not in all_body_part_classes:
+        if (body_symbol_class not in all_body_part_classes or
+                (not hands_remover and body_symbol_class in body_part_classes['hands_shapes'])):
             final_lst.append(new_symbol)
             continue
         max_similarity = max([similarity_metric.score_all([new_symbol], [final_lst[j]])[0][0]
