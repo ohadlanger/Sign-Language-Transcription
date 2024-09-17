@@ -21,7 +21,34 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
         let symbol1 = (document.getElementById('symbol1')).value
         let symbol2 = (document.getElementById('symbol2')).value
         setLoading(true);
-        setResult(100.0);
+
+        const fetchData = async () => {
+            try {
+                const params = {
+                    reference: symbol1,
+                    hypothesis: symbol2,
+                };
+                const response = await fetch(`http://localhost:5000/api/evaluate/calculate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(params),
+                });
+                const res = await response.json();
+                setLoading(false);
+                setResult(res);
+            } catch (error) {
+                // console.error('Error fetching data:', error);
+                // setVideo(null);
+                // setLanguage(null);
+                // navigate("/Upload")
+                setLoading(false);
+                setResult(null);
+                alert("Error fetching data");
+            }
+        };
+        fetchData();
     }
 
     const changeRef = (event) => {
@@ -127,7 +154,7 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                             ) : (loading ? (
                                 <span>Loading</span>
                             ) : (
-                                <span>____________</span>
+                                <span>________________</span>
                             )
                             )}
                         </div>
