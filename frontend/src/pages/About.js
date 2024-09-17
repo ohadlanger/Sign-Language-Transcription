@@ -24,51 +24,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
   const [binaryData, setBinaryData] = useState(null);
   const reader = new FileReader();
 
-  if (video !== "Example" && !example) {
-    reader.onload = function (event) {
-      setBinaryData(event.target.result.split(',')[1]);
-      const fetchData = async () => {
-        try {
-          const params = {
-            videoFile: event.target.result.split(',')[1],
-            signLanguage: language.value,
-          };
-          const response = await fetch(`http://localhost:5000/api/translate/all_translations`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(params),
-          });
-          const res = await response.json();
-          setEnglish(res.text_translation)
-          setFsw(res.signWriting_translation)
-          setVocal(res.voice_translation);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-          setVideo(null);
-          setLanguage(null);
-          navigate("/Upload")
-          alert("Error fetching data");
-        }
-
-      };
-      fetchData();
-    };
-  }
-
-
-  useEffect(() => {
-    if (video && video !== "Example" && !example) {
-      reader.readAsDataURL(video);
-    }
-    else if (video === "Example") {
-      setExample(true);
-    }
-    else if (video !== "Example" && !example) {
-      navigate('/Upload');
-    }
-  }, [video]);
 
   function handleSkeleton(base64) {
     function base64ToBlob(base64, type = "application/octet-stream") {
@@ -92,6 +47,53 @@ const About = ({ video, setVideo, language, setLanguage }) => {
     return file;
   }
 
+  if (video !== "Example" && !example) {
+    reader.onload = function (event) {
+      setBinaryData(event.target.result.split(',')[1]);
+      const fetchData = async () => {
+        try {
+          const params = {
+            videoFile: event.target.result.split(',')[1],
+            signLanguage: language.value,
+          };
+          const response = await fetch(`http://localhost:5000/api/translate/all_translations`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params),
+          });
+          const res = await response.json();
+          setEnglish(res.text_translation);
+          setFsw(res.signWriting_translation);
+          setVocal(res.voice_translation);
+          setSkeletonVideo(handleSkeleton(res.skeletonVideo));
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setVideo(null);
+          setLanguage(null);
+          navigate("/Upload")
+          alert("Error fetching data");
+        }
+      };
+      fetchData();
+    };
+  }
+
+
+  useEffect(() => {
+    if (video && video !== "Example" && !example) {
+      reader.readAsDataURL(video);
+    }
+    else if (video === "Example") {
+      setExample(true);
+    }
+    else if (video !== "Example" && !example) {
+      navigate('/Upload');
+    }
+  }, [video]);
+
+
   useEffect(() => {
     if (video !== "Example" && !example) {
       const fetchResult = async () => {
@@ -112,7 +114,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
             });
             const res = await response.json();
             setResult(res.video);
-            setSkeletonVideo(handleSkeleton(res.skeletonVideo));
             console.log("Fetch result success!");
           }
         } catch (error) {
@@ -160,7 +161,7 @@ const About = ({ video, setVideo, language, setLanguage }) => {
   return (
     <div className={styles.about}>
       <Navigation setVideo={setVideo} back={"/Upload"} setLanguage={setLanguage} />
-      {(result && skeletonVideo) ? (
+      {(skeletonVideo) ? (
         <section className={styles.aboutInner}>
           <div className={styles.frameParent}>
             <DetailsComponent video={video} result={result} skeletonVideo={skeletonVideo} language={language.label} example={example} />

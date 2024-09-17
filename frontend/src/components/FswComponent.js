@@ -5,7 +5,7 @@ import './index.css';
 import './SuttonSignWriting.css'
 
 
-const SvgComponent = ({ svgContent }) => {
+export const SvgComponent = ({ svgContent }) => {
 
     function replaceFirstViewBox(svgString) {
         const parser = new DOMParser();
@@ -20,11 +20,17 @@ const SvgComponent = ({ svgContent }) => {
                 const height = parseInt(viewBox[3], 10);
 
                 if (width < 1 || height < 1) {
-                    const maxDimension = Math.max(width, height);
+                    let maxDimension = Math.max(width, height);
+                    if (maxDimension < 1) {
+                        maxDimension = 30;
+                    }
                     viewBox[2] = maxDimension;
                     viewBox[3] = maxDimension;
                     viewBox = viewBox.join(" ");
                     svgElement.setAttribute('viewBox', viewBox);
+
+                    svgElement.setAttribute('width', maxDimension);
+                    svgElement.setAttribute('width', maxDimension);
                 }
 
                 const serializer = new XMLSerializer();

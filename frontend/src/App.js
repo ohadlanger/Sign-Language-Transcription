@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import About from "./pages/About";
 import Upload from "./pages/Upload";
+import Calculator from "./pages/Calculator";
 
 function App() {
   const action = useNavigationType();
@@ -30,8 +31,8 @@ function App() {
 
     switch (pathname) {
       case "/":
-        title = "";
-        metaDescription = "";
+        title = "Welcome page";
+        metaDescription = "Opening screen of the site";
         break;
       case "/Upload":
         title = "Upload Page";
@@ -40,6 +41,10 @@ function App() {
       case "/About":
         title = "About Page";
         metaDescription = "Translation result page about a given video";
+        break;
+      case "/Calculator":
+        title = "Calculator Page";
+        metaDescription = "Calculate similarity scores";
         break;
       default:
         navigate("/");
@@ -62,9 +67,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Welcome video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
-      <Route path="/Upload" element={<Upload video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
-      <Route path="/About" element={<About video={video} setVideo={setVideo} language={language} setLanguage={setLanguage}/>} />
+      <Route path="/" element={<Welcome video={video} setVideo={setVideo} language={language} setLanguage={setLanguage} />} />
+      <Route path="/Upload" element={<Upload video={video} setVideo={setVideo} language={language} setLanguage={setLanguage} />} />
+      <Route path="/About" element={<About video={video} setVideo={setVideo} language={language} setLanguage={setLanguage} />} />
+      <Route path="/Calculator" element={<Calculator />} />
     </Routes>
   );
 }
