@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navigation from "../components/Navigation";
 import Upload from '../components/UploadComponent'
 import NavigationFooter from "../components/NavigationFooter";
@@ -6,6 +6,11 @@ import styles from "./Upload.module.css";
 
 
 const UploadVideo = ({ className = "", video, setVideo, language, setLanguage }) => {
+
+    useEffect(() => {
+        setVideo(null);
+        setLanguage(null);
+    }, []) 
 
     return (
         <div className={styles.about}>

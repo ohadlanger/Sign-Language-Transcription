@@ -24,17 +24,22 @@ const options = [
 
 const Upload = ({ video, setVideo, language, setLanguage }) => {
 
+    console.log(video);
+
     const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
 
     useEffect(() => {
+        let upload = document.getElementById("upload");
+        let border = document.getElementById("border");
         if (video) {
-            let upload = document.getElementById("upload");
-            let border = document.getElementById("border");
-
             border.classList.add(styles.coloredBorder)
             upload.classList.add(styles.coloredUpload)
+        }
+        else {
+            border.classList.remove(styles.coloredBorder)
+            upload.classList.remove(styles.coloredUpload)
         }
     }, [video])
 
