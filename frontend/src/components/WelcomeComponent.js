@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Table from './TableComponent';
@@ -11,9 +11,19 @@ const Welcome = () => {
         navigate('/Upload');
     }
 
-    const handleClick = () =>{
+    const handleClick = () => {
         navigate('/Calculator');
     }
+
+    const [imgSrc, setImgSrc] = useState("/scales2.png");
+
+    const handleMouseEnter = () => {
+        setImgSrc("/scales.png");
+    };
+
+    const handleMouseLeave = () => {
+        setImgSrc("/scales2.png");
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -42,7 +52,9 @@ const Welcome = () => {
 
             <div className={styles.box}><Button className={styles.button} variant="outline-light" onClick={handleSubmit}>Get Started!</Button></div>
 
-            <Button className={styles.calcBtn} variant="outline-light" onClick={handleClick}>Similarity Calculator</Button>
+            <Button className={styles.calcBtn} variant="outline-light" onClick={handleClick}  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                <img src={imgSrc} style={{ width: "30px" }}></img>
+            </Button>
         </div >
     );
 }
