@@ -34,5 +34,8 @@ def main():
     with open(args.output_path, 'w') as file:
         file.write(str(final_score))
 
+    print('Done Successfully...')
+
+
 if __name__ == "__main__":
     main()
