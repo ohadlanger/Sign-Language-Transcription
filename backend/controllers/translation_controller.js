@@ -86,7 +86,7 @@ const processTranslation = async (req, res, options) => {
             var output = {};
             for (const [responseKey, outputFile] of Object.entries(outputFiles)) {
                 let data = await fs.promises.readFile(path.join(tempFolderPath, outputFile));
-                if (responseKey == 'voice_translation') {
+                if (responseKey == 'voice_translation' || responseKey == 'skeletonVideo') {
                     data = data.toString('base64');
                 }
                 else {
@@ -136,9 +136,10 @@ const translate_all = (req, res) => {
         outputFiles: {
             text_translation: 'text_translation.txt',
             signWriting_translation: 'signWriting_translation.txt',
-            voice_translation: 'voice_translation.mp3'
+            voice_translation: 'voice_translation.mp3',
+            skeletonVideo: 'pose_video.mp4'
         },
-        additionalArgs: ['--signWriting_translation=true', '--voice_translation=true', '--text_translation=true']
+        additionalArgs: ['--signWriting_translation=true', '--voice_translation=true', '--text_translation=true', '--pose_video=true']
     });
 };
 

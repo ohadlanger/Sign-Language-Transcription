@@ -1,9 +1,11 @@
 import argparse
 import tempfile
 from pathlib import Path
+import shutil
 
 from translation.helper_for_translate import (pose_to_signWriting, signWriting_to_text, text_to_speech,
                                               video_to_gender, extract_elan_translations)
+from video.helper_for_audio import pose_to_video
 from video.helper_for_audio import video_to_pose, pose_to_segments
 
 
@@ -13,6 +15,7 @@ def get_args():
     parser.add_argument('--signWriting_translation', default=None)
     parser.add_argument('--voice_translation', default=None)
     parser.add_argument('--text_translation', required=True)
+    parser.add_argument('--pose_video', default=None)
     parser.add_argument('--output_path', required=True)
     parser.add_argument('--sign-writing-language', required=True)
     return parser.parse_args()
@@ -33,6 +36,10 @@ def main():
         # make translations
         pose_to_signWriting(temp_pose_path, temp_elan_path)
         text_translation = None
+        # make pose video
+        if args.pose_video is not None:
+            pose_to_video(temp_pose_path, Path(temp_dir) / 'pose_video.mp4')
+            shutil.copy2(Path(temp_dir) / 'pose_video.mp4', output_path / 'pose_video.mp4')
 
         # make signWriting translation
         if args.signWriting_translation is not None:

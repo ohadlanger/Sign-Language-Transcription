@@ -41,7 +41,7 @@ def normalize_by_neighbours(symbols):
     coordinates = [tuple(int(pos) for pos in symbols[i][6:].split('x')) for i in range(len(symbols))]
     direction_counter = sum(int(symbol[Class], HEX) in arrow_range for symbol in symbols)
     hands_counter = sum(int(symbol[Class], HEX) in body_part_classes['hands_shapes'] for symbol in symbols)
-    hands_remover = False if hands_counter >= direction_counter else True
+    hands_remover = False if direction_counter >= hands_counter else True
 
     for i in range(len(symbols)):
         body_symbol_class = int(symbols[i][Class], HEX)
@@ -49,7 +49,7 @@ def normalize_by_neighbours(symbols):
         for j in range(1, len(final_lst)):
             x2, y2 = coordinates[j - 1]
             if abs(x - x2) < buffer and abs(y - y2) < buffer:
-                x = x2 + 2 * (buffer - abs(x - x2) + 2)
+                x = x2 + 2 * buffer
                 coordinates[i] = (x, y)
 
         new_symbol = f'S{symbols[i][Class]}{symbols[i][Id]}{x}x{y}'
@@ -59,6 +59,6 @@ def normalize_by_neighbours(symbols):
             continue
         max_similarity = max([similarity_metric.score_all([new_symbol], [final_lst[j]])[0][0]
                               for j in range(len(final_lst))])
-        if max_similarity < 0.9:
+        if max_similarity < 0.90:
             final_lst.append(new_symbol)
     return final_lst

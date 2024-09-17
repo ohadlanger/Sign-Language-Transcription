@@ -116,7 +116,7 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
         'en-NG': 'nsi',  # Nigerian -> Nigerian Sign Language (NSI)
         'fr-BE': 'sfb'  # French-Belgian -> Belgian-French Sign Language (SFB)
     }
-
+    return "this is sing language translation service"
     sign_writing_language = sign_language_mapping[Video_language] if Video_language in sign_language_mapping else 'ase'
     tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
     with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
