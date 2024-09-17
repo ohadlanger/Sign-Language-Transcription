@@ -3,7 +3,7 @@ import os
 import subprocess
 import json
 import socket
-import openai
+from openai import OpenAI
 
 from gtts import gTTS
 import pyttsx3
@@ -57,26 +57,34 @@ def modify_phrase(predictions_list):
     # Set the prompt
     static_text = ("Create a grammatically correct sentence by selecting exactly one word from each set, ensuring that "
                    "no two words from the same set belong to the same category, don't add new word. Use all sets:")
-    prompt = " ".join([f'set {inx + 1}:{"/".join(p.split("/")[:2])}' for inx, p in enumerate(predictions_list)])
+    prompt = " ".join([f'set {inx + 1}:{"/".join(p.split("/")[:1])}' for inx, p in enumerate(predictions_list)])
     full_prompt = f"{static_text} {prompt} (return just the sentence)"
 
     # Model parameters
-    openai.api_key = ('sk-proj-7PV5QEfZyj5FojEBdtYnHwzaHZhq4DgB2Tzn1fsVVXUurTyLBlS4JrLLTXT3BlbkFJJbQ3OPAeER0pM3CBdqrXE'
-                      '6f8ubs_hUeHtIOGkqH9dPzm5W2zJtWAfdTMsA')  # Set your OpenAI API key
-    model = "GPT-4o-mini"  # Model name
+    # load the api from the file api_key.txt
+    with open('api_key.txt', 'r') as file:
+        api_key = file.readline().strip()
+    model = "gpt-4o-mini"  # Model name
     temperature = 0.7  # Randomness in the response. 0.7 is a good balance.
     max_tokens = 20  # Maximum number of tokens to generate in the response.
 
     try:
+        # Initialize the client
+        client = OpenAI(api_key=api_key)
+
         # Create a chat completion
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": full_prompt}],
             temperature=temperature,
             max_tokens=max_tokens
         )
-        return response['choices'][0]['message']['content'].strip()
-    except Exception as _:
+
+        # Print the response content
+        return response.choices[0].message.content.strip()
+
+    except Exception as e:
+        print(f"Error: {e}")
         return "this is sing language translation service"
 
 
@@ -106,7 +114,7 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
         'en-NG': 'nsi',  # Nigerian -> Nigerian Sign Language (NSI)
         'fr-BE': 'sfb'  # French-Belgian -> Belgian-French Sign Language (SFB)
     }
-    return "this is sing language translation service"
+
     sign_writing_language = sign_language_mapping[Video_language] if Video_language in sign_language_mapping else 'ase'
     tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
     with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
