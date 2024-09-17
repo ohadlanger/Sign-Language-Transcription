@@ -34,4 +34,7 @@ p {
     position: absolute;
     right: 0px;
     top: 200px;
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+    border-right-color: transparent;
 }
