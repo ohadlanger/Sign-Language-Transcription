@@ -6,6 +6,38 @@ import './SuttonSignWriting.css'
 
 
 const SvgComponent = ({ svgContent }) => {
+
+    function replaceFirstViewBox(svgString) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgString, 'image/svg+xml');
+        const svgElement = doc.querySelector('svg');
+
+        if (svgElement) {
+            let viewBox = svgElement.getAttribute('viewBox');
+            if (viewBox) {
+                viewBox = viewBox.split(" ");
+                const width = parseInt(viewBox[2], 10);
+                const height = parseInt(viewBox[3], 10);
+
+                if (width < 1 || height < 1) {
+                    const maxDimension = Math.max(width, height);
+                    viewBox[2] = maxDimension;
+                    viewBox[3] = maxDimension;
+                    viewBox = viewBox.join(" ");
+                    svgElement.setAttribute('viewBox', viewBox);
+                }
+
+                const serializer = new XMLSerializer();
+                return serializer.serializeToString(doc);
+            }
+            return svgString;
+        } else {
+            return svgString; // Return the original string if no SVG element found
+        }
+    }
+
+    svgContent = replaceFirstViewBox(svgContent);
+
     return (
         <div className="sign" style={{ marginRight: "2px", marginLeft: "2px" }}>
             <div
