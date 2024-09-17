@@ -37,12 +37,7 @@ def main():
 
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_pose_path = Path(temp_dir) / 'temp.pose'
-        temp_pose_video_path = Path(temp_dir) / 'temp_video.mp4'
         segments = video_to_segment(video_path, None, temp_pose_path)
-        pose_to_video(temp_pose_path, temp_pose_video_path)
-
-        # save it in the output path
-        shutil.copy2(temp_pose_video_path, output_path / 'pose_video.mp4')
 
     if args.audio_path is not None:
         video_file = combine_video_audio(video_path, audio_path, segments)

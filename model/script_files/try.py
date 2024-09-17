@@ -442,13 +442,14 @@ from signwriting_evaluation.metrics.similarity import SignWritingSimilarityMetri
 #     return expanded
 
 
+from translation.helper_for_signwriting import normalize_by_face, normalize_by_neighbours
 
 
 def fix_and_remove_duplicates(hyp: str):
     lst = [f'S{x}' if x[0] != 'M' else x for x in hyp.split('S')]
 
     # lst = normalize_by_face(lst)
-    # lst = normalize_by_neighbours(lst)
+    lst = normalize_by_neighbours(lst)
 
     return ''.join(lst)
 
@@ -464,4 +465,4 @@ def fix_and_remove_duplicates(hyp: str):
 # print(fix_and_remove_duplicates(
 #     "M500x500S30000482x483S30000482x483S11800490x474S20500496x473S20500496x473S2df00489x473S2df00489x473"))
 # print(fix_and_remove_duplicates("M500x500S33100482x483S11800521x473S11800504x473S26600497x474"))
-# print(fix_and_remove_duplicates("M500x500S26600484x467S15030504x504S26600497x467S26600497x507"))
+print(fix_and_remove_duplicates("M500x500S30000482x483S11800496x510S26600502x467S11800510x511"))
