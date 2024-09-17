@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from "../components/Navigation";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DetailsComponent from "../components/DetailsComponent";
 import ResultsComponent from "../components/ResultsComponent";
 import NavigationFooter from "../components/NavigationFooter";
@@ -23,26 +23,6 @@ const About = ({ video, setVideo, language, setLanguage }) => {
 
   const [binaryData, setBinaryData] = useState(null);
   const reader = new FileReader();
-
-  const location = useLocation();
-
-  useEffect(() => {
-    console.log("Effect");
-    const handleBackButton = () => {
-      console.log('Back button pressed');
-      setVideo(null);
-      setLanguage(null);
-      navigate('/Upload');
-    };
-
-    // Listen to the popstate event
-    window.addEventListener('popstate', handleBackButton);
-
-    return () => {
-      // Clean up the event listener
-      window.removeEventListener('popstate', handleBackButton);
-    };
-  }, [location, navigate]);
 
   if (video !== "Example" && !example) {
     reader.onload = function (event) {
