@@ -49,7 +49,7 @@ def normalize_by_neighbours(symbols):
         for j in range(1, len(final_lst)):
             x2, y2 = coordinates[j - 1]
             if abs(x - x2) < buffer and abs(y - y2) < buffer:
-                x = x2 + 2 * (buffer - 1)
+                x = x2 + 2 * (buffer - abs(x - x2) + 2)
                 coordinates[i] = (x, y)
 
         new_symbol = f'S{symbols[i][Class]}{symbols[i][Id]}{x}x{y}'
