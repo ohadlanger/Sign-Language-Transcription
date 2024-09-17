@@ -457,11 +457,11 @@ def fix_and_remove_duplicates(hyp: str):
 # sorted_arrows = sorted(distances, key=lambda x: x[0])
 # remove = sorted_arrows[0][1]
 
-
-print(fix_and_remove_duplicates("M500x500S33100482x483S11800507x474S2e500504x457"))
-print(fix_and_remove_duplicates("M500x500S33100482x483S10e00488x473S26a00474x440"))
-print(fix_and_remove_duplicates("M500x500S33100482x483S11800489x473S26a00504x473S11800489x473"))
-print(fix_and_remove_duplicates(
-    "M500x500S30000482x483S30000482x483S11800490x474S20500496x473S20500496x473S2df00489x473S2df00489x473"))
-print(fix_and_remove_duplicates("M500x500S33100482x483S11800521x473S11800504x473S26600497x474"))
-print(fix_and_remove_duplicates("M500x500S26600484x467S15030504x504S26600497x467S26600497x507"))
+#
+# print(fix_and_remove_duplicates("M500x500S33100482x483S11800507x474S2e500504x457"))
+# print(fix_and_remove_duplicates("M500x500S33100482x483S10e00488x473S26a00474x440"))
+# print(fix_and_remove_duplicates("M500x500S33100482x483S11800489x473S26a00504x473S11800489x473"))
+# print(fix_and_remove_duplicates(
+#     "M500x500S30000482x483S30000482x483S11800490x474S20500496x473S20500496x473S2df00489x473S2df00489x473"))
+# print(fix_and_remove_duplicates("M500x500S33100482x483S11800521x473S11800504x473S26600497x474"))
+# print(fix_and_remove_duplicates("M500x500S26600484x467S15030504x504S26600497x467S26600497x507"))
