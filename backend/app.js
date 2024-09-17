@@ -11,7 +11,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const translation_router = require("./routes/translation_router");
+const evaluation_router = require("./routes/evaluation_router");
 app.use("/api/translate", translation_router);
+app.use("/api/evaluate", evaluation_router);
+
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
