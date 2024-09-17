@@ -31,9 +31,9 @@ const Welcome = () => {
 
             <div style={{ margin: "10px", marginLeft: "0px"}}>
                 Introduction:&nbsp;
-                <a href="https://www.youtube.com/@SignLanguageTranscription" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Video</a>
+                <a href="https://www.youtube.com/watch?v=o74zp3d3Q08" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Video</a>
                 &nbsp;/&nbsp;
-                <a href="https://1drv.ms/p/c/d8aeeeb13ff122a0/EV9EVQzTQAlLqdz_ldCirjoBJafncIsxUL86hKXjzLArnQ?e=4AepNy" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Presentation</a>
+                <a href="https://1drv.ms/p/c/d8aeeeb13ff122a0/EUArZxLsN1lOjDnYhw4qs4YB682AEnG9Y4-A1VfvxGl7Xw?e=rQ8gRN" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Presentation</a>
             </div>
 
             <div className={styles.box}><Button className={styles.button} variant="outline-light" onClick={handleSubmit}>Get Started!</Button></div>

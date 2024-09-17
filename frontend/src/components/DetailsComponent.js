@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -17,6 +17,30 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
     setShowMenu(false);
   };
 
+
+  useEffect(() => {
+    let resultBtn = document.getElementById('resultBtn');
+    if (resultBtn && !example) {
+      if (!result) {
+        resultBtn.classList.remove(styles.loading);
+      }
+      else {
+        resultBtn.classList.add(styles.loading);
+      }
+    }
+  }, [result, showMenu])
+
+  useEffect(() => {
+    let skeletonBtn = document.getElementById('skeletonBtn');
+    if (skeletonBtn && !example) {
+      if (result) {
+        skeletonBtn.classList.remove(styles.loading);
+      }
+      else {
+        skeletonBtn.classList.add(styles.loading);
+      }
+    }
+  }, [skeletonVideo, showMenu])
 
   const onDownloadResult = async () => {
     if (example) {
@@ -141,8 +165,8 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
                 {showMenu && (
                   <div className={styles.dropdownMenu}>
                     <ul>
-                      <li><button className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
-                      <li><button className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>
+                      <li><button id="resultBtn" className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
+                      <li><button id="skeletonBtn" className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>
                     </ul>
                   </div>
                 )}

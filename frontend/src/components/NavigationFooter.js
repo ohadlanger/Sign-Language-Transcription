@@ -28,12 +28,12 @@ const NavigationFooter = ({ className = "" }) => {
   };
 
   let onYoutube = () => {
-    const url = "https://www.youtube.com/@SignLanguageTranscription";
+    const url = "https://www.youtube.com/watch?v=o74zp3d3Q08";
     window.open(url, '_blank');
   };
 
   let onPowerpoint = () => {
-    const url = "https://docs.google.com/spreadsheets/d/19mluHVMTjIraUWxxJ5FaDFk0nNZOx2fNFsRbo3tc50Q/edit?usp=sharing";
+    const url = "https://1drv.ms/p/c/d8aeeeb13ff122a0/EUArZxLsN1lOjDnYhw4qs4YB682AEnG9Y4-A1VfvxGl7Xw?e=rQ8gRN";
     window.open(url, '_blank');
   };
 
