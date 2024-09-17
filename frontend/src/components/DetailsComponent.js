@@ -17,31 +17,6 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
     setShowMenu(false);
   };
 
-
-  useEffect(() => {
-    let resultBtn = document.getElementById('resultBtn');
-    if (resultBtn && !example) {
-      if (!result) {
-        resultBtn.classList.remove(styles.loading);
-      }
-      else {
-        resultBtn.classList.add(styles.loading);
-      }
-    }
-  }, [result, showMenu])
-
-  useEffect(() => {
-    let skeletonBtn = document.getElementById('skeletonBtn');
-    if (skeletonBtn && !example) {
-      if (result) {
-        skeletonBtn.classList.remove(styles.loading);
-      }
-      else {
-        skeletonBtn.classList.add(styles.loading);
-      }
-    }
-  }, [skeletonVideo, showMenu])
-
   const onDownloadResult = async () => {
     if (example) {
       const link = document.createElement('a');
