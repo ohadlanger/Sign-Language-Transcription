@@ -46,6 +46,10 @@ const About = ({ video, setVideo, language, setLanguage }) => {
           setVocal(res.voice_translation);
         } catch (error) {
           console.error('Error fetching data:', error);
+          setVideo(null);
+          setLanguage(null);
+          navigate("/Upload")
+          alert("Error fetching data");
         }
 
       };
@@ -113,6 +117,10 @@ const About = ({ video, setVideo, language, setLanguage }) => {
           }
         } catch (error) {
           console.error('Error fetching result:', error);
+          setVideo(null);
+          setLanguage(null);
+          navigate("/Upload")
+          alert("Error fetching data");
         }
       };
       fetchResult();

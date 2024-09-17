@@ -18,7 +18,6 @@ const SvgComponent = ({ svgContent }) => {
 
 
 const Fsw = ({ translation, example }) => {
-    const [imageSrc, setImageSrc] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 

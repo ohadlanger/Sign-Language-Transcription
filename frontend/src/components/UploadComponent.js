@@ -8,8 +8,8 @@ const options = [
     { value: 'ca', label: 'Catalan' },
     { value: 'de', label: 'German' },
     { value: 'de-CH', label: 'Swiss-German' },
-    { value: 'en', label: 'English (American)' },
-    { value: 'en', label: 'English (British)' },
+    { value: 'en-us', label: 'English (American)' },
+    { value: 'en-br', label: 'English (British)' },
     { value: 'en-NG', label: 'Nigerian' },
     { value: 'es', label: 'Spanish' },
     { value: 'fr', label: 'French' },
@@ -62,12 +62,12 @@ const Upload = ({ video, setVideo, language, setLanguage }) => {
         event.preventDefault();
         event.stopPropagation();
         setIsDragging(false);
-    
+
         const file = event.dataTransfer.files[0];
         if (file) {
             setSelectedFile(file);
             setVideo(file);
-    
+
             const fileInput = document.getElementById('formFile');
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(file);
@@ -91,13 +91,14 @@ const Upload = ({ video, setVideo, language, setLanguage }) => {
 
     const handleExample = (event) => {
         event.preventDefault();
-        setLanguage({ value: "en", label: "English" });
+        setLanguage({ value: "en", label: "English (American)" });
         setVideo("Example");
         navigate("/About", { video: video, setVideo: setVideo, language: language, setLanguage: setLanguage });
     };
 
     const handleChange = (option) => {
-        setLanguage(option);
+        let lan = (option.value == 'en-us' || option.value == 'en-br') ? { value: 'en', label: option.label } : option;
+        setLanguage(lan);
     };
 
     const customStyles = {
@@ -130,13 +131,13 @@ const Upload = ({ video, setVideo, language, setLanguage }) => {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <img src='/upload2.png' className={styles.image} alt="Upload" />
-                        <input className="form-control" variant="outline-light" accept="video/*" type="file" id="formFile" onChange={handleFileChange} style={{ margin: '10px', backgroundColor: 'transparent', color:'white' }} />
+                        <input className="form-control" variant="outline-light" accept="video/*" type="file" id="formFile" onChange={handleFileChange} style={{ margin: '10px', backgroundColor: 'transparent', color: 'white' }} />
                         <Button id="upload" className={styles.button} variant="outline-light" onClick={handleSubmit}>Upload</Button>
                     </div>
                     <Button className={styles.button} variant="outline-light" onClick={handleExample}>Example Video</Button>
                 </div>
             </div>
-            <span id='error' style={{fontSize: 20, color: "cyan", visibility: "hidden"}}>File or Language were not selected!</span>
+            <span id='error' style={{ fontSize: 20, color: "cyan", visibility: "hidden" }}>File or Language were not selected!</span>
         </>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -16,7 +16,6 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
   const closeMenu = () => {
     setShowMenu(false);
   };
-
 
   const onDownloadResult = async () => {
     if (example) {
@@ -141,8 +140,8 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
                 {showMenu && (
                   <div className={styles.dropdownMenu}>
                     <ul>
-                      <li><button className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
-                      <li><button className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>
+                      <li><button id="resultBtn" className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
+                      <li><button id="skeletonBtn" className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>
                     </ul>
                   </div>
                 )}
