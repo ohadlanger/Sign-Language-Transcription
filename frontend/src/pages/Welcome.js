@@ -4,7 +4,7 @@ import NavigationFooter from "../components/NavigationFooter";
 import Welcome from '../components/WelcomeComponent';
 import styles from "./Welcome.module.css";
 
-const UploadVideo = ({ className = "", video, setVideo, language, setLanguage }) => {
+const WelcomePage = ({ className = "", video, setVideo, language, setLanguage }) => {
 
     return (
         <div className={styles.about}>
@@ -19,4 +19,4 @@ const UploadVideo = ({ className = "", video, setVideo, language, setLanguage })
     );
 };
 
-export default UploadVideo;
+export default WelcomePage;

@@ -5,7 +5,7 @@ import NavigationFooter from "../components/NavigationFooter";
 import styles from "./Upload.module.css";
 
 
-const UploadVideo = ({ className = "", video, setVideo, language, setLanguage }) => {
+const UploadPage = ({ className = "", video, setVideo, language, setLanguage }) => {
 
     useEffect(() => {
         setVideo(null);
@@ -25,4 +25,4 @@ const UploadVideo = ({ className = "", video, setVideo, language, setLanguage })
     );
 };
 
-export default UploadVideo;
+export default UploadPage;

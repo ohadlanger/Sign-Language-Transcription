@@ -8,7 +8,11 @@ const Welcome = () => {
     const navigate = useNavigate()
 
     const handleSubmit = (event) => {
-        navigate('/Upload')
+        navigate('/Upload');
+    }
+
+    const handleClick = () =>{
+        navigate('/Calculator');
     }
 
     return (
@@ -29,7 +33,7 @@ const Welcome = () => {
                 This technology can be integrated into day-to-day usage, online meatings and conventions, other feilds of research from visual gestures and much more.
             </p>
 
-            <div style={{ margin: "10px", marginLeft: "0px"}}>
+            <div style={{ margin: "10px", marginLeft: "0px" }}>
                 Introduction:&nbsp;
                 <a href="https://www.youtube.com/watch?v=o74zp3d3Q08" target='_blank' rel='noopener noreferrer' style={{ color: 'cyan' }}>Project Video</a>
                 &nbsp;/&nbsp;
@@ -37,6 +41,8 @@ const Welcome = () => {
             </div>
 
             <div className={styles.box}><Button className={styles.button} variant="outline-light" onClick={handleSubmit}>Get Started!</Button></div>
+
+            <Button className={styles.calcBtn} variant="outline-light" onClick={handleClick}>Similarity Calculator</Button>
         </div >
     );
 }
