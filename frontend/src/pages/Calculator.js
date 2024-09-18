@@ -8,6 +8,7 @@ import { Button } from 'react-bootstrap';
 import { SvgComponent } from '../components/FswComponent';
 import * as lib from '@sutton-signwriting/font-ttf';
 
+
 const Calculator = ({ className = "", video, setVideo, language, setLanguage }) => {
 
     const [loading, setLoading] = useState(false)
@@ -17,10 +18,22 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
     const [count, setCount] = useState(0);
     const threshold = 1.5;
 
-    useEffect(() => { }, [ref, hyp])
+    const string_to_float = (string) => {
+        return parseFloat(string);
+    }
+
+    useEffect(() => {
+        if (ref.length == 0 || hyp.length == 0) {
+            setLoading(false);
+            setResult(null);
+        }
+        else {
+            setLoading(true);
+            setResult(null);
+        }
+    }, [ref, hyp])
 
     const fetchData = async () => {
-        // setLoading(true);
         let symbol1 = (document.getElementById('symbol1')).value
         let symbol2 = (document.getElementById('symbol2')).value
         try {
@@ -29,22 +42,19 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                     reference: symbol1,
                     hypothesis: symbol2,
                 };
-                const response = await fetch(`http://localhost:5000/api/evaluate/calculate`, {
+                const response = await fetch('http://localhost:5000/api/evaluate/calculate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(params),
                 });
+                console.log("i did it")
                 const res = await response.json();
                 setLoading(false);
                 setResult(res.score);
             }
         } catch (error) {
-            // console.error('Error fetching data:', error);
-            // setVideo(null);
-            // setLanguage(null);
-            // navigate("/Upload")
             setLoading(false);
             setResult(null);
             setCount(10);
@@ -60,15 +70,14 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                     const newCount = prevCount + 0.5;
                     if (newCount == threshold) {
                         fetchData();
-                        return 0; // Reset the counter
+                        return newCount;
                     }
                     return newCount;
                 }
                 return prevCount;
             });
-        }, 500); // Increment the counter every half of a second
+        }, 500);
 
-        // Cleanup interval on component unmount
         return () => clearInterval(interval);
     }, []);
 
@@ -76,14 +85,16 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
         setCount(0.0);
     };
 
-
-
     const changeRef = (event) => {
-        resetCounter();
         let value = event.target.value;
-        if (value) {
-            setLoading(true);
+        console.log(value === "");
+        if (value === "") {
+            setLoading(false);
+            setResult(null);
+            setRef([]);
+            return;
         }
+        resetCounter();
         let split = value.split(/(?=[M])/);
         let signs = [];
         for (let i = 0; i < split.length; i++) {
@@ -95,11 +106,15 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
     }
 
     const changeHyp = (event) => {
-        resetCounter();
         let value = event.target.value;
-        if (value) {
-            setLoading(true);
+        console.log(value);
+        if (value === "") {
+            setLoading(false);
+            setResult(null);
+            setHyp([]);
+            return;
         }
+        resetCounter();
         let split = value.split(/(?=[M])/);
         let signs = [];
         for (let i = 0; i < split.length; i++) {
@@ -113,17 +128,24 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
     return (
         <div className={styles.about}>
             <Navigation back={"/"} setVideo={setVideo} setLanguage={setLanguage} />
-            <section className={styles.aboutInner} style={{ minHeight: '600px' }}>
-                <div className={styles.frameParent} style={{ height: "100%", width:"80%" }}>
+            <section className={styles.aboutInner} style={{ minHeight: '600px', width: '100%' }}>
+
+                <div className={styles.frameParent} style={{
+                    height: "100%", width: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around",
+                    border: "2px dashed", borderColor: "white", borderRadius: "100px", overflow: "auto"
+                }}>
+
                     <div className={styles2.wrapper1}>
 
+                        <div style={{ display: "flex", flexDirection: "column", maxWidth: "30%", justifyContent: "center", marginRight: "10%" }}>
+                            <h2 style={{ marginBottom: "20px", marginTop: "0px" }}><b><span>Similarity Metric Calculator:</span></b>
+
+                            </h2>
+                            <span style={{ fontSize: "20px" }}>Comapre FSW symbols. Write or paste the symbols and wait
+                                for the result!</span>
+                        </div>
+
                         <div className={styles2.symbols}>
-
-                            <h2 style={{ width: "100%", padding:"0px", margin:"0px"}}><b><span>Similarity Metric Calculator:</span></b></h2>
-
-                            <span style={{ fontSize : "20px" }}>Comapre FSW symbols. Write or paste the symbols <br/> and wait
-                            for the result!</span>
-
                             <div className={styles2.container}>
                                 <div className={styles2.folder}>
                                     <div className={styles2.top}></div>
@@ -156,7 +178,7 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                                 <label className={styles2.customFileUpload}>
                                     <div id="html_signtext" style={{ width: "100%", height: "120px", marginBottom: "10px" }}
                                     >
-                                        <div className="signtext" style={{ width: "100%", height: "120px", overflow: "scroll", marginBottom: "10px" }}>
+                                        <div className="signtext" style={{ width: "100%", height: "120px", overflowX: "auto", overflowY: "hidden", marginBottom: "10px" }}>
                                             <span className="outside">
                                                 <span className="middle">
                                                     <span className="inside">
@@ -175,30 +197,31 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
 
 
                         <div className={styles2.wrapper2}>
-                            <Arrow size='bigArrow'/>
+                            <Arrow size='bigArrow' />
                         </div>
 
 
-
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-
-                            <label className={styles2.result}
-                                 style={{ height: "100px", width: "300px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                            <label 
+                                className={`${styles2.result} ${styles2.gradientDiv} ${result ? styles2.animate : ''}`}
+                                style={{ height: "100px", width: "300px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                                        <b><span style={{ fontSize: "25px" }}>Score: </span></b>
                                         {result ? (
-                                            <span>{result}</span>
+                                            <>
+                                                <b><span style={{ fontSize: "25px" ,position:"relative"}}>Score:&nbsp; 
+                                                    <span style={{position:"relative" }}>{string_to_float(result).toFixed(3)}</span>
+                                                </span></b>
+                                            </>
                                         ) : (loading ? (
-                                            <span>Loading</span>
+                                            <span style={{ fontSize: "25px"}}>Loading...</span>
                                         ) : (
-                                            <span>________________</span>
+                                            <span style={{ fontSize: "25px"}}>Enter the symbols!</span>
                                         )
                                         )}
                                     </div>
                                 </div>
                             </label>
-
                         </div>
                     </div>
                 </div>
