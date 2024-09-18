@@ -22,6 +22,8 @@ def main():
 
     reference = reference.split("A")
     hypothesis = hypothesis.split("A")
+    reference = list(filter(None, reference))
+    hypothesis = list(filter(None, hypothesis))
     evaluation_count = min(len(reference), len(hypothesis))
     reference = reference[:evaluation_count]
     hypothesis = hypothesis[:evaluation_count]
