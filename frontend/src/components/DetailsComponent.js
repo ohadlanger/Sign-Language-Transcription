@@ -17,6 +17,7 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
     setShowMenu(false);
   };
 
+
   const onDownloadResult = async () => {
     if (example) {
       const link = document.createElement('a');
@@ -140,8 +141,17 @@ const DetailsComponent = ({ className = "", video, result, skeletonVideo = null,
                 {showMenu && (
                   <div className={styles.dropdownMenu}>
                     <ul>
-                      <li><button id="resultBtn" className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
-                      <li><button id="skeletonBtn" className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>
+                      {example ? (
+                        <>
+                          <li><button id="resultBtn" className={styles.download} onClick={onDownloadResult}>Download Result</button></li>
+                          <li><button id="skeletonBtn" className={styles.download} onClick={onDownloadSkeleton}>Download Skeleton</button></li>
+                        </>
+                      ) : (
+                        <>
+                          <li><button id="resultBtn" className={styles.download} onClick={onDownloadResult}>{result ? "Download Result" : "Loading..."}</button></li>
+                          <li><button id="skeletonBtn" className={styles.download} onClick={onDownloadSkeleton}>{skeletonVideo ? "Download Skeleton" : "Loading..."}</button></li>
+                        </>
+                      )}
                     </ul>
                   </div>
                 )}
