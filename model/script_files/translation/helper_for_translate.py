@@ -62,9 +62,13 @@ def modify_phrase(predictions_list):
     prompt = " ".join([f'set {inx + 1}:{"/".join(p.split("/")[:1])}' for inx, p in enumerate(predictions_list)])
     full_prompt = f"{static_text} {prompt} (return just the sentence)"
 
+
     # Model parameters
     # load the api from the file api_key.txt
-    with open('api_key.txt', 'r') as file:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, 'api_key.txt')
+
+    with open(file_path, 'r') as file:
         api_key = file.readline().strip()
     model = "gpt-4o-mini"  # Model name
     temperature = 0.7  # Randomness in the response. 0.7 is a good balance.
@@ -116,7 +120,6 @@ def signWriting_to_text(signWriting_path, working_dir, Video_language):
         'en-NG': 'nsi',  # Nigerian -> Nigerian Sign Language (NSI)
         'fr-BE': 'sfb'  # French-Belgian -> Belgian-French Sign Language (SFB)
     }
-    return "this is sing language translation service"
     sign_writing_language = sign_language_mapping[Video_language] if Video_language in sign_language_mapping else 'ase'
     tokenizer = SignWritingTokenizer(starting_index=None, **kwargs)
     with open(signWriting_path, 'r') as file, open(f'{working_dir}/input_file.txt', 'w') as file2:
