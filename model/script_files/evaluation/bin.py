@@ -24,6 +24,7 @@ def main():
     hypothesis = hypothesis.split("A")
     reference = list(filter(None, reference))
     hypothesis = list(filter(None, hypothesis))
+    max_size = max(len(reference), len(hypothesis))
     evaluation_count = min(len(reference), len(hypothesis))
     reference = reference[:evaluation_count]
     hypothesis = hypothesis[:evaluation_count]
@@ -31,7 +32,7 @@ def main():
         ref = "M" + ref.split("M")[-1]
         hyp = "M" + hyp.split("M")[-1]
         sum_score += metric.score_single_sign(hyp, ref)
-    final_score = sum_score / evaluation_count
+    final_score = sum_score / max_size
 
     with open(args.output_path, 'w') as file:
         file.write(str(final_score))
