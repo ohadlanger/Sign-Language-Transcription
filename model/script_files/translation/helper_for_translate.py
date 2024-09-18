@@ -304,7 +304,7 @@ def video_to_gender(video_path):
     # Load video and extract frames
     video = VideoFileClip(video_path)
     frames = list(video.iter_frames(fps=24, dtype='uint8'))
-    sampled_frames = random.sample(frames, min(10, len(frames)))
+    sampled_frames = random.sample(frames, min(15, len(frames)))
 
     # Load model and predict labels
     label_dict = {0: 'female', 1: 'male'}
@@ -317,7 +317,7 @@ def video_to_gender(video_path):
         except Exception:
             pass
         os.remove(f'frame_{i}.jpg')
-        if abs(result[0] - result[1]) > 3:
+        if abs(result[0] - result[1]) > 5:
             break
 
     return label_dict[result.index(max(result))]
