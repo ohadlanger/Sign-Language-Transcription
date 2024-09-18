@@ -58,8 +58,8 @@ def modify_phrase(predictions_list):
     static_text = ("I am about to give you sets in the shape of {word,word,word,word...}. All you need to do is choose "
                    "exactly one word from each set, and combine them to a sentence. If it is exactly one set, "
                    "no need for it to be a sentence, only the word chosen. Answer back only with the result of this "
-                   "process. The sets are:")
-    prompt = " ".join([f'set {inx + 1}:{"/".join(p.split("/")[:1])}' for inx, p in enumerate(predictions_list)])
+                   "process. Choose non-offensive words. The sets are:")
+    prompt = " ".join([f'set {inx + 1}:{"/".join(p.split("/")[:3])}' for inx, p in enumerate(predictions_list)])
     full_prompt = f"{static_text} {prompt} (return just the sentence)"
 
 
