@@ -30,7 +30,7 @@ export const SvgComponent = ({ svgContent }) => {
                     svgElement.setAttribute('viewBox', viewBox);
 
                     svgElement.setAttribute('width', maxDimension);
-                    svgElement.setAttribute('width', maxDimension);
+                    svgElement.setAttribute('height', maxDimension);
                 }
 
                 const serializer = new XMLSerializer();

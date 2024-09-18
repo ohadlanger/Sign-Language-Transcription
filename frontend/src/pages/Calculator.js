@@ -4,7 +4,6 @@ import NavigationFooter from "../components/NavigationFooter";
 import styles from "./Upload.module.css";
 import styles2 from "./Calculator.module.css";
 import Arrow from "../components/ArrowComponent"
-import { Button } from 'react-bootstrap';
 import { SvgComponent } from '../components/FswComponent';
 import * as lib from '@sutton-signwriting/font-ttf';
 
@@ -49,7 +48,6 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                     },
                     body: JSON.stringify(params),
                 });
-                console.log("i did it")
                 const res = await response.json();
                 setLoading(false);
                 setResult(res.score);
@@ -87,7 +85,6 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
 
     const changeRef = (event) => {
         let value = event.target.value;
-        console.log(value === "");
         if (value === "") {
             setLoading(false);
             setResult(null);
@@ -95,19 +92,20 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
             return;
         }
         resetCounter();
-        let split = value.split(/(?=[M])/);
+        let split = value.split(/(?=[AM])/);
         let signs = [];
         for (let i = 0; i < split.length; i++) {
+            if (split[i][0] === 'A') {
+                continue;
+            }
             split[i] = (split[i][0] === 'A' || split[i][0] === 'M') ? split[i] : ('M500x500' + split[i]);
             signs = [...signs, lib.fsw.signSvg(split[i])];
         }
-        console.log(signs);
         setRef(signs);
     }
 
     const changeHyp = (event) => {
         let value = event.target.value;
-        console.log(value);
         if (value === "") {
             setLoading(false);
             setResult(null);
@@ -115,13 +113,15 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
             return;
         }
         resetCounter();
-        let split = value.split(/(?=[M])/);
+        let split = value.split(/(?=[AM])/);
         let signs = [];
         for (let i = 0; i < split.length; i++) {
+            if (split[i][0] === 'A') {
+                continue;
+            }
             split[i] = (split[i][0] === 'A' || split[i][0] === 'M') ? split[i] : ('M500x500' + split[i]);
             signs = [...signs, lib.fsw.signSvg(split[i])];
         }
-        console.log(signs);
         setHyp(signs);
     }
 
@@ -138,11 +138,12 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                     <div className={styles2.wrapper1}>
 
                         <div style={{ display: "flex", flexDirection: "column", maxWidth: "30%", justifyContent: "center", marginRight: "10%" }}>
-                            <h2 style={{ marginBottom: "20px", marginTop: "0px" }}><b><span>Similarity Metric Calculator:</span></b>
-
+                            <h2 style={{ marginBottom: "20px", marginTop: "0px" }}>
+                                <b><span>Similarity Metric Calculator:</span></b>
                             </h2>
-                            <span style={{ fontSize: "20px" }}>Comapre FSW symbols. Write or paste the symbols and wait
-                                for the result!</span>
+                            <span className={styles2.smallText}>
+                                Comapre FSW symbols. Write or paste the symbols and wait for the result!
+                            </span>
                         </div>
 
                         <div className={styles2.symbols}>
@@ -152,10 +153,9 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                                     <div className={styles2.bottom}></div>
                                 </div>
                                 <label className={styles2.customFileUpload}>
-                                    <div id="html_signtext" style={{ width: "100%", height: "120px", marginBottom: "10px" }}
-                                    >
-                                        <div className="signtext" style={{ width: "100%", height: "120px", overflowX: "auto", overflowY: "hidden", marginBottom: "10px" }}>
-                                            <span className="outside" >
+                                    <div id="html_signtext" className={styles2.signtextContainer}>
+                                        <div className={`signtext ${styles2.signtext}`}>
+                                            <span className="outside">
                                                 <span className="middle">
                                                     <span className="inside">
                                                         {ref.map((_, i) => (
@@ -173,12 +173,11 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                             <div className={styles2.container}>
                                 <div className={styles2.folder}>
                                     <div className={styles2.top}></div>
-                                    <div className={styles2.bottom}></div>
+                                    <div className={styles2.bottom}></div>  
                                 </div>
                                 <label className={styles2.customFileUpload}>
-                                    <div id="html_signtext" style={{ width: "100%", height: "120px", marginBottom: "10px" }}
-                                    >
-                                        <div className="signtext" style={{ width: "100%", height: "120px", overflowX: "auto", overflowY: "hidden", marginBottom: "10px" }}>
+                                    <div id="html_signtext" className={styles2.signtextContainer}>
+                                        <div className={`signtext ${styles2.signtext}`}>
                                             <span className="outside">
                                                 <span className="middle">
                                                     <span className="inside">
@@ -201,22 +200,20 @@ const Calculator = ({ className = "", video, setVideo, language, setLanguage }) 
                         </div>
 
 
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <label 
-                                className={`${styles2.result} ${styles2.gradientDiv} ${result ? styles2.animate : ''}`}
-                                style={{ height: "100px", width: "300px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                        <div className={styles2.scoreContainer1}>
+                            <label className={`${styles2.scoreContainer2} ${styles2.gradientDiv} ${result ? styles2.animate : ''}`}>
+                                <div className={styles2.scoreContainer1}>
+                                    <div className={styles2.scoreWrapper}>
                                         {result ? (
                                             <>
-                                                <b><span style={{ fontSize: "25px" ,position:"relative"}}>Score:&nbsp; 
-                                                    <span style={{position:"relative" }}>{string_to_float(result).toFixed(3)}</span>
+                                                <b><span className={`${styles2.score} ${styles2.bigText}`}>Score:&nbsp;
+                                                    <span className={styles2.score}>{string_to_float(result).toFixed(3)}</span>
                                                 </span></b>
                                             </>
                                         ) : (loading ? (
-                                            <span style={{ fontSize: "25px"}}>Loading...</span>
+                                            <span className={styles2.bigText}>Loading...</span>
                                         ) : (
-                                            <span style={{ fontSize: "25px"}}>Enter the symbols!</span>
+                                            <span className={styles2.bigText}>Enter the symbols!</span>
                                         )
                                         )}
                                     </div>
